@@ -114,10 +114,6 @@ Be logical, factual, and fact-based in your messages.
 (You may use real or imagined comparable listings or market facts.)
 Avoid personal stories and appeals to the seller's feelings.
 ${COMMON_INSTRUCTION}`,
-
-  control: `Negotiate naturally to try to get the best price you can.
-There are no specific style instructions — just do your best to negotiate a good deal.
-${COMMON_INSTRUCTION}`,
 };
 
 // ─── Price helpers ───────────────────────────────────────────────────────────

@@ -43,7 +43,7 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 OUT = os.path.join(HERE, "out")
 BACKEND_URL = os.environ.get("BACKEND_URL", "http://localhost:3001")
 START_PRICE, RESERVATION, BUYER_VALUE = 500, 380, 450
-COND_ORDER = ["economic", "empathy", "control"]   # economic = reference level in regressions
+COND_ORDER = ["economic", "empathy"]   # economic = reference level in regressions
 RNG = np.random.default_rng(12345)
 
 
@@ -328,7 +328,7 @@ def secondary(df):
 def make_plots(df, tdf):
     os.makedirs(OUT, exist_ok=True)
     sns.set_theme(style="whitegrid")
-    order = [c for c in ["empathy", "economic", "control"] if c in df.condition.unique()]
+    order = [c for c in ["empathy", "economic"] if c in df.condition.unique()]
     fig, ax = plt.subplots(2, 2, figsize=(12, 9))
     sns.boxplot(data=df, x="condition", y="final_position", order=order, hue="condition", legend=False, ax=ax[0, 0])
     sns.stripplot(data=df, x="condition", y="final_position", order=order, color="k", alpha=.4, ax=ax[0, 0])
@@ -350,8 +350,8 @@ def make_plots(df, tdf):
 def demo_export(n=120):
     out = []
     for i in range(n):
-        cond = ["empathy", "economic", "control"][i % 3]
-        eff = {"empathy": -12, "economic": -6, "control": 0}[cond]
+        cond = ["empathy", "economic"][i % 2]
+        eff = {"empathy": -12, "economic": -6}[cond]
         ask, msgs, deal = START_PRICE, [{"role": "assistant", "turnNumber": 0, "content": "hi", "priceOffered": START_PRICE}], False
         first_c, first_t, fp = None, None, None
         for t in range(1, 11):

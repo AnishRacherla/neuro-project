@@ -2,7 +2,7 @@
 
 CREATE TABLE IF NOT EXISTS participants (
   id          TEXT PRIMARY KEY,          -- UUID e.g. P0042
-  condition   TEXT NOT NULL,             -- 'empathy' | 'economic' | 'control'
+  condition   TEXT NOT NULL,             -- 'empathy' | 'economic'
   created_at  DATETIME DEFAULT CURRENT_TIMESTAMP,
 
   -- Pre-survey

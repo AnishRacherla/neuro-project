@@ -1,15 +1,17 @@
 # Neuro Project — LLM Negotiation Study
 
-> **Research Question**: Does the type of persuasive appeal (empathy vs. economic) change how an LLM negotiates and prices a deal?
+> **Research Question**: Does the type of persuasive appeal (**Emotional / Empathy** vs. **Rational / Economic**) change how an LLM negotiates and prices a deal?
 
 ---
 
-## 💡 Tech Stack
-- **AI Seller**: **Groq — Llama 3.3 70B Versatile** (`llama-3.3-70b-versatile` via `groq-sdk`, 1,000 requests/day free tier)
-- **Database**: **MongoDB Atlas (Free)** (Mongoose ODM)
-- **Backend**: Node.js + Express
-- **Frontend**: React + Vite + Modern UI
-- **Analysis**: Python (`pandas`, `scipy`, `statsmodels`, `matplotlib`, `seaborn`)
+## 💡 Study Design
+- **2-Arm Randomized Controlled Trial**:
+  - **Emotional Appeal (`empathy`)**: Focus on personal circumstances, student situation, goodwill, and warmth.
+  - **Rational Appeal (`economic`)**: Focus on market facts, comparable listings, laptop condition, and alternatives.
+- **AI Seller ("Max")**: Fixed starting price $500, hidden walk-away reservation price $380.
+- **Model**: Groq (`openai/gpt-oss-120b` or `llama-3.3-70b-versatile` via `groq-sdk`).
+- **Database**: MongoDB Atlas.
+- **Balanced Random Assignment**: 50/50 allocation across the two arms.
 
 ---
 
@@ -26,7 +28,7 @@
 PORT=3001
 MONGODB_URI=mongodb+srv://racherlaanish_db_user:ogSZIBLdHR5c8PUO@cluster0.j6ipxkc.mongodb.net/negotiation_study?retryWrites=true&w=majority
 GROQ_API_KEY=gsk_your_key_here
-GROQ_MODEL=llama-3.3-70b-versatile
+GROQ_MODEL=openai/gpt-oss-120b
 ADMIN_TOKEN=9a085e5c8985cde4a6eedfef3ba0a126062c29454dbde970
 ```
 

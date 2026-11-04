@@ -18,7 +18,7 @@ app.use(cors({ origin: allowedOrigins }));
 app.use(express.json({ limit: '50kb' }));
 
 const PORT = process.env.PORT || 3001;
-const CONDITIONS = ['empathy', 'economic', 'control'];
+const CONDITIONS = ['empathy', 'economic'];
 const MAX_MESSAGE_CHARS = 1000;
 
 // Scale scoring lives HERE (single place). Indices are positions in the item arrays sent by the frontend.
