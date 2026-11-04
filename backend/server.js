@@ -130,7 +130,7 @@ app.post('/api/pre-survey', async (req, res) => {
     if (!p) return res.status(404).json({ error: 'Participant not found' });
     if (p.preSurveyDone) return res.status(409).json({ error: 'Pre-survey already submitted' });
 
-    const likertFields = ['negotiationExp', 'llmUsage'];
+    const likertFields = ['negotiationExp', 'llmUsage', 'englishFluency', 'haggleComfort', 'aiHasFeelings'];
     for (const f of likertFields) if (!isLikert(b[f])) return res.status(400).json({ error: `${f} must be an integer 1-7` });
     if (!isLikertArr(b.empathyItems, 7)) return res.status(400).json({ error: 'empathyItems must be 7 answers (1-7)' });
     if (!isLikertArr(b.trustItems, 5)) return res.status(400).json({ error: 'trustItems must be 5 answers (1-7)' });
@@ -139,19 +139,27 @@ app.post('/api/pre-survey', async (req, res) => {
     if (typeof b.fairPriceGuess !== 'number' || !(b.fairPriceGuess > 0 && b.fairPriceGuess < 100000)) {
       return res.status(400).json({ error: 'fairPriceGuess must be a positive number' });
     }
+    if (typeof b.maxWillingToPay !== 'number' || !(b.maxWillingToPay > 0 && b.maxWillingToPay < 100000)) {
+      return res.status(400).json({ error: 'maxWillingToPay must be a positive number' });
+    }
+    if (!isLikert(b.attention)) return res.status(400).json({ error: 'attention must be an integer 1-7' });
 
     Object.assign(p, {
       age: b.age,
       gender: cleanText(b.gender, 30),
       education: cleanText(b.education, 30),
+      englishFluency: b.englishFluency,
+      haggleComfort: b.haggleComfort,
+      aiHasFeelings: b.aiHasFeelings,
       negotiationExp: b.negotiationExp,
       llmUsage: b.llmUsage,
       fairPriceGuess: b.fairPriceGuess,
+      maxWillingToPay: b.maxWillingToPay,
       empathyItems: b.empathyItems,
       trustItems: b.trustItems,
       traitEmpathy: scoreScale(b.empathyItems, EMPATHY_REVERSE),
       aiTrust: scoreScale(b.trustItems, TRUST_REVERSE),
-      preAttentionPass: b.attention != null ? b.attention === PRE_ATTENTION_EXPECTED : true,
+      preAttentionPass: b.attention === PRE_ATTENTION_EXPECTED,
       preSurveyDone: true,
       preSurveyAt: new Date(),
     });
@@ -251,7 +259,7 @@ app.post('/api/post-survey', async (req, res) => {
     if (!p.chatEnded) return res.status(403).json({ error: 'Finish the negotiation first' });
     if (p.completed) return res.status(409).json({ error: 'Post-survey already submitted' });
 
-    const likertFields = ['manipEmpathy', 'manipEconomic', 'maxWarmth', 'maxUnderstood', 'believedLimit', 'realism'];
+    const likertFields = ['manipEmpathy', 'manipEconomic', 'maxWarmth', 'maxUnderstood', 'believedLimit', 'realism', 'fairness', 'satisfaction', 'strategyEffect'];
     for (const f of likertFields) if (!isLikert(b[f])) return res.status(400).json({ error: `${f} must be an integer 1-7` });
     if (!isLikertArr(b.sviItems, 8)) return res.status(400).json({ error: 'sviItems must be 8 answers (1-7)' });
     if (!isLikert(b.attention)) return res.status(400).json({ error: 'attention must be an integer 1-7' });
@@ -273,6 +281,9 @@ app.post('/api/post-survey', async (req, res) => {
       sviProcess: mean(svi.slice(4, 6)),
       sviRelationship: mean(svi.slice(6, 8)),
       sviTotal: mean(svi),
+      fairness: b.fairness,
+      satisfaction: b.satisfaction,
+      strategyEffect: b.strategyEffect,
       maxWarmth: b.maxWarmth,
       maxUnderstood: b.maxUnderstood,
       believedLimit: b.believedLimit,

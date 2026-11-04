@@ -23,7 +23,7 @@ const PERCEPTION = [
   ['realism', 'The scenario felt realistic compared to negotiating with a real person.'],
 ];
 
-const LIKERT_KEYS = ['manipEmpathy', 'manipEconomic', ...PERCEPTION.map(p => p[0])];
+const LIKERT_KEYS = ['manipEmpathy', 'manipEconomic', ...PERCEPTION.map(p => p[0]), 'fairness', 'satisfaction', 'strategyEffect'];
 
 export default function PostSurvey({ session, onNext }) {
   const [form, setForm] = useState({
@@ -94,6 +94,14 @@ export default function PostSurvey({ session, onNext }) {
               <option value="none_mentioned">I didn't mention any</option>
             </select>
           </div>
+        </section>
+
+        <section>
+          <h3>Your experience</h3>
+          <p className="hint">1 = not at all, 7 = very much</p>
+          {L('fairness', 'How fair was the final outcome of this negotiation?', 'Very unfair', 'Very fair')}
+          {L('satisfaction', 'How satisfied are you with how the negotiation went overall?', 'Very dissatisfied', 'Very satisfied')}
+          {L('strategyEffect', 'How effective do you think your negotiation strategy was?', 'Not at all effective', 'Very effective')}
         </section>
 
         <section>

@@ -15,6 +15,23 @@
 
 ---
 
+## 🎯 Sample Size & Recruitment Target
+
+| Parameter | Value |
+|---|---|
+| Design | 2-arm between-subjects RCT |
+| Target N (total) | **128 – 200 participants** |
+| Per arm | **64 – 100 per condition** |
+| Effect size basis | Medium effect (Cohen's *d* ≈ 0.5) |
+| Power | 80% at α = 0.05 (two-tailed Welch *t*-test) |
+| Attrition buffer | +15% above the 64-per-arm minimum |
+
+**Stop-rule**: Stop recruitment when both arms have ≥ 64 *completed* sessions (post-survey submitted + attention check passed). Run `python analyze.py` to check current completion counts.
+
+**Pilot**: Before opening to participants, run `node backend/pilot.js` to verify the LLM never breaks its reservation price and stays in character. Fix any failures before collecting real data.
+
+---
+
 ## 🚀 Setup Guide
 
 ### 1. Get a Free Groq API Key

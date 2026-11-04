@@ -33,6 +33,12 @@ export default function PreSurvey({ session, onNext }) {
     negotiationExp: null,
     llmUsage: null,
     fairPriceGuess: '',
+    education: '',
+    englishFluency: null,
+    haggleComfort: null,
+    maxWillingToPay: '',
+    aiHasFeelings: null,
+    attention: null,
     empathyItems: Array(EMPATHY_ITEMS.length).fill(null),
     trustItems: Array(TRUST_ITEMS.length).fill(null),
   });
@@ -54,6 +60,11 @@ export default function PreSurvey({ session, onNext }) {
     negotiationExp: form.negotiationExp === null,
     llmUsage: form.llmUsage === null,
     fairPriceGuess: !(fair > 0),
+    englishFluency: form.englishFluency === null,
+    haggleComfort: form.haggleComfort === null,
+    maxWillingToPay: !(parseFloat(form.maxWillingToPay) > 0),
+    aiHasFeelings: form.aiHasFeelings === null,
+    attention: form.attention === null,
   };
 
   const anyMissing = Object.values(missing).some(Boolean)
@@ -70,9 +81,15 @@ export default function PreSurvey({ session, onNext }) {
         participantId: session.participantId,
         age,
         gender: form.gender,
+        education: form.education,
         negotiationExp: form.negotiationExp,
         llmUsage: form.llmUsage,
         fairPriceGuess: fair,
+        englishFluency: form.englishFluency,
+        haggleComfort: form.haggleComfort,
+        maxWillingToPay: parseFloat(form.maxWillingToPay),
+        aiHasFeelings: form.aiHasFeelings,
+        attention: form.attention,
         empathyItems: form.empathyItems,
         trustItems: form.trustItems,
       });
@@ -114,12 +131,33 @@ export default function PreSurvey({ session, onNext }) {
               <option value="prefer_not">Prefer not to say</option>
             </select>
           </div>
+
+          <div className="field">
+            <label>Highest education level completed</label>
+            <select value={form.education} onChange={e => setField('education', e.target.value)}>
+              <option value="">Select... (optional)</option>
+              <option value="high_school">High school / secondary</option>
+              <option value="some_college">Some college / university</option>
+              <option value="bachelors">Bachelor's degree</option>
+              <option value="masters">Master's degree</option>
+              <option value="doctorate">Doctorate or professional degree</option>
+              <option value="other">Other</option>
+            </select>
+          </div>
         </section>
 
         <section>
           <h3>Experience</h3>
           {L('negotiationExp', 'How much negotiation experience do you have?', 'None', 'Expert')}
           {L('llmUsage', 'How often do you use AI chatbots / LLMs?', 'Never', 'Daily')}
+          {L('englishFluency', 'How well do you read and write in English?', 'Very poorly', 'Fluently')}
+          {L('haggleComfort', 'How comfortable are you with haggling or bargaining?', 'Very uncomfortable', 'Very comfortable')}
+        </section>
+
+        <section>
+          <h3>Your views on AI</h3>
+          <p className="hint">1 = strongly disagree, 7 = strongly agree</p>
+          {L('aiHasFeelings', 'AI systems like chatbots can have genuine feelings or emotions.', 'Strongly disagree', 'Strongly agree')}
         </section>
 
         <section>
@@ -131,6 +169,16 @@ export default function PreSurvey({ session, onNext }) {
             <label>What price (in $) would you consider fair? *</label>
             <input type="number" min="1" className="num-input" value={form.fairPriceGuess}
               onChange={e => setField('fairPriceGuess', e.target.value)} />
+          </div>
+        </section>
+
+        <section>
+          <h3>Your budget</h3>
+          <div className={`field ${showErrors && missing.maxWillingToPay ? 'invalid' : ''}`}>
+            <label>What is the maximum you would be willing to pay for this laptop? (in $) *</label>
+            <input type="number" min="1" className="num-input" value={form.maxWillingToPay}
+              onChange={e => setField('maxWillingToPay', e.target.value)} />
+            {showErrors && missing.maxWillingToPay && <div className="field-error">Please enter a value greater than 0.</div>}
           </div>
         </section>
 
@@ -150,6 +198,13 @@ export default function PreSurvey({ session, onNext }) {
             <Likert key={i} label={item} name={`trust_${i}`} value={form.trustItems[i]}
               onChange={v => setArr('trustItems', i, v)} invalid={showErrors && form.trustItems[i] === null} />
           ))}
+        </section>
+
+        <section>
+          <h3>Attention check</h3>
+          <Likert label="To show you are reading carefully, please select 6 for this statement."
+            name="attention" value={form.attention} onChange={v => setField('attention', v)}
+            invalid={showErrors && form.attention === null} />
         </section>
 
         {showErrors && anyMissing && <p className="form-error">Some questions above still need an answer.</p>}

@@ -2,9 +2,9 @@
 import { useState } from 'react';
 import { startSession, errorText } from '../api';
 
-// TODO(before launch): put your real contact email / ethics approval reference here.
-const CONTACT = '[research team contact email]';
-const ETHICS_REF = '[ethics / IRB approval reference]';
+// TODO (before launch): replace these with real values before going live.
+const CONTACT = 'the research team (contact details will be provided in your recruitment email)';
+const ETHICS_REF = 'pending IRB/ethics review';
 
 export default function Consent({ onNext }) {
   const [loading, setLoading] = useState(false);
@@ -46,7 +46,7 @@ export default function Consent({ onNext }) {
         <h3>Your data</h3>
         <p>
           <strong>Please do not type your name, contact details or any other personal information in the chat.</strong>{' '}
-          Your chat messages are sent to Google's Gemini AI service to generate the seller's replies, so they are
+          Your chat messages are sent to Groq's AI API to generate the seller's replies, so they are
           processed by that third party in addition to our research database. Results are reported only in aggregate.
         </p>
         <h3>Your rights</h3>

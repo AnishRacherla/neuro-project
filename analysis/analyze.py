@@ -369,8 +369,9 @@ def demo_export(n=120):
             "participantId": f"D{i:04d}", "condition": cond, "completed": True, "chatEnded": True, "preSurveyDone": True,
             "age": int(RNG.integers(18, 60)), "gender": ["female", "male"][i % 2], "education": "bachelors",
             "englishFluency": int(RNG.integers(4, 8)), "negotiationExp": int(RNG.integers(1, 8)), "haggleComfort": int(RNG.integers(1, 8)),
-            "usedElectronicsFreq": 3, "llmUsage": int(RNG.integers(1, 8)), "aiHasFeelings": 3,
-            "fairPriceGuess": 400, "maxWillingToPay": 450, "traitEmpathy": float(np.mean(emp_items)), "aiTrust": float(np.mean(trust_items)),
+            "usedElectronicsFreq": 3, "llmUsage": int(RNG.integers(1, 8)), "aiHasFeelings": int(RNG.integers(1, 8)),
+            "fairPriceGuess": int(RNG.integers(350, 480)), "maxWillingToPay": int(RNG.integers(400, 500)),
+            "traitEmpathy": float(np.mean(emp_items)), "aiTrust": float(np.mean(trust_items)),
             "empathyItems": [int(x) for x in emp_items], "trustItems": [int(x) for x in trust_items],
             "preAttentionPass": True, "postAttentionPass": bool(RNG.random() > .05),
             "dealReached": deal, "finalPrice": fp, "lastSellerAsk": ask, "turnsTaken": t, "endReason": "deal" if deal else "max_turns",
@@ -379,6 +380,10 @@ def demo_export(n=120):
             "manipEmpathy": int(np.clip(RNG.normal(5.5 if cond == "empathy" else 2.5, 1), 1, 7)),
             "manipEconomic": int(np.clip(RNG.normal(5.5 if cond == "economic" else 3, 1), 1, 7)),
             "fairness": int(RNG.integers(1, 8)), "satisfaction": int(RNG.integers(1, 8)), "strategyEffect": int(RNG.integers(1, 8)),
+            "maxWarmth": int(RNG.integers(1, 8)), "maxUnderstood": int(RNG.integers(1, 8)),
+            "believedLimit": int(RNG.integers(1, 8)), "realism": int(RNG.integers(1, 8)),
+            "sviOutcome": float(RNG.uniform(2, 6)), "sviSelf": float(RNG.uniform(2, 6)),
+            "sviProcess": float(RNG.uniform(2, 6)), "sviRelationship": float(RNG.uniform(2, 6)),
             "sviTotal": float(RNG.uniform(2, 6)), "sviItems": [int(x) for x in RNG.integers(1, 8, 8)], "messages": msgs,
         })
     return out
