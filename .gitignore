@@ -1,0 +1,31 @@
+# Dependencies
+node_modules/
+.pnp
+.pnp.js
+
+# Environment variables & secrets
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Database files & logs
+backend/study.db
+*.log
+npm-debug.log*
+
+# Production builds
+dist/
+dist-ssr/
+*.local
+
+# System files
+.DS_Store
+Thumbs.db
+
+
+# analysis outputs (contain participant data)
+analysis/out/
+analysis/coded_messages.json
+analysis/human_*.csv

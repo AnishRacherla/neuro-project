@@ -1,0 +1,231 @@
+DOCUMENT: How Empathy Appeals vs. Economic Incentives Shift Negotiation and Pricing Strategies in LLMs
+FORMAT: Plain text extracted from the original PDF. Page boundaries are retained.
+
+================== PAGE 1 ==================
+
+HowEmpathyAppealsvs.EconomicIncentives
+       ShiftNegotiationandPricingStrategiesinLLMs
+                 Experimental Approach and Human Data Collection Plan
+
+
+
+
+This document lays out, step by step, how the project will be run: what is being tested, what
+humanswillactuallybeaskedtodo,whatdataiscollectedfromthem,howmanyparticipants
+are needed, and how the results will be analyzed.
+
+1 ResearchDesign
+
+1.1ResearchQuestion
+Doesthetypeofpersuasiveappealahumanuses—   empathy-basedoreconomic/instrumental
+— change how an LLM negotiates and prices a deal?
+
+1.2DesignType
+This is a between-subjects experiment:  each participant is randomly placed into only one
+condition,sowecomparedifferentgroupsofpeopleratherthanaskingthesamepersontotry
+both styles.
+
+1.3Conditions
+
+ •   Condition A — Empathy Appeal:    the participant is told to negotiate using personal cir-
+   cumstances, goodwill, and relationship-building language (e.g., explaining why the dis-
+   count matters to them).
+ •   Condition B — Economic/Instrumental Appeal:     the participant is told to negotiate us-
+   ing rational, self-interest-based arguments (e.g., market price comparisons, bulk/loyalty
+   discounts, or the option to buy elsewhere).
+ •   Condition C — Neutral/Control (optional):     the participant negotiates with no specific
+   style instruction, giving a baseline to compare both styles against.
+
+1.4WhatWeMeasure(DependentVariables)
+ •   Finalnegotiatedprice— the main outcome of interest.
+ •   Concessionrate— how much the LLM reduced its price relative to where it started.
+ •   Numberandsizeofconcessions, andhowmanyturns it took to reach a deal.
+ •   Whetheradealwasreachedatall.
+ • The LLM’s   toneandbehavioralpattern(e.g., firm, accommodating, reciprocating).
+
+1.5Participant-LevelCovariates
+
+Since people differ naturally, we also record a few background traits to make sure any differ-
+ences we see are really caused by the appeal type, and not just by who happened to land in
+which group: trait empathy, trust in AI, prior negotiation experience, and prior familiarity
+withLLMs.
+
+
+
+                                                    1
+
+================== PAGE 2 ==================
+
+Project Approach                                                                    Empathy vs. Economic Appeals in LLM Negotiation
+
+
+1.6KeepingtheLLMConstant
+For the comparison to be fair, everything about the LLM must stay exactly the same across
+everysingleparticipantandcondition—thesamemodel,thesamesellerpersonaandsystem
+prompt, the same starting price, the same generation settings, and the same turn limit.  The
+only thing allowed to differ between participants is the assigned appeal style.  We also give
+the LLM a hidden reservation price — the lowest price it is allowed to accept, invisible to
+theparticipant—sothenegotiationhasrealstakesinsteadoftheLLMsimplygivingtheitem
+away.
+
+1.7Hypotheses
+
+ •   H1: Empathy appeals will lead to a lower final price and larger concessions than economic
+    appeals.
+ •   H2: Thetwoappealstyleswilldiffernotjustinthefinalprice,butinwhenconcessionshap-
+    pen during the conversation (e.g., empathy appeals producing earlier, gradual softening).
+ •   H3: The effect of appeal type on final price will still hold even after accounting for each
+    participant’s empathy, trust, and experience levels.
+
+2 MaterialsandParticipantFlow
+
+2.1WhatNeedstoBeBuiltFirst
+
+A single fixed negotiation scenario (e.g., “negotiate the price of a used laptop listed at $500”);
+a fixed LLM system prompt containing the seller persona and hidden reservation price; two
+(or three) short instruction scripts, one per condition; a chat interface that automatically saves
+every message as it happens; a short pre-survey and post-survey; and a brief plain-language
+note telling participants what the study involves.
+
+2.2WhatEachParticipantActuallyDoes
+
+ 1.Reads a short note about the study and agrees to take part.
+ 2.Fills a quick pre-survey: basic demographics, a short empathy scale, and a short AI-trust
+    scale (∼ 2 minutes).
+ 3.Is randomly and invisibly placed into a condition by the system.
+ 4.Reads their condition’s instructions on how to frame their negotiation.
+ 5.Chats live with the LLM to try to get the best price, up to about 10 back-and-forth turns
+    (∼ 5–10 minutes).
+ 6.Fills a short post-survey about fairness, satisfaction, and what kind of argument they felt
+    they used (∼ 3 minutes).
+
+Total time per participant: roughly 10–15 minutes.
+
+3 HumanDataRequirements
+
+This is exactly what we need to collect from every participant, split into four stages:
+
+ •   Before the task:  age, gender, education, prior negotiation experience, prior LLM usage,
+    trait-empathy score, AI-trust score, and their (hidden) condition assignment.
+ •   Duringthetask(collectedautomatically): the complete, timestamped chat transcript; the
+
+                                                        2
+
+================== PAGE 3 ==================
+
+Project Approach                                                                    Empathy vs. Economic Appeals in LLM Negotiation
+
+
+    price offered at every turn; the final agreed price; how many turns it took; and whether a
+    deal was reached at all.
+ •   After the task: a manipulation check asking what kind of argument they felt they used;
+    howfairtheyfoundtheoutcome;howsatisfiedtheywerewiththeLLM;andhoweffective
+    they think their own strategy was (all on simple 1–7 rating scales).
+
+
+     Field                                  Example
+
+     Participant ID / Condi-           P0042 / Empathy
+     tion
+     Chat transcript                     [buyer msg 1, LLM msg 1, buyer msg 2,...]
+     Turns  /  Final  price  /         6 turns / $420 / Yes
+     Deal reached
+     First concession / Con-           $20 / 16%
+     cession rate
+     Pre-survey scores                 Trust = 4.2, Trait empathy = 5.1
+     Post-survey scores               Fairness = 3, Satisfaction = 4
+
+          Table 1: What one row of the final dataset looks like (one row per participant)
+
+
+4 SampleSize
+
+The target is 100–200 participants  in total.  With two conditions, that works out to roughly
+50–100 people per group; with three conditions, roughly 35–70 per group. As a rule of thumb,
+detecting a moderate difference between groups reliably (what statisticians call a “medium
+effect size,”  d ≈   0.5 ) needs about 64 people per group at conventional confidence levels —
+so this range gives enough participants with some buffer (10–15%) left over for anyone who
+drops out, fails an attention check, or doesn’t finish the chat.
+
+5 AnalysisPlan
+
+5.1ComparingtheGroups
+Themaincomparisonisthefinalnegotiatedpricebetweenconditions,usingat-test(twocon-
+ditions) or ANOVA (three conditions), reporting group averages, confidence intervals, and
+effect size. If there are three conditions, follow-up pairwise tests (Tukey’s HSD) show exactly
+which pair(s) of conditions differ.
+
+5.2LookingDeeperThanJusttheFinalPrice
+
+We also compare the concession rate(how much of the starting price was given up):
+
+                             Concession Rate =   Starting Price−  Final PriceStarting Price
+
+along with how many turns each negotiation took and whether a deal happened at all.  A
+regressionmodelalsocheckswhethertheappeal-typeeffectsurvivesafteraccountingforeach
+participant’s empathy, trust, and experience — this tells us whether the effect is really about
+the appeal style, or just about who happened to be more persuasive in general.
+
+                                                         3
+
+================== PAGE 4 ==================
+
+Project Approach                                                                    Empathy vs. Economic Appeals in LLM Negotiation
+
+
+5.3ReadingtheConversationItself
+Beyondthefinalnumbers,welookattheshapeofthenegotiation: didtheLLMconcedeearly
+and gradually, or hold firm and only concede late?  We also read through transcripts to tag
+recognizable behaviors — acknowledging the buyer, making a counteroffer, holding firm, or
+reciprocating a concession — so we can describe    how, not just how much, the LLM’s behavior
+changed.
+
+5.4MakingSuretheExperimentActuallyWorked(ValidityChecks)
+
+These checks exist to catch a specific risk:  what if a participant assigned to the “empathy”
+conditiondoesn’tactuallywriteempatheticmessages,ortheLLMdoesn’tbehaveconsistently?
+If that happens, any pattern we find wouldn’t really be about empathy vs. economics at all —
+it would just be noise. Two checks guard against this:
+ •   Didparticipantsfollowtheirassignedstyle? Weaskthemdirectlyinthepost-survey,but
+    self-reportscanbeunreliable,sowealsoreadtheactualchatmessagesourselves(orwitha
+    friendhelping)andindependentlyjudgewhetherthelanguageusedmatchestheassigned
+    condition,withoutlookingatwhichconditiontheywereassignedtofirst(thisavoidsbias).
+    If most of a participant’s messages don’t match their assigned style, that session is flagged
+    and can be excluded or analyzed separately.
+ •   DidtheLLMbehaveconsistently? Beforecollectingdatafromall100–200participants,we
+    run a small trial of about 15–20 test conversations across both conditions and check three
+    things: the LLM never agrees to a price below its hidden minimum, it actually negotiates
+    back and forth instead of instantly accepting or refusing, and it stays in character as the
+    same seller every time. If it fails any of these, we fix the prompt and re-test before running
+    the real study — this avoids discovering a broken setup only after collecting all the real
+    data.
+
+6 SummaryPipeline
+
+       Designtheexperiment→   Buildmaterials→   Smallpilottest→   Recruit100–200
+          participants→   Consent+Pre-survey→   Randomconditionassignment→
+     Human–LLMnegotiation(auto-logged) →   Post-survey→   Checktranscriptsmatch
+       conditions→   Finaldataset(100–200rows) →   Statistical&qualitativeanalysis
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                      4

@@ -1,0 +1,164 @@
+// PreSurvey.jsx — demographics, negotiation background, empathy (IRI-EC adapted from Davis) and AI-trust scales.
+// No Likert item has a default: skipped items stay null and block submission.
+// Item ORDER matters: reverse-scoring is done server-side by index (see server.js).
+import { useState } from 'react';
+import { submitPreSurvey, errorText } from '../api';
+import Likert from '../components/Likert';
+
+// Davis' Interpersonal Reactivity Index — Empathic Concern subscale (7 items; adapted to 1-7 response format).
+// Reverse-worded (scored server-side): indices 1, 3, 4.
+const EMPATHY_ITEMS = [
+  'I often have tender, concerned feelings for people less fortunate than me.',
+  'Sometimes I don\'t feel very sorry for other people when they are having problems.',
+  'When I see someone being taken advantage of, I feel kind of protective towards them.',
+  'Other people\'s misfortunes do not usually disturb me a great deal.',
+  'When I see someone being treated unfairly, I sometimes don\'t feel very much pity for them.',
+  'I am often quite touched by things that I see happen.',
+  'I would describe myself as a pretty soft-hearted person.',
+];
+
+// Trust in AI chatbots (adapted from Jian et al., 2000 trust-in-automation). Reverse-worded: index 4.
+const TRUST_ITEMS = [
+  'AI chatbots are dependable.',
+  'I can trust AI chatbots.',
+  'I am confident in AI chatbots.',
+  'AI chatbots are reliable.',
+  'I am suspicious of the intentions, actions, or outputs of AI chatbots.',
+];
+
+export default function PreSurvey({ session, onNext }) {
+  const [form, setForm] = useState({
+    age: '',
+    gender: '',
+    negotiationExp: null,
+    llmUsage: null,
+    fairPriceGuess: '',
+    empathyItems: Array(EMPATHY_ITEMS.length).fill(null),
+    trustItems: Array(TRUST_ITEMS.length).fill(null),
+  });
+  const [loading, setLoading] = useState(false);
+  const [showErrors, setShowErrors] = useState(false);
+  const [serverError, setServerError] = useState('');
+
+  const setField = (key, val) => setForm(f => ({ ...f, [key]: val }));
+  const setArr = (key, i, val) => setForm(f => {
+    const a = [...f[key]]; a[i] = val; return { ...f, [key]: a };
+  });
+
+  const age = parseInt(form.age, 10);
+  const fair = parseFloat(form.fairPriceGuess);
+
+  const missing = {
+    age: !(age >= 18 && age <= 99),
+    gender: !form.gender,
+    negotiationExp: form.negotiationExp === null,
+    llmUsage: form.llmUsage === null,
+    fairPriceGuess: !(fair > 0),
+  };
+
+  const anyMissing = Object.values(missing).some(Boolean)
+    || form.empathyItems.some(v => v === null)
+    || form.trustItems.some(v => v === null);
+
+  async function handleSubmit(e) {
+    e.preventDefault();
+    setServerError('');
+    if (anyMissing) { setShowErrors(true); return; }
+    setLoading(true);
+    try {
+      await submitPreSurvey({
+        participantId: session.participantId,
+        age,
+        gender: form.gender,
+        negotiationExp: form.negotiationExp,
+        llmUsage: form.llmUsage,
+        fairPriceGuess: fair,
+        empathyItems: form.empathyItems,
+        trustItems: form.trustItems,
+      });
+      onNext();
+    } catch (err) {
+      setServerError(errorText(err, 'Failed to save the survey. Please try again.'));
+      setLoading(false);
+    }
+  }
+
+  const L = (key, label, low, high) => (
+    <Likert label={label} name={key} value={form[key]} onChange={v => setField(key, v)}
+      low={low} high={high} invalid={showErrors && missing[key]} />
+  );
+
+  return (
+    <div className="page survey">
+      <h1>Background Survey</h1>
+      <p className="subtitle">This takes about 2 minutes. All questions are required.</p>
+
+      <form onSubmit={handleSubmit} noValidate>
+        <section>
+          <h3>About you</h3>
+          <div className={`field ${showErrors && missing.age ? 'invalid' : ''}`}>
+            <label>Age *</label>
+            <input type="number" min="18" max="99" value={form.age} className="num-input"
+              onChange={e => setField('age', e.target.value)} />
+            {showErrors && missing.age && <div className="field-error">Enter an age between 18 and 99.</div>}
+          </div>
+
+          <div className={`field ${showErrors && missing.gender ? 'invalid' : ''}`}>
+            <label>Gender *</label>
+            <select value={form.gender} onChange={e => setField('gender', e.target.value)}>
+              <option value="">Select...</option>
+              <option value="male">Male</option>
+              <option value="female">Female</option>
+              <option value="nonbinary">Non-binary</option>
+              <option value="other">Other</option>
+              <option value="prefer_not">Prefer not to say</option>
+            </select>
+          </div>
+        </section>
+
+        <section>
+          <h3>Experience</h3>
+          {L('negotiationExp', 'How much negotiation experience do you have?', 'None', 'Expert')}
+          {L('llmUsage', 'How often do you use AI chatbots / LLMs?', 'Never', 'Daily')}
+        </section>
+
+        <section>
+          <h3>Your price expectations</h3>
+          <p className="hint">
+            Think of a used laptop about 4 years old: Intel i5, 8 GB RAM, 256 GB SSD, light wear, charger included.
+          </p>
+          <div className={`field ${showErrors && missing.fairPriceGuess ? 'invalid' : ''}`}>
+            <label>What price (in $) would you consider fair? *</label>
+            <input type="number" min="1" className="num-input" value={form.fairPriceGuess}
+              onChange={e => setField('fairPriceGuess', e.target.value)} />
+          </div>
+        </section>
+
+        <section>
+          <h3>About how you relate to others (adapted from Davis)</h3>
+          <p className="hint">1 = does not describe me at all, 7 = describes me very well</p>
+          {EMPATHY_ITEMS.map((item, i) => (
+            <Likert key={i} label={item} name={`emp_${i}`} value={form.empathyItems[i]}
+              onChange={v => setArr('empathyItems', i, v)} invalid={showErrors && form.empathyItems[i] === null} />
+          ))}
+        </section>
+
+        <section>
+          <h3>AI chatbots</h3>
+          <p className="hint">1 = strongly disagree, 7 = strongly agree</p>
+          {TRUST_ITEMS.map((item, i) => (
+            <Likert key={i} label={item} name={`trust_${i}`} value={form.trustItems[i]}
+              onChange={v => setArr('trustItems', i, v)} invalid={showErrors && form.trustItems[i] === null} />
+          ))}
+        </section>
+
+        {showErrors && anyMissing && <p className="form-error">Some questions above still need an answer.</p>}
+        {serverError && <p className="form-error">{serverError}</p>}
+
+        <button type="submit" className="btn primary" disabled={loading}>
+          {loading ? 'Saving...' : 'Continue →'}
+        </button>
+      </form>
+    </div>
+  );
+}

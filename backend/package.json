@@ -1,0 +1,22 @@
+{
+  "name": "neuro-negotiation-backend",
+  "version": "1.0.0",
+  "description": "Backend for LLM Negotiation Study",
+  "main": "server.js",
+  "type": "commonjs",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js"
+  },
+  "dependencies": {
+    "@google/genai": "^2.32.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "groq-sdk": "^1.6.0",
+    "mongoose": "^9.11.4",
+    "openai": "^4.52.7",
+    "sql.js": "^1.12.0",
+    "uuid": "^11.0.3"
+  }
+}
