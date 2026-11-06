@@ -1,5 +1,5 @@
 // PostSurvey.jsx — manipulation check (asked FIRST), negotiation quality (adapted Subjective Value Inventory short form),
-// perceptions of Max (warmth, understanding, price limit), realism, truthfulness, and attention check.
+// perceptions of Max (warmth, understanding, price limit), realism, and attention check.
 // SVI item order matters: reverse-scoring is done server-side by index (item 1 is reversed).
 import { useState } from 'react';
 import { submitPostSurvey, errorText } from '../api';
@@ -29,7 +29,6 @@ export default function PostSurvey({ session, onNext }) {
   const [form, setForm] = useState({
     ...Object.fromEntries(LIKERT_KEYS.map(k => [k, null])),
     sviItems: Array(SVI_ITEMS.length).fill(null),
-    truthfulness: '',
     strategyText: '',
     studyGuess: '',
     attention: null,
@@ -46,7 +45,6 @@ export default function PostSurvey({ session, onNext }) {
   const missing = (k) => form[k] === null;
   const anyMissing = LIKERT_KEYS.some(missing)
     || form.sviItems.some(v => v === null)
-    || !form.truthfulness
     || form.attention === null;
 
   async function handleSubmit(e) {
@@ -83,16 +81,6 @@ export default function PostSurvey({ session, onNext }) {
             <label>In a sentence or two, describe your strategy (optional).</label>
             <textarea className="textarea-field" maxLength={1500} value={form.strategyText}
               onChange={e => setField('strategyText', e.target.value)} />
-          </div>
-          <div className={`field ${showErrors && !form.truthfulness ? 'invalid' : ''}`}>
-            <label>Were the personal circumstances or outside offers you mentioned to Max true? *</label>
-            <select value={form.truthfulness} onChange={e => setField('truthfulness', e.target.value)}>
-              <option value="">Select...</option>
-              <option value="all_true">Yes, they were true</option>
-              <option value="some_untrue">Some were made up</option>
-              <option value="mostly_untrue">Most were made up</option>
-              <option value="none_mentioned">I didn't mention any</option>
-            </select>
           </div>
         </section>
 

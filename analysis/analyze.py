@@ -239,10 +239,9 @@ def regression(df):
         return
     for c in covs:
         d[c] = (d[c] - d[c].mean()) / d[c].std()                 # standardise → coefficients per 1 SD
-    d["gender_f"] = (d["gender"] == "female").astype(int)
     d["condition"] = pd.Categorical(d["condition"], [c for c in COND_ORDER if c in d.condition.unique()])
     base = smf.ols("final_position ~ C(condition)", d).fit(cov_type="HC3")
-    full = smf.ols("final_position ~ C(condition) + " + " + ".join(covs) + " + gender_f", d).fit(cov_type="HC3")
+    full = smf.ols("final_position ~ C(condition) + " + " + ".join(covs), d).fit(cov_type="HC3")
     print("Unadjusted condition effects:\n", base.summary().tables[1])
     print("\nAdjusted model:\n", full.summary().tables[1])
     print(f"\nN = {int(full.nobs)}, R2 = {full.rsquared:.3f}, adj R2 = {full.rsquared_adj:.3f}")
@@ -367,8 +366,7 @@ def demo_export(n=120):
         emp_items, trust_items = list(RNG.integers(1, 8, 7)), list(RNG.integers(1, 8, 5))
         out.append({
             "participantId": f"D{i:04d}", "condition": cond, "completed": True, "chatEnded": True, "preSurveyDone": True,
-            "age": int(RNG.integers(18, 60)), "gender": ["female", "male"][i % 2], "education": "bachelors",
-            "englishFluency": int(RNG.integers(4, 8)), "negotiationExp": int(RNG.integers(1, 8)), "haggleComfort": int(RNG.integers(1, 8)),
+            "age": int(RNG.integers(18, 60)), "englishFluency": int(RNG.integers(4, 8)), "negotiationExp": int(RNG.integers(1, 8)), "haggleComfort": int(RNG.integers(1, 8)),
             "usedElectronicsFreq": 3, "llmUsage": int(RNG.integers(1, 8)), "aiHasFeelings": int(RNG.integers(1, 8)),
             "fairPriceGuess": int(RNG.integers(350, 480)), "maxWillingToPay": int(RNG.integers(400, 500)),
             "traitEmpathy": float(np.mean(emp_items)), "aiTrust": float(np.mean(trust_items)),

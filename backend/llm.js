@@ -104,14 +104,14 @@ Focus on personal circumstances, goodwill, and relationship-building.
 For example, explain why a lower price would matter to you personally, express genuine need,
 or appeal to the seller's kindness. Be warm, genuine, and personal in your messages.
 Avoid market comparisons and "I can buy elsewhere" arguments.
-(You may use real or imagined personal circumstances.)
+(Please adopt a fictional or imagined scenario—for example, imagine you are a college student whose laptop stopped working right before exams, or an intern saving up for work. Do NOT share your real personal details or sensitive life events.)
 ${COMMON_INSTRUCTION}`,
 
   economic: `In this negotiation, use economic and rational arguments.
 Focus on market prices, comparable listings, logical incentives, or your option to look elsewhere.
 For example, argue from the laptop's age, condition or typical resale prices.
 Be logical, factual, and fact-based in your messages.
-(You may use real or imagined comparable listings or market facts.)
+(Please use fictional or imagined comparable listings or market facts. Do NOT share real personal details.)
 Avoid personal stories and appeals to the seller's feelings.
 ${COMMON_INSTRUCTION}`,
 };

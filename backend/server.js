@@ -35,6 +35,15 @@ const isLikertArr = (a, n) => Array.isArray(a) && a.length === n && a.every(isLi
 const scoreScale = (items, reverse) => mean(items.map((v, i) => (reverse.includes(i) ? 8 - v : v)));
 const cleanText = (s, max) => (typeof s === 'string' ? s.trim().slice(0, max) : null);
 
+// PII Sanitizer: scrub emails, phone numbers, and @handles before sending to 3rd-party LLM and storing
+function scrubPII(text) {
+  if (!text || typeof text !== 'string') return '';
+  return text
+    .replace(/[\w.-]+@[\w.-]+\.\w+/g, '[EMAIL]')
+    .replace(/\b(?:\+?\d{1,3}[-.\s]?)?\(?\d{3}\)?[-.\s]?\d{3}[-.\s]?\d{4}\b/g, '[PHONE]')
+    .replace(/@[A-Za-z0-9_]{3,20}/g, '[HANDLE]');
+}
+
 // Balanced assignment: pick randomly among the currently least-filled arms.
 async function assignCondition() {
   const counts = await Promise.all(CONDITIONS.map(c => Participant.countDocuments({ condition: c })));
@@ -135,7 +144,6 @@ app.post('/api/pre-survey', async (req, res) => {
     if (!isLikertArr(b.empathyItems, 7)) return res.status(400).json({ error: 'empathyItems must be 7 answers (1-7)' });
     if (!isLikertArr(b.trustItems, 5)) return res.status(400).json({ error: 'trustItems must be 5 answers (1-7)' });
     if (!Number.isInteger(b.age) || b.age < 18 || b.age > 99) return res.status(400).json({ error: 'age must be 18-99' });
-    if (!b.gender) return res.status(400).json({ error: 'gender required' });
     if (typeof b.fairPriceGuess !== 'number' || !(b.fairPriceGuess > 0 && b.fairPriceGuess < 100000)) {
       return res.status(400).json({ error: 'fairPriceGuess must be a positive number' });
     }
@@ -146,8 +154,6 @@ app.post('/api/pre-survey', async (req, res) => {
 
     Object.assign(p, {
       age: b.age,
-      gender: cleanText(b.gender, 30),
-      education: cleanText(b.education, 30),
       englishFluency: b.englishFluency,
       haggleComfort: b.haggleComfort,
       aiHasFeelings: b.aiHasFeelings,
@@ -263,8 +269,6 @@ app.post('/api/post-survey', async (req, res) => {
     for (const f of likertFields) if (!isLikert(b[f])) return res.status(400).json({ error: `${f} must be an integer 1-7` });
     if (!isLikertArr(b.sviItems, 8)) return res.status(400).json({ error: 'sviItems must be 8 answers (1-7)' });
     if (!isLikert(b.attention)) return res.status(400).json({ error: 'attention must be an integer 1-7' });
-    const truthOk = ['all_true', 'some_untrue', 'mostly_untrue', 'none_mentioned'];
-    if (!truthOk.includes(b.truthfulness)) return res.status(400).json({ error: 'truthfulness invalid' });
 
     const svi = b.sviItems.map((v, i) => (SVI_REVERSE.includes(i) ? 8 - v : v));
     const emp = b.manipEmpathy, eco = b.manipEconomic;
@@ -288,7 +292,7 @@ app.post('/api/post-survey', async (req, res) => {
       maxUnderstood: b.maxUnderstood,
       believedLimit: b.believedLimit,
       realism: b.realism,
-      truthfulness: b.truthfulness,
+      truthfulness: b.truthfulness || 'fictional_roleplay',
       studyGuess: cleanText(b.studyGuess, 1500),
       postAttentionPass: b.attention === POST_ATTENTION_EXPECTED,
       completed: true,

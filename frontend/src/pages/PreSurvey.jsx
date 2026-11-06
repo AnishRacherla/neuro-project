@@ -29,11 +29,9 @@ const TRUST_ITEMS = [
 export default function PreSurvey({ session, onNext }) {
   const [form, setForm] = useState({
     age: '',
-    gender: '',
     negotiationExp: null,
     llmUsage: null,
     fairPriceGuess: '',
-    education: '',
     englishFluency: null,
     haggleComfort: null,
     maxWillingToPay: '',
@@ -56,7 +54,6 @@ export default function PreSurvey({ session, onNext }) {
 
   const missing = {
     age: !(age >= 18 && age <= 99),
-    gender: !form.gender,
     negotiationExp: form.negotiationExp === null,
     llmUsage: form.llmUsage === null,
     fairPriceGuess: !(fair > 0),
@@ -80,8 +77,6 @@ export default function PreSurvey({ session, onNext }) {
       await submitPreSurvey({
         participantId: session.participantId,
         age,
-        gender: form.gender,
-        education: form.education,
         negotiationExp: form.negotiationExp,
         llmUsage: form.llmUsage,
         fairPriceGuess: fair,
@@ -118,31 +113,6 @@ export default function PreSurvey({ session, onNext }) {
             <input type="number" min="18" max="99" value={form.age} className="num-input"
               onChange={e => setField('age', e.target.value)} />
             {showErrors && missing.age && <div className="field-error">Enter an age between 18 and 99.</div>}
-          </div>
-
-          <div className={`field ${showErrors && missing.gender ? 'invalid' : ''}`}>
-            <label>Gender *</label>
-            <select value={form.gender} onChange={e => setField('gender', e.target.value)}>
-              <option value="">Select...</option>
-              <option value="male">Male</option>
-              <option value="female">Female</option>
-              <option value="nonbinary">Non-binary</option>
-              <option value="other">Other</option>
-              <option value="prefer_not">Prefer not to say</option>
-            </select>
-          </div>
-
-          <div className="field">
-            <label>Highest education level completed</label>
-            <select value={form.education} onChange={e => setField('education', e.target.value)}>
-              <option value="">Select... (optional)</option>
-              <option value="high_school">High school / secondary</option>
-              <option value="some_college">Some college / university</option>
-              <option value="bachelors">Bachelor's degree</option>
-              <option value="masters">Master's degree</option>
-              <option value="doctorate">Doctorate or professional degree</option>
-              <option value="other">Other</option>
-            </select>
           </div>
         </section>
 

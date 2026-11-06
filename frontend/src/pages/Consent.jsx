@@ -43,11 +43,13 @@ export default function Consent({ onNext }) {
           <li>Chat with an AI seller to try to get the best price (up to 10 messages)</li>
           <li>Answer a short follow-up survey (~3 min)</li>
         </ol>
-        <h3>Your data</h3>
+        <h3>Your data & privacy</h3>
         <p>
-          <strong>Please do not type your name, contact details or any other personal information in the chat.</strong>{' '}
-          Your chat messages are sent to Groq's AI API to generate the seller's replies, so they are
-          processed by that third party in addition to our research database. Results are reported only in aggregate.
+          <strong>Do not type your real name, contact details or any sensitive personal circumstances.</strong>{' '}
+          All negotiation scenarios and arguments should be fictional or role-played.
+          Your messages are processed via Groq's commercial AI API under zero-retention settings (not stored or used to train AI models).
+          In accordance with data minimization, no names, contact details, gender, or education records are collected.
+          All chat transcripts are automatically scrubbed of identifying information and reported only in aggregate.
         </p>
         <h3>Your rights</h3>
         <p>

@@ -195,6 +195,20 @@ Added a **"🎯 Sample Size & Recruitment Target"** section between the Study De
 
 ---
 
+
+---
+
+## Ethics & Privacy Review — Data Minimization & Transcript Sanitization
+
+**Files changed:** `llm.js`, `PreSurvey.jsx`, `PostSurvey.jsx`, `server.js`, `Consent.jsx`, `ThankYou.jsx`, `analyze.py`
+
+### What was resolved
+1. **Scripted / Fictional Roles**: The instructions in `llm.js` now strictly instruct participants to use fictional / imagined circumstances (e.g. college student before exams) and explicitly forbid sharing real personal information or sensitive life events.
+2. **Data Minimization (Dropping Gender & Education)**: Removed `gender` and `education` from `PreSurvey.jsx`, `server.js`, and the H3 regression in `analyze.py`. Only `age` (used for 18+ eligibility and as a regression covariate) is retained.
+3. **Automatic PII Transcript Scrubbing**: Added `scrubPII()` in `server.js` to automatically sanitize emails, phone numbers, and social handles (`@handle`) before saving to MongoDB and sending to the LLM.
+4. **Zero-Retention API Disclosures**: Updated `Consent.jsx` and `ThankYou.jsx` to explicitly disclose that messages are processed via Groq's commercial API under zero data-retention settings for model training.
+5. **Removed Truthfulness Item**: Removed the post-survey item asking whether personal stories were true, aligning with the fictional roleplay protocol.
+
 ## Summary Table
 
 | Gap | Description | Files Changed | Status |
@@ -206,5 +220,6 @@ Added a **"🎯 Sample Size & Recruitment Target"** section between the Study De
 | **6** | Pre-survey attention check non-functional | `PreSurvey.jsx`, `server.js` | ✅ Fixed |
 | **9** | `analyze.py` demo missing new fields | `analyze.py` | ✅ Fixed |
 | **11** | No sample size / stop-rule in README | `README.md` | ✅ Fixed |
+| **Ethics** | Zero-retention API, PII scrubber, scripted roles, dropped gender/edu | `llm.js`, `PreSurvey.jsx`, `PostSurvey.jsx`, `server.js`, `Consent.jsx`, `ThankYou.jsx`, `analyze.py` | ✅ Fixed |
 
 > [!IMPORTANT] Before going live: replace `CONTACT` and `ETHICS_REF` in `Consent.jsx` with real values. These are the only remaining manual TODO items.

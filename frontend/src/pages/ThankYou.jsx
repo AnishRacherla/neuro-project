@@ -49,8 +49,10 @@ export default function ThankYou({ session }) {
         </p>
         <h4>What happens to your data</h4>
         <p>
-          Your chat transcript and survey answers are stored without your name and will be reported
-          only in aggregate. Your messages were processed by Groq's AI API to generate Max's replies.
+          Your chat transcript and survey answers are stored without your name and reported only in aggregate.
+          Your messages were processed by Groq's commercial AI API under zero-retention settings (not stored or used to train models).
+          In accordance with research ethics standards, chat transcripts are scrubbed of any identifying details,
+          and unnecessary demographic identifiers (such as gender and education) were not collected.
           If you have questions or wish to withdraw your data, contact the research team using
           your participant ID above.
         </p>
