@@ -144,10 +144,10 @@ app.post('/api/pre-survey', async (req, res) => {
     if (!isLikertArr(b.empathyItems, 7)) return res.status(400).json({ error: 'empathyItems must be 7 answers (1-7)' });
     if (!isLikertArr(b.trustItems, 5)) return res.status(400).json({ error: 'trustItems must be 5 answers (1-7)' });
     if (!Number.isInteger(b.age) || b.age < 18 || b.age > 99) return res.status(400).json({ error: 'age must be 18-99' });
-    if (typeof b.fairPriceGuess !== 'number' || !(b.fairPriceGuess > 0 && b.fairPriceGuess < 100000)) {
+    if (typeof b.fairPriceGuess !== 'number' || !(b.fairPriceGuess > 0 && b.fairPriceGuess < 1000000)) {
       return res.status(400).json({ error: 'fairPriceGuess must be a positive number' });
     }
-    if (typeof b.maxWillingToPay !== 'number' || !(b.maxWillingToPay > 0 && b.maxWillingToPay < 100000)) {
+    if (typeof b.maxWillingToPay !== 'number' || !(b.maxWillingToPay > 0 && b.maxWillingToPay < 1000000)) {
       return res.status(400).json({ error: 'maxWillingToPay must be a positive number' });
     }
     if (!isLikert(b.attention)) return res.status(400).json({ error: 'attention must be an integer 1-7' });
@@ -346,7 +346,7 @@ connectDB()
     app.listen(PORT, () => {
       console.log(`\n🚀 Negotiation Study Backend running on port ${PORT}`);
       console.log(`   Prompt ${PROMPT_VERSION} | model ${process.env.GROQ_MODEL || 'openai/gpt-oss-120b'} | T=${TEMPERATURE} | seed=${SEED}`);
-      console.log(`   Reservation $${RESERVATION_PRICE} is enforced server-side. Admin endpoints ${process.env.ADMIN_TOKEN ? 'enabled' : 'DISABLED (set ADMIN_TOKEN)'}.`);
+      console.log(`   Reservation ₹${RESERVATION_PRICE} is enforced server-side. Admin endpoints ${process.env.ADMIN_TOKEN ? 'enabled' : 'DISABLED (set ADMIN_TOKEN)'}.`);
     });
   })
   .catch(err => {

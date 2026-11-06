@@ -136,7 +136,7 @@ export default function PreSurvey({ session, onNext }) {
             Think of a used laptop about 4 years old: Intel i5, 8 GB RAM, 256 GB SSD, light wear, charger included.
           </p>
           <div className={`field ${showErrors && missing.fairPriceGuess ? 'invalid' : ''}`}>
-            <label>What price (in $) would you consider fair? *</label>
+            <label>What price (in ₹) would you consider fair? *</label>
             <input type="number" min="1" className="num-input" value={form.fairPriceGuess}
               onChange={e => setField('fairPriceGuess', e.target.value)} />
           </div>
@@ -145,7 +145,7 @@ export default function PreSurvey({ session, onNext }) {
         <section>
           <h3>Your budget</h3>
           <div className={`field ${showErrors && missing.maxWillingToPay ? 'invalid' : ''}`}>
-            <label>What is the maximum you would be willing to pay for this laptop? (in $) *</label>
+            <label>What is the maximum you would be willing to pay for this laptop? (in ₹) *</label>
             <input type="number" min="1" className="num-input" value={form.maxWillingToPay}
               onChange={e => setField('maxWillingToPay', e.target.value)} />
             {showErrors && missing.maxWillingToPay && <div className="field-error">Please enter a value greater than 0.</div>}

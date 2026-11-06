@@ -57,7 +57,7 @@ export default function Chat({ session, onNext }) {
       <div className="chat-header">
         <div>
           <h2>Negotiating with Max (AI Seller)</h2>
-          <p className="subtitle">{session.listing.title} — Listed at <strong>${session.startPrice}</strong></p>
+          <p className="subtitle">{session.listing.title} — Listed at <strong>₹{session.startPrice.toLocaleString("en-IN")}</strong></p>
         </div>
         <div className="turn-counter">
           Message {Math.min(turnsUsed + (done ? 0 : 1), maxTurns)}/{maxTurns}

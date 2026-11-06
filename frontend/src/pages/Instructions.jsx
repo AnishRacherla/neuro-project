@@ -7,7 +7,7 @@ export default function Instructions({ session, onNext }) {
       <div className="scenario-box">
         <h3>📦 The Scenario</h3>
         <p>
-          You are a buyer interested in a <strong>used laptop listed at ${session.startPrice}</strong> by a private
+          You are a buyer interested in a <strong>used laptop listed at ₹{session.startPrice.toLocaleString("en-IN")}</strong> by a private
           seller named Max (an AI). Your goal is to get the <strong>lowest price</strong> you can.
           You have up to <strong>{session.maxTurns} messages</strong> to reach a deal.
         </p>
@@ -16,7 +16,7 @@ export default function Instructions({ session, onNext }) {
           <ul>{session.listing.details.map((d, i) => <li key={i}>{d}</li>)}</ul>
         </div>
         <p>
-          Imagine the laptop is worth <strong>${session.buyerValue}</strong> to you, so every dollar you save below that
+          Imagine the laptop is worth <strong>₹{session.buyerValue.toLocaleString("en-IN")}</strong> to you, so every rupee you save below that
           is your gain. Treat the money as real. If no deal is reached, you simply walk away with nothing.
         </p>
       </div>

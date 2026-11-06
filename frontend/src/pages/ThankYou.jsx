@@ -34,7 +34,7 @@ export default function ThankYou({ session }) {
         </p>
         <h4>About "Max"</h4>
         <p>
-          Max is an AI language model (not a human). The laptop listing, the $500 asking price,
+          Max is an AI language model (not a human). The laptop listing, the ₹30,000 asking price,
           and the negotiation scenario were entirely fictional — no money or goods changed hands,
           and you were not evaluated on how well you negotiated. Max had a hidden "walk-away"
           reservation price it was not allowed to go below; this was part of the experimental design

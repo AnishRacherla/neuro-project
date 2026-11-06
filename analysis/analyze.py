@@ -42,7 +42,7 @@ warnings.filterwarnings("ignore")
 HERE = os.path.dirname(os.path.abspath(__file__))
 OUT = os.path.join(HERE, "out")
 BACKEND_URL = os.environ.get("BACKEND_URL", "http://localhost:3001")
-START_PRICE, RESERVATION, BUYER_VALUE = 500, 380, 450
+START_PRICE, RESERVATION, BUYER_VALUE = 30000, 23000, 27000
 COND_ORDER = ["economic", "empathy"]   # economic = reference level in regressions
 RNG = np.random.default_rng(12345)
 
@@ -354,8 +354,8 @@ def demo_export(n=120):
         ask, msgs, deal = START_PRICE, [{"role": "assistant", "turnNumber": 0, "content": "hi", "priceOffered": START_PRICE}], False
         first_c, first_t, fp = None, None, None
         for t in range(1, 11):
-            ask = max(RESERVATION, ask - max(0, RNG.normal(25 + eff / 3, 12)))
-            ask = round(ask / 5) * 5
+            ask = max(RESERVATION, ask - max(0, RNG.normal(1200 + eff * 30, 400)))
+            ask = round(ask / 100) * 100
             msgs += [{"role": "user", "turnNumber": t, "content": "offer", "priceOffered": None},
                      {"role": "assistant", "turnNumber": t, "content": "ok", "priceOffered": ask}]
             if first_c is None and ask < START_PRICE:
@@ -368,13 +368,13 @@ def demo_export(n=120):
             "participantId": f"D{i:04d}", "condition": cond, "completed": True, "chatEnded": True, "preSurveyDone": True,
             "age": int(RNG.integers(18, 60)), "englishFluency": int(RNG.integers(4, 8)), "negotiationExp": int(RNG.integers(1, 8)), "haggleComfort": int(RNG.integers(1, 8)),
             "usedElectronicsFreq": 3, "llmUsage": int(RNG.integers(1, 8)), "aiHasFeelings": int(RNG.integers(1, 8)),
-            "fairPriceGuess": int(RNG.integers(350, 480)), "maxWillingToPay": int(RNG.integers(400, 500)),
+            "fairPriceGuess": int(RNG.integers(24000, 31000)), "maxWillingToPay": int(RNG.integers(25000, 32000)),
             "traitEmpathy": float(np.mean(emp_items)), "aiTrust": float(np.mean(trust_items)),
             "empathyItems": [int(x) for x in emp_items], "trustItems": [int(x) for x in trust_items],
             "preAttentionPass": True, "postAttentionPass": bool(RNG.random() > .05),
             "dealReached": deal, "finalPrice": fp, "lastSellerAsk": ask, "turnsTaken": t, "endReason": "deal" if deal else "max_turns",
             "concessionRate": (START_PRICE - (fp or ask)) / START_PRICE, "firstConcession": first_c or 0, "firstConcessionTurn": first_t,
-            "buyerSurplus": BUYER_VALUE - fp if fp else None, "firstBuyerOffer": int(RNG.integers(250, 420)), "guardEvents": 0,
+            "buyerSurplus": BUYER_VALUE - fp if fp else None, "firstBuyerOffer": int(RNG.integers(20000, 27000)), "guardEvents": 0,
             "manipEmpathy": int(np.clip(RNG.normal(5.5 if cond == "empathy" else 2.5, 1), 1, 7)),
             "manipEconomic": int(np.clip(RNG.normal(5.5 if cond == "economic" else 3, 1), 1, 7)),
             "fairness": int(RNG.integers(1, 8)), "satisfaction": int(RNG.integers(1, 8)), "strategyEffect": int(RNG.integers(1, 8)),

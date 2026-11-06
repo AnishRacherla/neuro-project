@@ -59,7 +59,7 @@ export default function Consent({ onNext }) {
         </p>
         <p className="small">
           At the end we will explain the full purpose of the study in the debrief. The seller is an AI, and the scenario
-          (a laptop with a $500 asking price) is fictional — no real money or goods change hands.
+          (a laptop with a ₹30,000 asking price) is fictional — no real money or goods change hands.
         </p>
       </div>
 

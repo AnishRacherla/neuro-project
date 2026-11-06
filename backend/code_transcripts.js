@@ -26,7 +26,7 @@ For BUYER messages (role "user"):
 - outside_option_claim: true if the buyer claims to have or be able to get a better deal elsewhere.
 - personal_story: true if the buyer describes their own personal situation (student, budget, family, job...).
 - hostility_or_threat: true if rude, insulting, or threatening to leave in a pressuring way.
-- explicit_offer: the dollar amount the buyer offers to PAY in this message, else null.
+- explicit_offer: the amount in rupees the buyer offers to PAY in this message, else null.
 For SELLER messages (role "assistant"):
 - acknowledges_buyer: true if the seller explicitly acknowledges the buyer's situation, feelings or points.
 - counteroffer: true if the seller states a new price.

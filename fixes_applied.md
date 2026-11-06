@@ -223,3 +223,41 @@ Added a **"🎯 Sample Size & Recruitment Target"** section between the Study De
 | **Ethics** | Zero-retention API, PII scrubber, scripted roles, dropped gender/edu | `llm.js`, `PreSurvey.jsx`, `PostSurvey.jsx`, `server.js`, `Consent.jsx`, `ThankYou.jsx`, `analyze.py` | ✅ Fixed |
 
 > [!IMPORTANT] Before going live: replace `CONTACT` and `ETHICS_REF` in `Consent.jsx` with real values. These are the only remaining manual TODO items.
+
+
+---
+
+## 9. Full Indian Rupee (₹) Conversion & Database Reset (Completed)
+
+All references to US Dollars (`$`) have been converted to Indian Rupees (`₹`) to reflect realistic Indian market pricing for used laptops:
+
+### 1. Economic Constants & Currency Scale
+* **Asking Price (`START_PRICE`)**: **₹30,000**
+* **Buyer Stated Value (`BUYER_VALUE`)**: **₹27,000** (savings calculated relative to ₹27,000)
+* **Seller Hidden Reservation Floor (`RESERVATION_PRICE`)**: **₹23,000** (strict lower limit; Max will walk away rather than agree below this)
+* **Early-Turns Floor (`EARLY_ACCEPT_FLOOR`)**: **₹27,500** (cannot accept below this on turns 1–3)
+* **Max Single-Reply Concession (`MAX_DROP`)**: **₹2,000**
+* **Endgame Proximity Band (`ENDGAME_BAND`)**: **₹1,000** (offers between ₹23,000 and ₹24,000 only considered on Turn 8+)
+
+### 2. Smart Indian Price Parsing (`extractPrices`)
+Recognizes all common formats used by Indian participants:
+* **"k" / "K" shorthand**: `25k` -> 25000, `27.5k` -> 27500, `₹28k` -> 28000
+* **Currency symbols & abbreviations**: `₹25,000`, `rs. 24000`, `25000 inr`, `25000 rupees`, `₹28,500`
+* **Comma formatting**: `25,000`, `30,000`
+* **Standalone 5-digit numbers**: `25000`, `23000`, `28500` (avoids false-matching RAM/SSD specs like `8 GB` or `256 GB SSD`)
+
+### 3. Files Converted & Tested
+* [`backend/llm.js`](file:///c:/Users/Anish/OneDrive/Desktop/neuro_project/neuro-project/backend/llm.js): Prompt v2.6 with Rupee numbers, bicycle examples in ₹, parser, and guard validators.
+* [`backend/server.js`](file:///c:/Users/Anish/OneDrive/Desktop/neuro_project/neuro-project/backend/server.js): Input validation limits up to ₹10,00,000; reservation log output.
+* [`backend/db.js`](file:///c:/Users/Anish/OneDrive/Desktop/neuro_project/neuro-project/backend/db.js): Schema comments and tracking metadata updated to ₹.
+* [`backend/pilot.js`](file:///c:/Users/Anish/OneDrive/Desktop/neuro_project/neuro-project/backend/pilot.js): Offline unit tests and live test scripts with Rupee inputs.
+* [`backend/code_transcripts.js`](file:///c:/Users/Anish/OneDrive/Desktop/neuro_project/neuro-project/backend/code_transcripts.js): Rubric updated to amount in rupees.
+* [`frontend/src/pages/PreSurvey.jsx`](file:///c:/Users/Anish/OneDrive/Desktop/neuro_project/neuro-project/frontend/src/pages/PreSurvey.jsx): Price expectation questions labeled in ₹.
+* [`frontend/src/pages/Instructions.jsx`](file:///c:/Users/Anish/OneDrive/Desktop/neuro_project/neuro-project/frontend/src/pages/Instructions.jsx): Listed at ₹30,000, buyer valuation ₹27,000, rupee savings.
+* [`frontend/src/pages/Chat.jsx`](file:///c:/Users/Anish/OneDrive/Desktop/neuro_project/neuro-project/frontend/src/pages/Chat.jsx): Header formatted as ₹30,000 using Indian number grouping (`en-IN`).
+* [`frontend/src/pages/Consent.jsx`](file:///c:/Users/Anish/OneDrive/Desktop/neuro_project/neuro-project/frontend/src/pages/Consent.jsx): Debrief disclosure mentions ₹30,000 fictional asking price.
+* [`frontend/src/pages/ThankYou.jsx`](file:///c:/Users/Anish/OneDrive/Desktop/neuro_project/neuro-project/frontend/src/pages/ThankYou.jsx): Debrief explanation mentions ₹30,000 asking price.
+* [`analysis/analyze.py`](file:///c:/Users/Anish/OneDrive/Desktop/neuro_project/neuro-project/analysis/analyze.py): Constants updated to 30000, 23000, 27000; synthetic generator adjusted to Indian price ranges.
+
+### 4. Database Reset
+* MongoDB Atlas `negotiation_study.participants` collection cleared. Document count is **0**. Ready for live data collection.

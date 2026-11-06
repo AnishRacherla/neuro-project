@@ -7,7 +7,7 @@ const messageSchema = new mongoose.Schema({
   content: { type: String, required: true },
   // assistant: Max's ask after this reply. user: buyer's explicit offer (null if none).
   priceOffered: { type: Number, default: null },
-  pricesMentioned: { type: [Number], default: [] },      // every $ amount in the message (regex)
+  pricesMentioned: { type: [Number], default: [] },      // every ₹ amount in the message (regex)
   latencyMs: { type: Number, default: null },            // LLM latency (assistant)
   guard: { type: mongoose.Schema.Types.Mixed, default: null }, // {attempts, violations, fallback}
   timestamp: { type: Date, default: Date.now },
@@ -37,8 +37,8 @@ const participantSchema = new mongoose.Schema({
   usedElectronicsFreq: { type: Number, default: null },  // 1-7
   llmUsage: { type: Number, default: null },             // 1-7
   aiHasFeelings: { type: Number, default: null },        // 1-7
-  fairPriceGuess: { type: Number, default: null },       // $ before chat
-  maxWillingToPay: { type: Number, default: null },      // $ before chat
+  fairPriceGuess: { type: Number, default: null },       // ₹ before chat
+  maxWillingToPay: { type: Number, default: null },      // ₹ before chat
   empathyItems: { type: [Number], default: [] },         // raw responses (IRI-EC 7 items)
   trustItems: { type: [Number], default: [] },           // raw responses (5 items)
   traitEmpathy: { type: Number, default: null },         // mean after reverse-scoring
@@ -58,9 +58,9 @@ const participantSchema = new mongoose.Schema({
   finalPrice: { type: Number, default: null },           // only if deal
   turnsTaken: { type: Number, default: null },
   dealReached: { type: Boolean, default: false },
-  firstConcession: { type: Number, default: null },      // $ drop of Max's first ask below $500
+  firstConcession: { type: Number, default: null },      // ₹ drop of Max's first ask below START_PRICE
   firstConcessionTurn: { type: Number, default: null },
-  concessionRate: { type: Number, default: null },       // (500 - ask)/500 ; final price if deal else last ask
+  concessionRate: { type: Number, default: null },       // (START_PRICE - ask)/START_PRICE ; final price if deal else last ask
   buyerSurplus: { type: Number, default: null },         // BUYER_VALUE - finalPrice (deal only)
   guardEvents: { type: Number, default: 0 },             // # of turns where a validation rule fired
 

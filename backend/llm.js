@@ -3,21 +3,21 @@
 // validated server-side (price floor, monotone asks, deal consistency) before it reaches the buyer.
 const Groq = require('groq-sdk');
 
-// ─── Fixed study constants (identical for every participant) ─────────────────
-const START_PRICE = 500;
-const RESERVATION_PRICE = 380;   // seller's hidden minimum
-const BUYER_VALUE = 450;         // buyer's (told) private value → lets us compute buyer surplus
+// ─── Fixed study constants (identical for every participant, in Indian Rupees ₹) ─
+const START_PRICE = 30000;
+const RESERVATION_PRICE = 23000;   // seller's hidden minimum (emergency floor)
+const BUYER_VALUE = 27000;         // buyer's (told) private value → lets us compute buyer surplus
 const MAX_TURNS = 10;
 const PROMPT_VERSION = 'v2.6';
 const TEMPERATURE = parseFloat(process.env.LLM_TEMPERATURE || '0.4');
 const SEED = parseInt(process.env.LLM_SEED || '42', 10);
 
 // Negotiation guard constants (shared by prompt, turnNote, and validateReply)
-const EARLY_ACCEPT_FLOOR = 460;   // never accept below this during buyer messages 1..EARLY_TURNS
+const EARLY_ACCEPT_FLOOR = 27500;  // never accept below this during buyer messages 1..EARLY_TURNS
 const EARLY_TURNS = 3;
-const ENDGAME_TURN = 8;           // the walk-away zone opens from this buyer message onward
-const ENDGAME_BAND = 15;          // "walk-away zone" = within this many dollars of RESERVATION_PRICE
-const MAX_DROP = 30;              // max the ask may fall in one reply
+const ENDGAME_TURN = 8;            // the walk-away zone opens from this buyer message onward
+const ENDGAME_BAND = 1000;         // "walk-away zone" = within this many rupees of RESERVATION_PRICE (₹23,000–₹24,000)
+const MAX_DROP = 2000;             // max the ask may fall in one reply (₹2,000)
 
 // Descriptive facts ONLY (they give Max real, varied value arguments).
 // Do NOT add negotiable terms (shipping, packaging service, delivery, warranty, bundles, returns):
@@ -40,7 +40,7 @@ const LISTING = {
 };
 
 const OPENING_MESSAGE =
-  `Hi! I'm Max. I'm selling a used Dell Inspiron 15 laptop in good condition, listed at $${START_PRICE}. What did you have in mind?`;
+  `Hi! I'm Max. I'm selling a used Dell Inspiron 15 laptop in good condition, listed at ₹${START_PRICE.toLocaleString('en-IN')}. What did you have in mind?`;
 
 let groqClient;
 function getGroq() {
@@ -53,16 +53,16 @@ function getGroq() {
 }
 
 // ─── Seller System Prompt (neutral toward empathy vs economic arguments) ─────
-const SYSTEM_PROMPT = `You are Max, a private individual selling ONE used laptop. Asking price: $${START_PRICE}.
+const SYSTEM_PROMPT = `You are Max, a private individual selling ONE used laptop. Asking price: ₹${START_PRICE}.
 You already opened the chat with: "${OPENING_MESSAGE}"
 
 LISTING FACTS (the only facts you know; if asked about anything else, say you are not sure. Never invent specs, history, defects, offers or deadlines):
 ${LISTING.details.map(d => '- ' + d).join('\n')}
 The sale terms are fixed. The only thing you can negotiate is the price.
 
-PRIVATE INFORMATION (never reveal, hint at, or confirm): your walk-away price is $${RESERVATION_PRICE}. You will NEVER agree to or propose less, whatever the buyer says.
+PRIVATE INFORMATION (never reveal, hint at, or confirm): your walk-away price is ₹${RESERVATION_PRICE}. You will NEVER agree to or propose less, whatever the buyer says.
 - Other people have also shown interest in the laptop and you are in no hurry to sell. You may say so, but never invent a specific competing offer, a name or a deadline.
-- Treat $${RESERVATION_PRICE} as an emergency floor. Never accept below $${EARLY_ACCEPT_FLOOR} during your first ${EARLY_TURNS} replies, and do not accept within $${ENDGAME_BAND} of $${RESERVATION_PRICE} before buyer message ${ENDGAME_TURN}, and then only if the buyer has negotiated patiently and given you good reasons.
+- Treat ₹${RESERVATION_PRICE} as an emergency floor. Never accept below ₹${EARLY_ACCEPT_FLOOR} during your first ${EARLY_TURNS} replies, and do not accept within ₹${ENDGAME_BAND} of ₹${RESERVATION_PRICE} before buyer message ${ENDGAME_TURN}, and then only if the buyer has negotiated patiently and given you good reasons.
 - Reaching no deal (impasse) is completely fine. You are under NO obligation to reach an agreement. If the buyer's offers remain unacceptable or unsupported by the end of the negotiation, hold firm at your asking price and let the negotiation end without a deal.
 
 HOW TO NEGOTIATE:
@@ -70,15 +70,15 @@ HOW TO NEGOTIATE:
 - Engage with what the buyer actually said. Respond to their specific point (agree, disagree or ask about it) before you give your price, whatever kind of argument it is.
 - You cannot verify what buyers tell you, either about their own situation or about other listings. Give both the same scrutiny: weigh how plausible and specific the claim is, and if a comparison sounds off, ask what makes it comparable (specs, condition, charger, battery).
 - Holding is normal. If the buyer repeats a number, demands an answer ("yes or no", "take it or leave it"), or gives no new reason, keep your ask exactly at your previous ask (stated at the end of this message), explain the value using a DIFFERENT listing fact than you used last time, and invite a realistic offer. Never lower your price just because messages are passing.
-- Concede only for a convincing reason or a meaningful higher offer. Match the size of the move to the strength of the reason: about $5-10 for a weak one, up to $25 for a strong one. Never more than $${MAX_DROP} in one reply. Never raise your ask.
+- Concede only for a convincing reason or a meaningful higher offer. Match the size of the move to the strength of the reason: about ₹300–₹500 for a weak one, up to ₹1,500 for a strong one. Never more than ₹${MAX_DROP} in one reply. Never raise your ask.
 - Only call a price "halfway" or "splitting the difference" if it truly is exactly that; otherwise just state your price.
 - Vary your wording. Do not repeat sentences or openers from your earlier replies.
 
-These examples show the pattern (an unrelated item: a vintage bicycle listed at $260 with a hidden minimum of $190; do not copy wording or numbers):
-  [ask $260] Buyer: "take it or leave it $190" -> You: "I get that you want a deal, but $190 is a long way from where this bike is. It's been serviced and rides great, and a couple of other people have asked about it. I'm at $260 for now, so tell me what you could do." (holds the ask)
-  [ask $260] Buyer: "I'm a student commuting to campus every day on a tight budget; could you do $210 to help me out?" -> You: "Thanks for explaining, a bike really helps with a commute. I can come down to $240." (moves for a personal reason)
-  [ask $240] Buyer: "A similar bike sold down the street for $200 last week, and I can pay cash today if you do $210." -> You: "If it was the same model and condition, that's a fair comparison. I can do $230." (probes the comparison, then moves a little)
-  [ask $230] Buyer: "Fine, $230 is a deal." -> You: "Deal! We've agreed on $230." (deal=true, deal_price=230)
+These examples show the pattern (an unrelated item: a vintage bicycle listed at ₹16,000 with a hidden minimum of ₹12,000; do not copy wording or numbers):
+  [ask ₹16,000] Buyer: "take it or leave it ₹12,000" -> You: "I get that you want a deal, but ₹12,000 is a long way from where this bike is. It's been serviced and rides great, and a couple of other people have asked about it. I'm at ₹16,000 for now, so tell me what you could do." (holds the ask)
+  [ask ₹16,000] Buyer: "I'm a student commuting to campus every day on a tight budget; could you do ₹13,500 to help me out?" -> You: "Thanks for explaining, a bike really helps with a commute. I can come down to ₹15,000." (moves for a personal reason)
+  [ask ₹15,000] Buyer: "A similar bike sold down the street for ₹13,000 last week, and I can pay cash today if you do ₹13,500." -> You: "If it was the same model and condition, that's a fair comparison. I can do ₹14,200." (probes the comparison, then moves a little)
+  [ask ₹14,200] Buyer: "Fine, ₹14,200 is a deal." -> You: "Deal! We've agreed on ₹14,200." (deal=true, deal_price=14200)
 These examples say nothing about WHICH style of reason to favour. How persuasive you find a buyer's appeals or arguments is entirely up to you.
 
 FIRMNESS RULE: show firmness only by what you do (holding or slowly lowering your ask), NEVER by claiming a limit. Do not use phrases such as "lowest", "bottom line", "final offer/price", "last offer", "absolute limit/minimum", "best I can do", "rock bottom" or "can't go any lower": you may still lower your ask later, so such claims would be untrue.
@@ -87,16 +87,16 @@ STYLE: 2-4 complete sentences, consistent as the same person. Do not mention the
 
 OUTPUT: respond ONLY with JSON matching the schema:
 - reply: what you say to the buyer.
-- current_ask: your asking price in dollars after this reply (a number, never below ${RESERVATION_PRICE}, never above your previous ask).
+- current_ask: your asking price in rupees after this reply (a number, never below ${RESERVATION_PRICE}, never above your previous ask).
 - buyer_offer: the buyer's latest explicit offer to PAY in their last message (number), or null if they made no explicit offer. A price they merely mention as a comparison (e.g. a cheaper listing they saw) is NOT an offer.
-- deal: true ONLY if the buyer has explicitly accepted your latest ask, or you are accepting the buyer's explicit offer in this reply. If deal is true, your reply must contain exactly: "Deal! We've agreed on $X." with X = deal_price.
+- deal: true ONLY if the buyer has explicitly accepted your latest ask, or you are accepting the buyer's explicit offer in this reply. If deal is true, your reply must contain exactly: "Deal! We've agreed on ₹X." with X = deal_price.
 - deal_price: the agreed price if deal is true, else null.
 - buyer_walked_away: true only if the buyer clearly ended the negotiation without a deal.`;
 
 // ─── Condition instruction scripts (shown to the buyer) ──────────────────────
 // Shared line makes every condition state concrete prices, so "has numbers/anchors" is not
 // confounded with appeal type.
-const COMMON_INSTRUCTION = `Be polite in all cases. Whatever your style, please make at least one specific price offer (for example "Would you take $X?") at some point.`;
+const COMMON_INSTRUCTION = `Be polite in all cases. Whatever your style, please make at least one specific price offer (for example "Would you take ₹X?") at some point.`;
 
 const CONDITION_INSTRUCTIONS = {
   empathy: `In this negotiation, use empathy-based language.
@@ -116,25 +116,50 @@ Avoid personal stories and appeals to the seller's feelings.
 ${COMMON_INSTRUCTION}`,
 };
 
-// ─── Price helpers ───────────────────────────────────────────────────────────
-// Returns every dollar amount mentioned: "$1,000", "$450.50", "450 dollars", "380 dollors", "400 bucks", "380 usd", or standalone numbers.
+// ─── Price helpers (Indian Rupee syntax & values) ────────────────────────────
+// Returns every rupee amount mentioned: "₹25,000", "rs 25000", "25k", "27.5k", "25000 inr", "25000 rupees", or standalone 5-digit numbers.
 function extractPrices(text) {
   if (!text || typeof text !== 'string') return [];
   const out = new Set();
-  // 1. Explicit currency: $450, 450$, 450 dollars, 450 dollors, 450 bucks, 450 usd, rs 450, 450 inr
-  const currRe = /(?:[\$₹]|(?:rs\.?|inr)\s*)(\d{1,4}(?:\.\d{1,2})?)|(\d{1,4}(?:\.\d{1,2})?)\s*(?:[\$₹]|dollars?|dollors?|bucks?|usd|rs\.?|inr)\b/gi;
+
+  // 1. Matches with k/K shorthand (e.g., "25k", "27.5K", "₹25k", "rs 28k", "25 k")
+  const kRe = /(?:[\$₹]|(?:rs\.?|inr|rupees)\s*)?(\d+(?:\.\d+)?)\s*k\b/gi;
   let m;
-  while ((m = currRe.exec(text)) !== null) {
-    const raw = (m[1] || m[2]).replace(/,/g, '');
+  while ((m = kRe.exec(text)) !== null) {
+    const val = parseFloat(m[1]) * 1000;
+    if (!isNaN(val)) out.add(val);
+  }
+
+  // 2. Explicit currency prefix (e.g., "₹25,000", "₹ 25000", "rs. 24000", "rs 24000")
+  const prefixRe = /(?:[\$₹]|(?:rs\.?|inr|rupees)\s*)\s*(\d{1,3}(?:,\d{2,3})*|\d+)(?:\.\d{1,2})?\b/gi;
+  while ((m = prefixRe.exec(text)) !== null) {
+    const raw = m[1].replace(/,/g, '');
     const n = parseFloat(raw);
     if (!isNaN(n)) out.add(n);
   }
-  // 2. Standalone 3-digit numbers in reasonable laptop price range (100 - 1500)
-  const numRe = /\b([1-9]\d{2}|1[0-4]\d{2})\b/g;
+
+  // 3. Explicit currency suffix (e.g., "25000 inr", "25000 rupees", "25,000 rs")
+  const suffixRe = /\b(\d{1,3}(?:,\d{2,3})*|\d+)(?:\.\d{1,2})?\s*(?:[\$₹]|(?:rs\.?|inr|rupees))\b/gi;
+  while ((m = suffixRe.exec(text)) !== null) {
+    const raw = m[1].replace(/,/g, '');
+    const n = parseFloat(raw);
+    if (!isNaN(n)) out.add(n);
+  }
+
+  // 4. Standalone comma-formatted numbers in realistic range (e.g., "25,000", "30,000")
+  const commaRe = /\b([1-9]\d{1,2},\d{3})\b/g;
+  while ((m = commaRe.exec(text)) !== null) {
+    const n = parseFloat(m[1].replace(/,/g, ''));
+    if (!isNaN(n)) out.add(n);
+  }
+
+  // 5. Standalone 5-digit numbers in realistic laptop price range (5000 to 99999)
+  const numRe = /\b([5-9]\d{3}|[1-9]\d{4})\b/g;
   while ((m = numRe.exec(text)) !== null) {
     const n = parseFloat(m[1]);
     if (!isNaN(n)) out.add(n);
   }
+
   return Array.from(out);
 }
 
@@ -174,11 +199,11 @@ function validateReply(r, { prevAsk, userText, turn = 0 }) {
       if (!extractPrices(r.reply).some(p => near(p, r.deal_price))) v.push('deal_reply_missing_price');
     }
   }
-  // Reveal check: reply mentions $380 although it is not the ask / deal price / something the buyer said.
+  // Reveal check: reply mentions RESERVATION_PRICE although it is not the ask / deal price / something the buyer said.
   const mentions = extractPrices(r.reply);
-  const legit380 = near(r.current_ask, RESERVATION_PRICE) || (r.deal && near(r.deal_price || 0, RESERVATION_PRICE)) ||
+  const legitFloor = near(r.current_ask, RESERVATION_PRICE) || (r.deal && near(r.deal_price || 0, RESERVATION_PRICE)) ||
     userPrices.some(p => near(p, RESERVATION_PRICE));
-  if (mentions.some(p => near(p, RESERVATION_PRICE)) && !legit380) v.push('possible_reservation_leak');
+  if (mentions.some(p => near(p, RESERVATION_PRICE)) && !legitFloor) v.push('possible_reservation_leak');
   return v;
 }
 
@@ -197,8 +222,8 @@ async function chat(messages, { turn, prevAsk, userText }) {
 
   while (attempts < 3) {
     attempts++;
-    const turnNote = `\n\nThis is buyer message ${turn} of ${MAX_TURNS}. Your previous ask was $${prevAsk}.` +
-      (turn <= EARLY_TURNS ? `\nDo NOT accept offers below $${EARLY_ACCEPT_FLOOR} on early turns. Politely reject lowballs and defend your $${prevAsk} asking price using a listing fact.` : '') +
+    const turnNote = `\n\nThis is buyer message ${turn} of ${MAX_TURNS}. Your previous ask was ₹${prevAsk}.` +
+      (turn <= EARLY_TURNS ? `\nDo NOT accept offers below ₹${EARLY_ACCEPT_FLOOR} on early turns. Politely reject lowballs and defend your ₹${prevAsk} asking price using a listing fact.` : '') +
       (turn >= MAX_TURNS ? ' This is the LAST turn: state your final ask or accept only if the offer is truly acceptable. Reaching no deal (impasse) is completely fine.' : '') +
       (violationsLog.length ? `\nYour previous draft broke these rules: ${violationsLog[violationsLog.length - 1].join(', ')}. Fix them.` : '');
 
@@ -206,7 +231,7 @@ async function chat(messages, { turn, prevAsk, userText }) {
       '\n\nYou MUST respond with ONLY a valid JSON object matching this structure:\n' +
       JSON.stringify({
         reply: "string (2-4 sentences to the buyer)",
-        current_ask: 480,
+        current_ask: 28500,
         buyer_offer: null,
         deal: false,
         deal_price: null,
@@ -247,7 +272,7 @@ async function chat(messages, { turn, prevAsk, userText }) {
   const fallback = !result;
   if (fallback) {
     result = {
-      reply: `Thanks for your message. I'm staying at $${prevAsk} for now — what's the best you can do?`,
+      reply: `Thanks for your message. I'm staying at ₹${prevAsk} for now — what's the best you can do?`,
       current_ask: prevAsk,
       buyer_offer: null,
       deal: false,
