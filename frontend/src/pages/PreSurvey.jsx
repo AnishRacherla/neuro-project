@@ -26,6 +26,14 @@ const TRUST_ITEMS = [
   'I am suspicious of the intentions, actions, or outputs of AI chatbots.',
 ];
 
+function parsePrice(val) {
+  if (typeof val === 'number') return val;
+  if (!val || typeof val !== 'string') return NaN;
+  const s = val.replace(/[,₹]/g, '').trim().toLowerCase();
+  if (s.endsWith('k')) return parseFloat(s.slice(0, -1)) * 1000;
+  return parseFloat(s);
+}
+
 export default function PreSurvey({ session, onNext }) {
   const [form, setForm] = useState({
     age: '',
@@ -50,16 +58,17 @@ export default function PreSurvey({ session, onNext }) {
   });
 
   const age = parseInt(form.age, 10);
-  const fair = parseFloat(form.fairPriceGuess);
+  const fair = parsePrice(form.fairPriceGuess);
+  const maxPay = parsePrice(form.maxWillingToPay);
 
   const missing = {
     age: !(age >= 18 && age <= 99),
     negotiationExp: form.negotiationExp === null,
     llmUsage: form.llmUsage === null,
-    fairPriceGuess: !(fair > 0),
+    fairPriceGuess: !(fair > 0 && fair < 1000000),
     englishFluency: form.englishFluency === null,
     haggleComfort: form.haggleComfort === null,
-    maxWillingToPay: !(parseFloat(form.maxWillingToPay) > 0),
+    maxWillingToPay: !(maxPay > 0 && maxPay < 1000000),
     aiHasFeelings: form.aiHasFeelings === null,
     attention: form.attention === null,
   };
@@ -71,7 +80,16 @@ export default function PreSurvey({ session, onNext }) {
   async function handleSubmit(e) {
     e.preventDefault();
     setServerError('');
-    if (anyMissing) { setShowErrors(true); return; }
+    if (anyMissing) {
+      setShowErrors(true);
+      setTimeout(() => {
+        const firstInvalid = document.querySelector('.field.invalid, .likert-row.invalid, .field-error');
+        if (firstInvalid) {
+          firstInvalid.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+      }, 50);
+      return;
+    }
     setLoading(true);
     try {
       await submitPreSurvey({
@@ -82,7 +100,7 @@ export default function PreSurvey({ session, onNext }) {
         fairPriceGuess: fair,
         englishFluency: form.englishFluency,
         haggleComfort: form.haggleComfort,
-        maxWillingToPay: parseFloat(form.maxWillingToPay),
+        maxWillingToPay: maxPay,
         aiHasFeelings: form.aiHasFeelings,
         attention: form.attention,
         empathyItems: form.empathyItems,
@@ -137,8 +155,9 @@ export default function PreSurvey({ session, onNext }) {
           </p>
           <div className={`field ${showErrors && missing.fairPriceGuess ? 'invalid' : ''}`}>
             <label>What price (in ₹) would you consider fair? *</label>
-            <input type="number" min="1" className="num-input" value={form.fairPriceGuess}
+            <input type="text" inputMode="numeric" placeholder="e.g. 25000 or 25,000" className="num-input" value={form.fairPriceGuess}
               onChange={e => setField('fairPriceGuess', e.target.value)} />
+            {showErrors && missing.fairPriceGuess && <div className="field-error">Please enter a valid price in rupees (e.g. 25000).</div>}
           </div>
         </section>
 
@@ -146,9 +165,9 @@ export default function PreSurvey({ session, onNext }) {
           <h3>Your budget</h3>
           <div className={`field ${showErrors && missing.maxWillingToPay ? 'invalid' : ''}`}>
             <label>What is the maximum you would be willing to pay for this laptop? (in ₹) *</label>
-            <input type="number" min="1" className="num-input" value={form.maxWillingToPay}
+            <input type="text" inputMode="numeric" placeholder="e.g. 27000 or 27,000" className="num-input" value={form.maxWillingToPay}
               onChange={e => setField('maxWillingToPay', e.target.value)} />
-            {showErrors && missing.maxWillingToPay && <div className="field-error">Please enter a value greater than 0.</div>}
+            {showErrors && missing.maxWillingToPay && <div className="field-error">Please enter a valid price in rupees (e.g. 27000).</div>}
           </div>
         </section>
 
@@ -177,7 +196,7 @@ export default function PreSurvey({ session, onNext }) {
             invalid={showErrors && form.attention === null} />
         </section>
 
-        {showErrors && anyMissing && <p className="form-error">Some questions above still need an answer.</p>}
+        {showErrors && anyMissing && <p className="form-error">Some questions above still need an answer. Please review the highlighted fields.</p>}
         {serverError && <p className="form-error">{serverError}</p>}
 
         <button type="submit" className="btn primary" disabled={loading}>

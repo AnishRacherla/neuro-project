@@ -1,5 +1,5 @@
 // ThankYou.jsx — Full post-study debrief
-export default function ThankYou({ session }) {
+export default function ThankYou({ session, onRestart }) {
   return (
     <div className="page thankyou">
       <div className="thankyou-icon">🎉</div>
@@ -7,6 +7,14 @@ export default function ThankYou({ session }) {
       <p>Your responses have been saved. You have completed the study.</p>
       <p><strong>Participant ID:</strong> {session?.participantId}</p>
       <p className="hint">Save this ID if you wish to request deletion of your data later.</p>
+
+      {onRestart && (
+        <div style={{ margin: '1.5rem 0', textAlign: 'center' }}>
+          <button type="button" className="btn primary" onClick={onRestart}>
+            🔄 Start New Participant / Test Again
+          </button>
+        </div>
+      )}
 
       <div className="card">
         <h3>Study Debrief</h3>
@@ -59,6 +67,14 @@ export default function ThankYou({ session }) {
       </div>
 
       <p className="small">You may now close this window.</p>
+
+      {onRestart && (
+        <div style={{ marginTop: '1.5rem', textAlign: 'center' }}>
+          <button type="button" className="btn secondary" onClick={onRestart}>
+            🔄 Start New Participant / Test Again
+          </button>
+        </div>
+      )}
     </div>
   );
 }

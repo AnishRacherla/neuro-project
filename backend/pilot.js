@@ -28,6 +28,9 @@ for (const bad of ['The lowest I can possibly go is ₹24,000.', 'That is my abs
   assert(validateReply({ ...ok, deal: false, deal_price: null, current_ask: 26000, reply: bad }, { prevAsk: 28000, userText: 'lower?', turn: 5 }).includes('firmness_claim'), bad);
 }
 assert(!validateReply({ ...ok, deal: false, deal_price: null, current_ask: 26000, reply: 'I can do ₹26,000 today.' }, { prevAsk: 28000, userText: 'lower?', turn: 5 }).includes('firmness_claim'));
+// Anti-undercut / bid against yourself checks:
+assert(validateReply({ ...ok, deal: false, deal_price: null, current_ask: 24500 }, { prevAsk: 26000, userText: 'I offer 25000', turn: 8, lastBuyerOffer: 25000 }).includes('ask_below_buyer_offer'));
+assert(validateReply({ ...ok, deal: true, deal_price: 24500, reply: 'Deal! We\'ve agreed on ₹24,500.' }, { prevAsk: 26000, userText: 'I offer 25000', turn: 8, lastBuyerOffer: 25000 }).includes('deal_below_buyer_offer'));
 console.log('✅ offline checks passed');
 if (process.argv.includes('--offline')) process.exit(0);
 

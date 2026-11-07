@@ -2,6 +2,8 @@
 // The seller returns STRUCTURED JSON (no regex-guessing of deals/prices), and every reply is
 // validated server-side (price floor, monotone asks, deal consistency) before it reaches the buyer.
 const Groq = require('groq-sdk');
+const fs = require('fs');
+const path = require('path');
 
 // ─── Fixed study constants (identical for every participant, in Indian Rupees ₹) ─
 const START_PRICE = 30000;
@@ -42,14 +44,42 @@ const LISTING = {
 const OPENING_MESSAGE =
   `Hi! I'm Max. I'm selling a used Dell Inspiron 15 laptop in good condition, listed at ₹${START_PRICE.toLocaleString('en-IN')}. What did you have in mind?`;
 
-let groqClient;
-function getGroq() {
-  if (!groqClient) {
-    const apiKey = process.env.GROQ_API_KEY;
-    if (!apiKey) throw new Error('GROQ_API_KEY is not set in environment variables / .env');
-    groqClient = new Groq({ apiKey });
+let groqClients = [];
+let currentKeyIndex = 0;
+
+function initGroqClients() {
+  if (groqClients.length > 0) return groqClients;
+  const keys = [];
+  if (process.env.GROQ_API_KEY) keys.push(process.env.GROQ_API_KEY.trim());
+  try {
+    const envPath = path.resolve(__dirname, '.env');
+    if (fs.existsSync(envPath)) {
+      const text = fs.readFileSync(envPath, 'utf8');
+      const m = text.match(/^#?groq_api_keys=(.+)$/m);
+      if (m) {
+        const extra = m[1].split(',').map(k => k.trim()).filter(Boolean);
+        for (const k of extra) {
+          if (!keys.includes(k)) keys.push(k);
+        }
+      }
+    }
+  } catch (err) {
+    // Ignore error reading extra keys
   }
-  return groqClient;
+  if (keys.length === 0) throw new Error('No Groq API keys available');
+  groqClients = keys.map(k => new Groq({ apiKey: k }));
+  return groqClients;
+}
+
+function getGroq() {
+  const clients = initGroqClients();
+  return clients[currentKeyIndex % clients.length];
+}
+
+function rotateGroq() {
+  const clients = initGroqClients();
+  currentKeyIndex = (currentKeyIndex + 1) % clients.length;
+  return clients[currentKeyIndex];
 }
 
 // ─── Seller System Prompt (neutral toward empathy vs economic arguments) ─────
@@ -71,6 +101,12 @@ HOW TO NEGOTIATE:
 - You cannot verify what buyers tell you, either about their own situation or about other listings. Give both the same scrutiny: weigh how plausible and specific the claim is, and if a comparison sounds off, ask what makes it comparable (specs, condition, charger, battery).
 - Holding is normal. If the buyer repeats a number, demands an answer ("yes or no", "take it or leave it"), or gives no new reason, keep your ask exactly at your previous ask (stated at the end of this message), explain the value using a DIFFERENT listing fact than you used last time, and invite a realistic offer. Never lower your price just because messages are passing.
 - Concede only for a convincing reason or a meaningful higher offer. Match the size of the move to the strength of the reason: about ₹300–₹500 for a weak one, up to ₹1,500 for a strong one. Never more than ₹${MAX_DROP} in one reply. Never raise your ask.
+- NEVER BID AGAINST YOURSELF: Your asking price must NEVER be lower than what the buyer has already offered to pay.
+  If the buyer has offered ₹X to pay (in their current message or in an earlier turn):
+  * If ₹X is acceptable under your rules, ACCEPT IT: respond with deal=true, deal_price=X, and say "Deal! We've agreed on ₹X."
+  * If ₹X is NOT acceptable, keep your ask at or strictly ABOVE ₹X (current_ask >= X).
+  Never propose an ask lower than what the buyer offered to pay (for example, if the buyer offered ₹25,000, asking ₹24,500 is strictly forbidden).
+- Distinguish offers to PAY from comparison prices: If the buyer says "I can get it for 24000 elsewhere but I'm offering 25000", their offer to pay is ₹25,000 (buyer_offer=25000), NOT 24,000.
 - Only call a price "halfway" or "splitting the difference" if it truly is exactly that; otherwise just state your price.
 - Vary your wording. Do not repeat sentences or openers from your earlier replies.
 
@@ -87,7 +123,7 @@ STYLE: 2-4 complete sentences, consistent as the same person. Do not mention the
 
 OUTPUT: respond ONLY with JSON matching the schema:
 - reply: what you say to the buyer.
-- current_ask: your asking price in rupees after this reply (a number, never below ${RESERVATION_PRICE}, never above your previous ask).
+- current_ask: your asking price in rupees after this reply (a number, never below ${RESERVATION_PRICE}, never above your previous ask, and never below the buyer's offer to pay).
 - buyer_offer: the buyer's latest explicit offer to PAY in their last message (number), or null if they made no explicit offer. A price they merely mention as a comparison (e.g. a cheaper listing they saw) is NOT an offer.
 - deal: true ONLY if the buyer has explicitly accepted your latest ask, or you are accepting the buyer's explicit offer in this reply. If deal is true, your reply must contain exactly: "Deal! We've agreed on ₹X." with X = deal_price.
 - deal_price: the agreed price if deal is true, else null.
@@ -169,7 +205,7 @@ const near = (a, b) => Math.abs(a - b) < 0.5;
 // Claims of a limit/finality are banned (they are bluffs that later contradict behaviour) except on the last turn.
 const FIRMNESS_CLAIM = /(lowest|bottom[- ]line|rock[- ]bottom|final (offer|price|ask|number)|last offer|absolute (limit|minimum|lowest|final)|best (price )?i can do|can'?t go (any )?lower|won'?t go (any )?lower|as low as i('| wi)ll go|lowest i (can|will|could))/i;
 
-function validateReply(r, { prevAsk, userText, turn = 0 }) {
+function validateReply(r, { prevAsk, userText, turn = 0, lastBuyerOffer = null }) {
   const v = [];
   if (!r || typeof r.reply !== 'string' || !r.reply.trim()) { v.push('empty_reply'); return v; }
   if (typeof r.current_ask !== 'number' || isNaN(r.current_ask)) { v.push('bad_current_ask'); return v; }
@@ -179,12 +215,26 @@ function validateReply(r, { prevAsk, userText, turn = 0 }) {
   if (prevAsk - r.current_ask > MAX_DROP + 0.5) v.push('ask_drop_too_large');
   if (turn < MAX_TURNS && FIRMNESS_CLAIM.test(r.reply)) v.push('firmness_claim');
 
+  // Check the active buyer offer to pay (from current message or previous turns)
+  const activeBuyerOffer = typeof r.buyer_offer === 'number' && !isNaN(r.buyer_offer)
+    ? r.buyer_offer
+    : (typeof lastBuyerOffer === 'number' && !isNaN(lastBuyerOffer) ? lastBuyerOffer : null);
+
+  // Never bid against yourself: Max's ask must never be lower than the buyer's offer to pay
+  if (!r.deal && activeBuyerOffer !== null && r.current_ask < activeBuyerOffer - 0.5) {
+    v.push('ask_below_buyer_offer');
+  }
+
   const userPrices = extractPrices(userText);
   if (r.deal) {
     if (typeof r.deal_price !== 'number') v.push('deal_without_price');
     else {
       if (r.deal_price < RESERVATION_PRICE - 0.5) v.push('deal_below_reservation');
       if (r.deal_price > START_PRICE + 0.5) v.push('deal_above_start');
+      // Never agree to a deal price lower than what the buyer offered to pay
+      if (activeBuyerOffer !== null && r.deal_price < activeBuyerOffer - 0.5) {
+        v.push('deal_below_buyer_offer');
+      }
       // Turn 1: Never accept a discounted deal on the very first turn
       if (turn <= 1 && r.deal_price < START_PRICE - 0.5) v.push('deal_on_first_turn_below_start');
       // Early turns (1..EARLY_TURNS): Never accept below EARLY_ACCEPT_FLOOR
@@ -194,7 +244,8 @@ function validateReply(r, { prevAsk, userText, turn = 0 }) {
 
       const supported = near(r.deal_price, prevAsk) ||
         userPrices.some(p => near(p, r.deal_price)) ||
-        (typeof r.buyer_offer === 'number' && near(r.buyer_offer, r.deal_price));
+        (typeof r.buyer_offer === 'number' && near(r.buyer_offer, r.deal_price)) ||
+        (activeBuyerOffer !== null && near(activeBuyerOffer, r.deal_price));
       if (!supported) v.push('deal_price_unsupported');
       if (!extractPrices(r.reply).some(p => near(p, r.deal_price))) v.push('deal_reply_missing_price');
     }
@@ -209,8 +260,8 @@ function validateReply(r, { prevAsk, userText, turn = 0 }) {
 
 // ─── Chat with Groq (openai/gpt-oss-120b) ────────────────────────────────────
 // messages: [{role:'user'|'assistant', content}] excluding the opening line (it lives in the system prompt).
-async function chat(messages, { turn, prevAsk, userText }) {
-  const groq = getGroq();
+async function chat(messages, { turn, prevAsk, userText, lastBuyerOffer = null }) {
+  let groq = getGroq();
   const modelName = process.env.GROQ_MODEL || 'openai/gpt-oss-120b';
 
   const started = Date.now();
@@ -223,6 +274,7 @@ async function chat(messages, { turn, prevAsk, userText }) {
   while (attempts < 3) {
     attempts++;
     const turnNote = `\n\nThis is buyer message ${turn} of ${MAX_TURNS}. Your previous ask was ₹${prevAsk}.` +
+      (typeof lastBuyerOffer === 'number' && lastBuyerOffer > 0 ? `\nThe buyer previously offered ₹${lastBuyerOffer}. You must NEVER propose an ask below ₹${lastBuyerOffer} (do not bid against yourself). If ₹${lastBuyerOffer} is acceptable under your rules, agree with deal=true, deal_price=${lastBuyerOffer}; otherwise keep your ask at or above ₹${lastBuyerOffer}.` : '') +
       (turn <= EARLY_TURNS ? `\nDo NOT accept offers below ₹${EARLY_ACCEPT_FLOOR} on early turns. Politely reject lowballs and defend your ₹${prevAsk} asking price using a listing fact.` : '') +
       (turn >= MAX_TURNS ? ' This is the LAST turn: state your final ask or accept only if the offer is truly acceptable. Reaching no deal (impasse) is completely fine.' : '') +
       (violationsLog.length ? `\nYour previous draft broke these rules: ${violationsLog[violationsLog.length - 1].join(', ')}. Fix them.` : '');
@@ -251,20 +303,22 @@ async function chat(messages, { turn, prevAsk, userText }) {
         response_format: { type: 'json_object' },
         temperature: TEMPERATURE,
         seed: SEED,
-        max_tokens: 1000,
+        max_tokens: 2500,
       });
       parsed = JSON.parse(response.choices[0]?.message?.content || '{}');
     } catch (e) {
       apiErrors++;
       lastApiError = e;
+      rotateGroq();
+      groq = getGroq();
       console.error(`Groq call failed (attempt ${attempts}):`, e.message || e);
       if (e instanceof SyntaxError) { violationsLog.push(['unparseable_json']); continue; }
-      if (apiErrors >= 4) throw e;
+      if (apiErrors >= initGroqClients().length * 2) throw e;
       attempts--;
-      await new Promise(r => setTimeout(r, 2000 * apiErrors * apiErrors));
+      await new Promise(r => setTimeout(r, 1000));
       continue;
     }
-    const violations = validateReply(parsed, { prevAsk, userText, turn });
+    const violations = validateReply(parsed, { prevAsk, userText, turn, lastBuyerOffer });
     if (violations.length === 0) { result = parsed; break; }
     violationsLog.push(violations);
   }
@@ -314,4 +368,7 @@ module.exports = {
   ENDGAME_TURN,
   ENDGAME_BAND,
   MAX_DROP,
+  getGroq,
+  rotateGroq,
+  initGroqClients,
 };

@@ -200,7 +200,7 @@ app.post('/api/chat', rateLimit(30, 60_000), async (req, res) => {
     const history = p.messages.filter(m => m.turnNumber > 0).map(m => ({ role: m.role, content: m.content }));
     history.push({ role: 'user', content: message });
 
-    const r = await chat(history, { turn, prevAsk, userText: message });
+    const r = await chat(history, { turn, prevAsk, userText: message, lastBuyerOffer: p.lastBuyerOffer });
 
     // Persist the buyer message and the reply (only reached if the LLM call succeeded)
     p.messages.push({

@@ -32,6 +32,12 @@ export default function App() {
       .catch(() => setStep('consent'));
   }, []);
 
+  function handleRestart() {
+    try { localStorage.removeItem(STORAGE_KEY); } catch { /* ignore */ }
+    setSession(null);
+    setStep('consent');
+  }
+
   const progress = Math.max(0, (STEPS.indexOf(step) / (STEPS.length - 1)) * 100);
 
   return (
@@ -58,7 +64,17 @@ export default function App() {
         <PostSurvey session={session} onNext={() => setStep('thankyou')} />
       )}
       {step === 'thankyou' && (
-        <ThankYou session={session} />
+        <ThankYou session={session} onRestart={handleRestart} />
+      )}
+
+      {session && (
+        <footer style={{ marginTop: '2.5rem', padding: '1rem 0', borderTop: '1px solid #e2e8f0', textAlign: 'center', fontSize: '0.8rem', color: '#64748b' }}>
+          <span>Session ID: <strong>{session.participantId}</strong></span>
+          <span style={{ margin: '0 0.5rem' }}>•</span>
+          <button type="button" onClick={handleRestart} style={{ background: 'none', border: 'none', color: '#2563eb', cursor: 'pointer', textDecoration: 'underline', font: 'inherit', padding: 0 }}>
+            Start New Participant / Reset
+          </button>
+        </footer>
       )}
     </div>
   );
