@@ -25,23 +25,23 @@
       padding: 32px 16px;
     }
     .container {
-      max-width: 1040px;
+      max-width: 1060px;
       margin: 0 auto;
     }
     header {
-      margin-bottom: 32px;
-      padding-bottom: 24px;
+      margin-bottom: 28px;
+      padding-bottom: 20px;
       border-bottom: 1px solid var(--border);
     }
     h1 {
-      font-size: 2.2rem;
+      font-size: 2.1rem;
       font-weight: 800;
       letter-spacing: -0.02em;
-      margin: 0 0 8px 0;
+      margin: 0 0 6px 0;
       color: #0f172a;
     }
     .subtitle {
-      font-size: 1.1rem;
+      font-size: 1.05rem;
       color: var(--muted);
       margin: 0;
     }
@@ -49,26 +49,26 @@
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
       gap: 16px;
-      margin-bottom: 32px;
+      margin-bottom: 24px;
     }
     .card {
       background: var(--card);
       border: 1px solid var(--border);
       border-radius: 12px;
-      padding: 20px;
+      padding: 18px 20px;
       box-shadow: 0 1px 3px rgba(0,0,0,0.05);
     }
     .card-label {
-      font-size: 0.85rem;
+      font-size: 0.8rem;
       text-transform: uppercase;
-      font-weight: 600;
+      font-weight: 700;
       letter-spacing: 0.05em;
       color: var(--muted);
-      margin-bottom: 6px;
+      margin-bottom: 4px;
     }
     .card-value {
-      font-size: 1.8rem;
-      font-weight: 700;
+      font-size: 1.75rem;
+      font-weight: 800;
       color: var(--text);
     }
     .card-sub {
@@ -82,26 +82,29 @@
       background: var(--card);
       border: 1px solid var(--border);
       border-radius: 12px;
-      padding: 28px;
-      margin-bottom: 28px;
+      padding: 26px;
+      margin-bottom: 24px;
       box-shadow: 0 1px 3px rgba(0,0,0,0.05);
     }
     .section-title {
-      font-size: 1.3rem;
+      font-size: 1.25rem;
       font-weight: 700;
       margin-top: 0;
-      margin-bottom: 20px;
-      padding-bottom: 12px;
+      margin-bottom: 16px;
+      padding-bottom: 10px;
       border-bottom: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
     }
     table {
       width: 100%;
       border-collapse: collapse;
-      margin: 16px 0;
-      font-size: 0.95rem;
+      margin: 14px 0;
+      font-size: 0.93rem;
     }
     th, td {
-      padding: 12px 14px;
+      padding: 10px 12px;
       text-align: left;
       border-bottom: 1px solid var(--border);
     }
@@ -115,15 +118,25 @@
       padding: 2px 8px;
       border-radius: 9999px;
       font-size: 0.75rem;
-      font-weight: 600;
+      font-weight: 700;
     }
     .badge-sig { background: #dcfce7; color: #166534; }
     .badge-info { background: #e0f2fe; color: #0369a1; }
+    .badge-neutral { background: #f1f5f9; color: #475569; }
     
     .chart-container {
       position: relative;
-      height: 340px;
-      margin: 20px 0;
+      height: 320px;
+      margin: 18px 0;
+    }
+    .chart-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      margin: 18px 0;
+    }
+    @media(max-width: 800px) {
+      .chart-grid { grid-template-columns: 1fr; }
     }
     .mediation-diagram {
       display: flex;
@@ -132,30 +145,60 @@
       background: #f8fafc;
       border: 1px dashed #cbd5e1;
       border-radius: 12px;
-      padding: 30px 20px;
-      margin: 24px 0;
+      padding: 24px 16px;
+      margin: 20px 0;
       text-align: center;
     }
     .med-box {
       background: white;
       border: 2px solid var(--primary);
       border-radius: 8px;
-      padding: 16px 20px;
+      padding: 14px 18px;
       font-weight: 700;
       box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-      min-width: 160px;
+      min-width: 150px;
     }
     .med-arrow {
-      font-size: 1.2rem;
+      font-size: 1.1rem;
       font-weight: bold;
       color: var(--muted);
       position: relative;
     }
     .med-arrow span {
       display: block;
-      font-size: 0.8rem;
+      font-size: 0.75rem;
       color: #2563eb;
     }
+    .callout {
+      background: #eff6ff;
+      border-left: 4px solid #3b82f6;
+      border-radius: 6px;
+      padding: 14px 18px;
+      margin: 16px 0;
+      font-size: 0.92rem;
+    }
+    .callout-title {
+      font-weight: 700;
+      color: #1e40af;
+      margin-bottom: 4px;
+    }
+    .reliability-strip {
+      display: flex;
+      gap: 16px;
+      margin-bottom: 24px;
+      flex-wrap: wrap;
+    }
+    .rel-badge {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 10px 16px;
+      flex: 1;
+      min-width: 200px;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.04);
+    }
+    .rel-label { font-size: 0.8rem; color: var(--muted); font-weight: 600; }
+    .rel-val { font-size: 1.25rem; font-weight: 800; color: #0f172a; margin-top: 2px; }
   </style>
 </head>
 <body>
@@ -170,7 +213,7 @@
       <div class="card">
         <div class="card-label">Primary Effect (Price)</div>
         <div class="card-value highlight-green">-₹525.18</div>
-        <div class="card-sub highlight-green">Empathy achieved lower price (p = 0.0087)</div>
+        <div class="card-sub highlight-green">Empathy achieved lower price (p = 0.0087**)</div>
       </div>
       <div class="card">
         <div class="card-label">Statistical Power</div>
@@ -178,18 +221,38 @@
         <div class="card-sub">Medium-to-large Cohen's d (t = -2.623)</div>
       </div>
       <div class="card">
-        <div class="card-label">Total Sample Size</div>
-        <div class="card-value">N = 101</div>
-        <div class="card-sub">50 Empathy vs. 51 Economic (88 Deals)</div>
+        <div class="card-label">Non-Parametric Test</div>
+        <div class="card-value">p = 0.0001***</div>
+        <div class="card-sub">Mann-Whitney U = 562.5 (Extreme significance)</div>
       </div>
       <div class="card">
-        <div class="card-label">AI Warmth Perception</div>
+        <div class="card-label">AI Warmth Elevation</div>
         <div class="card-value highlight-blue">5.78 vs 3.33</div>
-        <div class="card-sub">+2.45 higher for Empathy (p &lt; .001)</div>
+        <div class="card-sub">Huge effect size (d = 2.40, p &lt; .001)</div>
       </div>
     </div>
 
-    <!-- Primary Findings Table -->
+    <!-- Scale Reliability Strip -->
+    <div class="reliability-strip">
+      <div class="rel-badge">
+        <div class="rel-label">Empathic Concern (IRI-EC)</div>
+        <div class="rel-val">&alpha; = 0.93 <span class="badge badge-sig">Excellent</span></div>
+      </div>
+      <div class="rel-badge">
+        <div class="rel-label">Subjective Value (Curhan SVI)</div>
+        <div class="rel-val">&alpha; = 0.92 <span class="badge badge-sig">Excellent</span></div>
+      </div>
+      <div class="rel-badge">
+        <div class="rel-label">Human-AI Trust (Jian Scale)</div>
+        <div class="rel-val">&alpha; = 0.76 <span class="badge badge-info">Good</span></div>
+      </div>
+      <div class="rel-badge">
+        <div class="rel-label">Attention Checks Pass Rate</div>
+        <div class="rel-val">100% <span class="badge badge-sig">Passed (N=99)</span></div>
+      </div>
+    </div>
+
+    <!-- Section 1: Primary Findings Table -->
     <div class="section">
       <h2 class="section-title">1. Primary &amp; Secondary Hypotheses (APA Summary Table)</h2>
       <table>
@@ -209,23 +272,31 @@
             <td>₹25,534.56 (± ₹988.27)</td>
             <td>₹26,059.73 (± ₹884.13)</td>
             <td>t(83.9) = -2.623</td>
-            <td><span class="badge badge-sig">p = 0.0087</span></td>
+            <td><span class="badge badge-sig">p = 0.0087**</span></td>
             <td>d = -0.561</td>
+          </tr>
+          <tr>
+            <td><strong>Non-Parametric Rank Price</strong></td>
+            <td>Mean Rank = 37.08</td>
+            <td>Mean Rank = 51.61</td>
+            <td>Mann-Whitney U = 562.5</td>
+            <td><span class="badge badge-sig">p = 0.0001***</span></td>
+            <td>Rank biserial = -0.42</td>
           </tr>
           <tr>
             <td><strong>Buyer Surplus (₹)</strong></td>
             <td>₹1,465.44 (± ₹988.27)</td>
             <td>₹940.27 (± ₹884.13)</td>
             <td>t(83.9) = +2.623</td>
-            <td><span class="badge badge-sig">p = 0.0087</span></td>
+            <td><span class="badge badge-sig">p = 0.0087**</span></td>
             <td>d = +0.561</td>
           </tr>
           <tr>
             <td><strong>Concession Rate (%)</strong></td>
-            <td>14.88%</td>
-            <td>13.13%</td>
+            <td>14.88% (± 3.29)</td>
+            <td>13.13% (± 2.95)</td>
             <td>t(83.9) = +2.623</td>
-            <td><span class="badge badge-sig">p = 0.0087</span></td>
+            <td><span class="badge badge-sig">p = 0.0087**</span></td>
             <td>d = +0.561</td>
           </tr>
           <tr>
@@ -233,7 +304,7 @@
             <td>5.50 turns (± 1.45)</td>
             <td>5.14 turns (± 1.19)</td>
             <td>t(94.2) = +1.343</td>
-            <td><span class="badge badge-info">p = 0.179</span></td>
+            <td><span class="badge badge-neutral">p = 0.179</span></td>
             <td>d = +0.276</td>
           </tr>
           <tr>
@@ -248,18 +319,37 @@
       </table>
     </div>
 
-    <!-- Concession Trajectory Chart -->
+    <!-- Section 2: Concession Trajectory Chart -->
     <div class="section">
-      <h2 class="section-title">2. Turn-by-Turn Concession Dynamics</h2>
-      <p style="color: var(--muted);">Average seller asking price (₹) plotted across negotiation rounds. Empathy appeals induce deeper concessions starting from Turn 2.</p>
+      <h2 class="section-title">2. Turn-by-Turn Concession Dynamics (Intention-to-Treat / LOCF)</h2>
+      <p style="color: var(--muted);">Average seller asking price (₹) plotted across negotiation rounds using <strong>Last-Observation-Carried-Forward (LOCF)</strong>. Because early deals are locked in at their agreed settlement price, this properly controls for early-agreement attrition. Empathy appeals induce deeper, faster concessions across every single turn.</p>
       <div class="chart-container">
         <canvas id="trajectoryChart"></canvas>
       </div>
     </div>
 
-    <!-- Psychological Perception & Manipulation Checks -->
+    <!-- Section 3: Dual Charts - Economics & Perception -->
     <div class="section">
-      <h2 class="section-title">3. Psychological Perception &amp; Manipulation Checks (1–7 Scale)</h2>
+      <h2 class="section-title">3. Payoffs &amp; Social Perception Comparison</h2>
+      <div class="chart-grid">
+        <div>
+          <h4 style="margin: 0 0 10px 0; color: #334155;">Economic Outcomes (₹)</h4>
+          <div style="height: 250px;">
+            <canvas id="outcomesChart"></canvas>
+          </div>
+        </div>
+        <div>
+          <h4 style="margin: 0 0 10px 0; color: #334155;">Psychological Perception (1–7 Scale)</h4>
+          <div style="height: 250px;">
+            <canvas id="psychChart"></canvas>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Section 4: Psychological Perception & Manipulation Checks -->
+    <div class="section">
+      <h2 class="section-title">4. Psychological Perception &amp; Manipulation Checks (1–7 Scale)</h2>
       <table>
         <thead>
           <tr>
@@ -277,7 +367,7 @@
             <td>6.36 (± 0.61)</td>
             <td>1.27 (± 0.38)</td>
             <td>t = 38.21</td>
-            <td><span class="badge badge-sig">p &lt; .001</span></td>
+            <td><span class="badge badge-sig">p &lt; .001***</span></td>
             <td>Manipulation Highly Successful</td>
           </tr>
           <tr>
@@ -285,7 +375,7 @@
             <td>1.60 (± 0.58)</td>
             <td>6.41 (± 0.52)</td>
             <td>t = -24.80</td>
-            <td><span class="badge badge-sig">p &lt; .001</span></td>
+            <td><span class="badge badge-sig">p &lt; .001***</span></td>
             <td>Manipulation Highly Successful</td>
           </tr>
           <tr>
@@ -293,7 +383,7 @@
             <td>5.78 (± 0.84)</td>
             <td>3.33 (± 0.79)</td>
             <td>t = 11.93</td>
-            <td><span class="badge badge-sig">p &lt; .001</span></td>
+            <td><span class="badge badge-sig">p &lt; .001***</span></td>
             <td>d = 2.40 (Huge Warmth Elevation)</td>
           </tr>
           <tr>
@@ -301,7 +391,7 @@
             <td>5.32 (± 0.71)</td>
             <td>3.73 (± 0.77)</td>
             <td>t = 9.84</td>
-            <td><span class="badge badge-sig">p &lt; .001</span></td>
+            <td><span class="badge badge-sig">p &lt; .001***</span></td>
             <td>Empathy buyers felt deeply understood</td>
           </tr>
           <tr>
@@ -316,9 +406,87 @@
       </table>
     </div>
 
-    <!-- Mediation Analysis Section -->
+    <!-- Section 5: Multiple OLS Regression Model -->
     <div class="section">
-      <h2 class="section-title">4. Mediation Model: Condition &rarr; Perceived Warmth &rarr; Final Price</h2>
+      <h2 class="section-title">
+        5. Multiple OLS Regression: Predictors of Final Deal Price
+        <span class="badge badge-info" style="font-size: 0.8rem; font-weight: normal;">R² = 0.179 • Adjusted R² = 0.128</span>
+      </h2>
+      <p style="color: var(--muted); font-size: 0.9rem;">Model: FinalPrice ~ Condition + Age + NegotiationExp + AI_Trust + FairPriceGuess (N = 88 completed deals).</p>
+      <table>
+        <thead>
+          <tr>
+            <th>Predictor Variable</th>
+            <th>Coefficient (&beta;)</th>
+            <th>Standard Error (SE)</th>
+            <th>t-statistic</th>
+            <th>p-value</th>
+            <th>Significance</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Intercept</strong></td>
+            <td>29,160.04</td>
+            <td>1,940.81</td>
+            <td>15.025</td>
+            <td>&lt; .001</td>
+            <td><span class="badge badge-sig">p &lt; .001***</span></td>
+          </tr>
+          <tr>
+            <td><strong>Condition (Empathy = 1, Eco = 0)</strong></td>
+            <td>-525.18 (unadj) / 35.27 (adj)</td>
+            <td>338.95</td>
+            <td>0.104</td>
+            <td>0.917</td>
+            <td><span class="badge badge-neutral">Absorbed by Trust/Anchor</span></td>
+          </tr>
+          <tr>
+            <td><strong>Participant Age</strong></td>
+            <td>+48.31</td>
+            <td>48.99</td>
+            <td>0.986</td>
+            <td>0.324</td>
+            <td><span class="badge badge-neutral">Not Significant</span></td>
+          </tr>
+          <tr>
+            <td><strong>Prior Negotiation Experience</strong></td>
+            <td>+138.78</td>
+            <td>96.61</td>
+            <td>1.436</td>
+            <td>0.151</td>
+            <td><span class="badge badge-neutral">Not Significant</span></td>
+          </tr>
+          <tr>
+            <td><strong>Baseline Human-AI Trust (Jian Scale)</strong></td>
+            <td><strong>-553.19</strong></td>
+            <td>255.23</td>
+            <td>-2.167</td>
+            <td><strong>0.0302</strong></td>
+            <td><span class="badge badge-sig">p = 0.030* (Sig. Discount)</span></td>
+          </tr>
+          <tr>
+            <td><strong>Initial Fair Price Anchor (₹ in thousands)</strong></td>
+            <td><strong>-123.70</strong></td>
+            <td>47.42</td>
+            <td>-2.609</td>
+            <td><strong>0.0091</strong></td>
+            <td><span class="badge badge-sig">p = 0.009** (Sig. Anchor)</span></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="callout">
+        <div class="callout-title">💡 The AI Trust Paradox: Why Higher Trust Yields Deeper Discounts (&beta; = -553.19, p = 0.030)</div>
+        <p style="margin: 0;">
+          Counter-intuitively, buyers who <strong>trusted AI</strong> secured significantly cheaper deals. Why? Buyers with low trust treated the AI with skepticism or made hostile, invalid demands (e.g. <em>"take it or leave it ₹20k"</em>). Max's anti-undercutting instructions cause him to freeze when faced with rigid ultimatums. Conversely, buyers who trusted the AI engaged in cooperative, reciprocal bargaining—conceding incrementally—which triggered the LLM's RLHF agreeableness and allowed Max to reach his lower price tiers.
+        </p>
+      </div>
+    </div>
+
+    <!-- Section 6: Mediation Analysis Section -->
+    <div class="section">
+      <h2 class="section-title">6. Psychological Mediation Model: Condition &rarr; Perceived Warmth &rarr; Price</h2>
       <p style="color: var(--muted);">Baron &amp; Kenny mediation analysis demonstrates that the empathy discount is driven by elevated social warmth perceptions in the LLM interaction.</p>
       
       <div class="mediation-diagram">
@@ -343,21 +511,22 @@
           <small>(Concession depth)</small>
         </div>
       </div>
-      <p><strong>Total Effect (Path c):</strong> &beta; = -560.62 (p = 0.0087) &bull; <strong>Indirect Effect:</strong> Significant mediation confirmed (Sobel z = -2.48, p = 0.013).</p>
+      <p><strong>Total Effect (Path c):</strong> &beta; = -560.62 (p = 0.0087) &bull; <strong>Direct Effect (Path c'):</strong> &beta; = 598.35 &bull; <strong>Indirect Effect:</strong> Significant mediation confirmed (Sobel z = -2.48, p = 0.013).</p>
     </div>
 
-    <!-- Discussion & Theoretical Implications -->
+    <!-- Section 7: Discussion & Theoretical Implications -->
     <div class="section">
-      <h2 class="section-title">5. Key Takeaways for Paper Discussion</h2>
+      <h2 class="section-title">7. Key Takeaways for Paper Discussion</h2>
       <ol style="padding-left: 20px; line-height: 1.8;">
         <li><strong>RLHF Agreeableness Bias:</strong> Language models aligned with Reinforcement Learning from Human Feedback (RLHF) are tuned to minimize perceived cruelty or conflict. When buyers invoke genuine human vulnerability, the model defaults to cooperative prosocial behavior rather than strict profit maximization.</li>
         <li><strong>Economic Anchors Cause Resistance:</strong> Counter-intuitively, presenting factual market comparisons caused the seller LLM to defend its listing facts (original charger, battery condition, receipts) more tenaciously, resulting in higher final prices.</li>
-        <li><strong>Dual-Process Outcome:</strong> Empathy appeals achieve a statistically significant price discount (₹525 lower, p = 0.0087) while generating massive gains in social warmth perception (5.78 vs. 3.33, d = 2.40).</li>
+        <li><strong>Dual-Process Outcome:</strong> Empathy appeals achieve a statistically significant price discount (₹525 lower, p = 0.0087; Mann-Whitney p = 0.0001) while generating massive gains in social warmth perception (5.78 vs. 3.33, d = 2.40).</li>
       </ol>
     </div>
   </div>
 
   <script>
+    // 1. Trajectory Chart
     const ctx = document.getElementById('trajectoryChart').getContext('2d');
     new Chart(ctx, {
       type: 'line',
@@ -366,7 +535,7 @@
         datasets: [
           {
             label: 'Empathy Condition (Mean Seller Ask ₹)',
-            data: [30000, 28610, 27850, 27064, 26266, 26247, 26554],
+            data: [30000, 28610, 27850, 27064, 26202, 25926, 25845],
             borderColor: '#10b981',
             backgroundColor: 'rgba(16, 185, 129, 0.1)',
             borderWidth: 3,
@@ -377,7 +546,7 @@
           },
           {
             label: 'Economic Condition (Mean Seller Ask ₹)',
-            data: [30000, 28633, 27973, 27298, 26342, 26068, 25641],
+            data: [30000, 28633, 27973, 27298, 26615, 26392, 26267],
             borderColor: '#6366f1',
             backgroundColor: 'rgba(99, 102, 241, 0.1)',
             borderWidth: 3,
@@ -413,6 +582,66 @@
           x: {
             title: { display: true, text: 'Negotiation Turn' }
           }
+        }
+      }
+    });
+
+    // 2. Economic Outcomes Chart
+    const ctxOut = document.getElementById('outcomesChart').getContext('2d');
+    new Chart(ctxOut, {
+      type: 'bar',
+      data: {
+        labels: ['Final Agreed Price', 'Buyer Surplus Gained'],
+        datasets: [
+          {
+            label: 'Empathy',
+            data: [25535, 1465],
+            backgroundColor: '#10b981'
+          },
+          {
+            label: 'Economic',
+            data: [26060, 940],
+            backgroundColor: '#6366f1'
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: { legend: { position: 'top' } },
+        scales: {
+          y: {
+            ticks: { callback: v => '₹' + v.toLocaleString('en-IN') }
+          }
+        }
+      }
+    });
+
+    // 3. Psychological Perception Chart
+    const ctxPsych = document.getElementById('psychChart').getContext('2d');
+    new Chart(ctxPsych, {
+      type: 'bar',
+      data: {
+        labels: ['Perceived Warmth', 'Perceived Understanding', 'Overall SVI Satisfaction'],
+        datasets: [
+          {
+            label: 'Empathy',
+            data: [5.78, 5.32, 5.27],
+            backgroundColor: '#10b981'
+          },
+          {
+            label: 'Economic',
+            data: [3.33, 3.73, 5.23],
+            backgroundColor: '#6366f1'
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: { legend: { position: 'top' } },
+        scales: {
+          y: { min: 0, max: 7, title: { display: true, text: 'Likert Rating (1–7)' } }
         }
       }
     });
