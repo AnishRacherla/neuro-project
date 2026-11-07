@@ -1,7 +1,8 @@
-// llm.js — LLM integration with Groq (openai/gpt-oss-120b)
+// llm.js — LLM integration (supports Groq, Motapis, and any OpenAI-compatible API)
 // The seller returns STRUCTURED JSON (no regex-guessing of deals/prices), and every reply is
 // validated server-side (price floor, monotone asks, deal consistency) before it reaches the buyer.
-const Groq = require('groq-sdk');
+require('dotenv').config();
+const OpenAI = require('openai');
 const fs = require('fs');
 const path = require('path');
 
@@ -44,11 +45,12 @@ const LISTING = {
 const OPENING_MESSAGE =
   `Hi! I'm Max. I'm selling a used Dell Inspiron 15 laptop in good condition, listed at ₹${START_PRICE.toLocaleString('en-IN')}. What did you have in mind?`;
 
-let groqClients = [];
+// Support multiple API keys (comma-separated in GROQ_API_KEYS or groq_api_keys in .env)
+let clients = [];
 let currentKeyIndex = 0;
 
 function initGroqClients() {
-  if (groqClients.length > 0) return groqClients;
+  if (clients.length > 0) return clients;
   const keys = [];
   if (process.env.GROQ_API_KEY) keys.push(process.env.GROQ_API_KEY.trim());
   try {
@@ -58,28 +60,30 @@ function initGroqClients() {
       const m = text.match(/^#?groq_api_keys=(.+)$/m);
       if (m) {
         const extra = m[1].split(',').map(k => k.trim()).filter(Boolean);
-        for (const k of extra) {
-          if (!keys.includes(k)) keys.push(k);
-        }
+        for (const k of extra) if (!keys.includes(k)) keys.push(k);
       }
     }
   } catch (err) {
     // Ignore error reading extra keys
   }
-  if (keys.length === 0) throw new Error('No Groq API keys available');
-  groqClients = keys.map(k => new Groq({ apiKey: k }));
-  return groqClients;
+  if (keys.length === 0) throw new Error('GROQ_API_KEY or OPENAI_API_KEY is not set in environment variables / .env');
+  clients = keys.map(k => {
+    const baseURL = process.env.GROQ_BASE_URL || process.env.OPENAI_BASE_URL ||
+      (k.startsWith('gsk_') ? 'https://api.groq.com/openai/v1' : 'https://motapis.com/v1');
+    return new OpenAI({ apiKey: k, baseURL });
+  });
+  return clients;
 }
 
 function getGroq() {
-  const clients = initGroqClients();
-  return clients[currentKeyIndex % clients.length];
+  const cl = initGroqClients();
+  return cl[currentKeyIndex % cl.length];
 }
 
 function rotateGroq() {
-  const clients = initGroqClients();
-  currentKeyIndex = (currentKeyIndex + 1) % clients.length;
-  return clients[currentKeyIndex];
+  const cl = initGroqClients();
+  currentKeyIndex = (currentKeyIndex + 1) % cl.length;
+  return cl[currentKeyIndex];
 }
 
 // ─── Seller System Prompt (neutral toward empathy vs economic arguments) ─────
@@ -262,7 +266,8 @@ function validateReply(r, { prevAsk, userText, turn = 0, lastBuyerOffer = null }
 // messages: [{role:'user'|'assistant', content}] excluding the opening line (it lives in the system prompt).
 async function chat(messages, { turn, prevAsk, userText, lastBuyerOffer = null }) {
   let groq = getGroq();
-  const modelName = process.env.GROQ_MODEL || 'openai/gpt-oss-120b';
+  const modelName = process.env.GROQ_MODEL || process.env.LLM_MODEL ||
+    (process.env.GROQ_API_KEY?.startsWith('gsk_') ? 'openai/gpt-oss-120b' : 'glm-5.3-flash');
 
   const started = Date.now();
   const violationsLog = [];
@@ -297,15 +302,23 @@ async function chat(messages, { turn, prevAsk, userText, lastBuyerOffer = null }
 
     let parsed = null;
     try {
-      const response = await groq.chat.completions.create({
+      const completionParams = {
         model: modelName,
         messages: formattedMessages,
         response_format: { type: 'json_object' },
         temperature: TEMPERATURE,
-        seed: SEED,
         max_tokens: 2500,
-      });
-      parsed = JSON.parse(response.choices[0]?.message?.content || '{}');
+      };
+      if (SEED !== undefined && !isNaN(SEED)) {
+        completionParams.seed = SEED;
+      }
+      const response = await groq.chat.completions.create(completionParams);
+      let raw = response.choices[0]?.message?.content || '{}';
+      raw = raw.trim();
+      if (raw.startsWith('```')) {
+        raw = raw.replace(/^```(?:json)?\s*/i, '').replace(/\s*```$/, '').trim();
+      }
+      parsed = JSON.parse(raw);
     } catch (e) {
       apiErrors++;
       lastApiError = e;
