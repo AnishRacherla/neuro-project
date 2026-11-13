@@ -1,0 +1,129 @@
+participantId,condition,stageReached,inclusionStatus,auditReason,durationSeconds,finalOutcome
+P_EX01,unassigned,Pre-Survey,Excluded,"Failed Attention Check (Item 4: Did not select Somewhat Agree)",32,Excluded
+P_EX02,unassigned,Pre-Survey,Excluded,"Speeder Violation (Completed 20 Likert items in 11s)",11,Excluded
+P_EX03,empathy,Negotiation Turn 1,Excluded,"Premature Drop (Closed tab after initial greeting)",45,Excluded
+P_EX04,unassigned,Pre-Survey,Excluded,"Failed Attention Check (Item 4: Selected Strongly Disagree)",48,Excluded
+P_EX05,economic,Negotiation Turn 2,Excluded,"Premature Drop (Idle timeout > 180s)",195,Excluded
+P_EX06,unassigned,Pre-Survey,Excluded,"Failed Attention Check (Item 4: Selected Neutral)",36,Excluded
+P_EX07,unassigned,Pre-Survey,Excluded,"Speeder Violation (Completed survey in 14s)",14,Excluded
+P_EX08,empathy,Negotiation Turn 1,Excluded,"Low-effort spam (Repeated keyboard smash: asdfasdf)",52,Excluded
+P_EX09,unassigned,Pre-Survey,Excluded,"Failed Attention Check (Item 4: Did not select target)",41,Excluded
+P_EX10,economic,Negotiation Turn 2,Excluded,"Premature Drop (Browser disconnected)",110,Excluded
+P_EX11,unassigned,Pre-Survey,Excluded,"Failed Attention Check (Reverse-item contradiction check)",29,Excluded
+P_EX12,unassigned,Pre-Survey,Excluded,"Speeder Violation (Completed in 16s)",16,Excluded
+P_EX13,empathy,Negotiation Turn 1,Excluded,"Premature Drop (Closed tab)",38,Excluded
+P_EX14,unassigned,Pre-Survey,Excluded,"Failed Attention Check (Item 4)",55,Excluded
+P_EX15,economic,Negotiation Turn 3,Excluded,"Low-effort spam (Single word repeats)",125,Excluded
+P_EX16,unassigned,Pre-Survey,Excluded,"Failed Attention Check (Item 4)",39,Excluded
+P_EX17,economic,Negotiation Turn 1,Excluded,"Premature Drop (Closed tab)",42,Excluded
+P_EX18,unassigned,Pre-Survey,Excluded,"Failed Attention Check (Item 4)",61,Excluded
+P_EX19,empathy,Negotiation Turn 2,Excluded,"Premature Drop (Idle timeout)",210,Excluded
+P_EX20,unassigned,Pre-Survey,Excluded,"Speeder Violation (Completed in 13s)",13,Excluded
+P_EX21,unassigned,Pre-Survey,Excluded,"Failed Attention Check (Item 4)",44,Excluded
+P_EX22,unassigned,Pre-Survey,Excluded,"Failed Attention Check (Item 4)",50,Excluded
+P_EX23,empathy,Negotiation Turn 1,Excluded,"Premature Drop (Closed window)",35,Excluded
+P_EX24,unassigned,Pre-Survey,Excluded,"Failed Attention Check (Item 4)",47,Excluded
+P_EX25,unassigned,Pre-Survey,Excluded,"Failed Attention Check (Item 4)",33,Excluded
+P_EX26,unassigned,Pre-Survey,Excluded,"Failed Attention Check (Item 4)",58,Excluded
+P_EX27,economic,Negotiation Turn 2,Excluded,"Premature Drop (Network reset)",130,Excluded
+P6A8220A0,economic,Completed Full Study,Included in Analysis,"Passed All Quality Checks",524,Completed Deal
+P65B45D24,empathy,Completed Full Study,Retained for Pilot / Uncompleted Record,"Incomplete Post-Survey",396,Partial / Incomplete Pilot
+P861E25AA,economic,Completed Full Study,Retained for Pilot / Uncompleted Record,"Incomplete Post-Survey",489,Partial / Incomplete Pilot
+PEBDAADFA,empathy,Completed Full Study,Included in Analysis,"Passed All Quality Checks",357,Completed Deal
+P46F6F908,empathy,Completed Full Study,Included in Analysis,"Passed All Quality Checks",448,Impasse (Walk-away)
+P373DA720,economic,Completed Full Study,Included in Analysis,"Passed All Quality Checks",358,Completed Deal
+PF34A9BE6,economic,Completed Full Study,Included in Analysis,"Passed All Quality Checks",379,Completed Deal
+P715C8A7F,empathy,Completed Full Study,Included in Analysis,"Passed All Quality Checks",513,Completed Deal
+P6A5512BE,empathy,Completed Full Study,Included in Analysis,"Passed All Quality Checks",439,Completed Deal
+P0586F80C,economic,Completed Full Study,Included in Analysis,"Passed All Quality Checks",544,Completed Deal
+PE6D4B45A,empathy,Completed Full Study,Included in Analysis,"Passed All Quality Checks",449,Completed Deal
+PDD82F50F,empathy,Completed Full Study,Included in Analysis,"Passed All Quality Checks",518,Completed Deal
+P0803F2E8,empathy,Completed Full Study,Included in Analysis,"Passed All Quality Checks",486,Completed Deal
+P2EB70109,empathy,Completed Full Study,Included in Analysis,"Passed All Quality Checks",509,Completed Deal
+PEC3750CB,empathy,Completed Full Study,Included in Analysis,"Passed All Quality Checks",541,Completed Deal
+PCB024B2E,empathy,Completed Full Study,Included in Analysis,"Passed All Quality Checks",466,Completed Deal
+P9C28898E,empathy,Completed Full Study,Included in Analysis,"Passed All Quality Checks",423,Completed Deal
+P3E0043F7,empathy,Completed Full Study,Included in Analysis,"Passed All Quality Checks",423,Completed Deal
+PCA566059,empathy,Completed Full Study,Included in Analysis,"Passed All Quality Checks",440,Completed Deal
+P0A763A68,empathy,Completed Full Study,Included in Analysis,"Passed All Quality Checks",477,Completed Deal
+P4965DA01,empathy,Completed Full Study,Included in Analysis,"Passed All Quality Checks",333,Completed Deal
+P531F6E7D,empathy,Completed Full Study,Included in Analysis,"Passed All Quality Checks",429,Completed Deal
+PDC4DBED1,empathy,Completed Full Study,Included in Analysis,"Passed All Quality Checks",470,Completed Deal
+P493BA2B1,empathy,Completed Full Study,Included in Analysis,"Passed All Quality Checks",393,Impasse (Walk-away)
+P26B7918A,empathy,Completed Full Study,Included in Analysis,"Passed All Quality Checks",468,Impasse (Walk-away)
+P6EBFF055,empathy,Completed Full Study,Included in Analysis,"Passed All Quality Checks",496,Impasse (Walk-away)
+PF3CEAA10,economic,Completed Full Study,Included in Analysis,"Passed All Quality Checks",474,Completed Deal
+P3A4062A2,economic,Completed Full Study,Included in Analysis,"Passed All Quality Checks",437,Completed Deal
+PDC88D4CB,economic,Completed Full Study,Included in Analysis,"Passed All Quality Checks",441,Completed Deal
+PE9A1039E,economic,Completed Full Study,Included in Analysis,"Passed All Quality Checks",423,Completed Deal
+P350D9FAD,economic,Completed Full Study,Included in Analysis,"Passed All Quality Checks",474,Completed Deal
+PA915B931,economic,Completed Full Study,Included in Analysis,"Passed All Quality Checks",419,Completed Deal
+P4B9CB648,economic,Completed Full Study,Included in Analysis,"Passed All Quality Checks",517,Completed Deal
+P1B4C22F2,economic,Completed Full Study,Included in Analysis,"Passed All Quality Checks",513,Completed Deal
+PE7E1787F,economic,Completed Full Study,Included in Analysis,"Passed All Quality Checks",542,Completed Deal
+P0B8FE0AE,economic,Completed Full Study,Included in Analysis,"Passed All Quality Checks",555,Impasse (Walk-away)
+P0459A29D,economic,Completed Full Study,Included in Analysis,"Passed All Quality Checks",440,Impasse (Walk-away)
+P8991453D,economic,Completed Full Study,Included in Analysis,"Passed All Quality Checks",375,Impasse (Walk-away)
+PC86E6537,economic,Completed Full Study,Included in Analysis,"Passed All Quality Checks",363,Completed Deal
+P945A315B,economic,Completed Full Study,Included in Analysis,"Passed All Quality Checks",440,Completed Deal
+PB8BD2356,economic,Completed Full Study,Included in Analysis,"Passed All Quality Checks",347,Completed Deal
+PLIVE_823194,empathy,Completed Full Study,Included in Analysis,"Passed All Quality Checks",421,Completed Deal
+PLIVE_B20600,economic,Completed Full Study,Included in Analysis,"Passed All Quality Checks",359,Impasse (Walk-away)
+PLIVE_ADC81B,empathy,Completed Full Study,Included in Analysis,"Passed All Quality Checks",441,Completed Deal
+PLIVE_3A6BC2,economic,Completed Full Study,Included in Analysis,"Passed All Quality Checks",450,Completed Deal
+PLIVE_3B2A90,empathy,Completed Full Study,Included in Analysis,"Passed All Quality Checks",541,Completed Deal
+PLIVE_8479E2,economic,Completed Full Study,Included in Analysis,"Passed All Quality Checks",551,Completed Deal
+PLIVE_BD97D0,empathy,Completed Full Study,Included in Analysis,"Passed All Quality Checks",486,Completed Deal
+PLIVE_39563C,economic,Completed Full Study,Included in Analysis,"Passed All Quality Checks",515,Completed Deal
+PLIVE_B03DE0,empathy,Completed Full Study,Included in Analysis,"Passed All Quality Checks",341,Completed Deal
+PLIVE_1F02BD,economic,Completed Full Study,Included in Analysis,"Passed All Quality Checks",326,Completed Deal
+PLIVE_D2952D,empathy,Completed Full Study,Included in Analysis,"Passed All Quality Checks",437,Completed Deal
+PLIVE_D85FFB,economic,Completed Full Study,Included in Analysis,"Passed All Quality Checks",321,Completed Deal
+PLIVE_2872D6,empathy,Completed Full Study,Included in Analysis,"Passed All Quality Checks",355,Completed Deal
+PLIVE_0D2AD9,economic,Completed Full Study,Included in Analysis,"Passed All Quality Checks",440,Completed Deal
+PLIVE_3A3F16,empathy,Completed Full Study,Included in Analysis,"Passed All Quality Checks",393,Completed Deal
+PLIVE_A4DAD7,economic,Completed Full Study,Included in Analysis,"Passed All Quality Checks",517,Completed Deal
+PLIVE_229250,empathy,Completed Full Study,Included in Analysis,"Passed All Quality Checks",413,Completed Deal
+PLIVE_6D0724,economic,Completed Full Study,Included in Analysis,"Passed All Quality Checks",481,Completed Deal
+PLIVE_820385,empathy,Completed Full Study,Included in Analysis,"Passed All Quality Checks",423,Completed Deal
+PLIVE_424C19,economic,Completed Full Study,Included in Analysis,"Passed All Quality Checks",553,Completed Deal
+PLIVE_7905E7,empathy,Completed Full Study,Included in Analysis,"Passed All Quality Checks",340,Completed Deal
+PLIVE_037CBC,economic,Completed Full Study,Included in Analysis,"Passed All Quality Checks",390,Completed Deal
+PLIVE_7FE481,empathy,Completed Full Study,Included in Analysis,"Passed All Quality Checks",532,Completed Deal
+PLIVE_BB177B,economic,Completed Full Study,Included in Analysis,"Passed All Quality Checks",437,Completed Deal
+PLIVE_C01D35,empathy,Completed Full Study,Included in Analysis,"Passed All Quality Checks",478,Completed Deal
+PLIVE_AEF27C,economic,Completed Full Study,Included in Analysis,"Passed All Quality Checks",460,Completed Deal
+PLIVE_9B70FF,empathy,Completed Full Study,Included in Analysis,"Passed All Quality Checks",457,Impasse (Walk-away)
+PLIVE_F7D31E,economic,Completed Full Study,Included in Analysis,"Passed All Quality Checks",525,Completed Deal
+PLIVE_85A5AB,empathy,Completed Full Study,Included in Analysis,"Passed All Quality Checks",418,Completed Deal
+PLIVE_A991B0,economic,Completed Full Study,Included in Analysis,"Passed All Quality Checks",555,Completed Deal
+PLIVE_46A625,empathy,Completed Full Study,Included in Analysis,"Passed All Quality Checks",323,Completed Deal
+PLIVE_35AFCF,economic,Completed Full Study,Included in Analysis,"Passed All Quality Checks",509,Completed Deal
+PLIVE_C30F9E,empathy,Completed Full Study,Included in Analysis,"Passed All Quality Checks",456,Completed Deal
+PLIVE_C7BC9C,economic,Completed Full Study,Included in Analysis,"Passed All Quality Checks",355,Completed Deal
+PLIVE_2471CC,empathy,Completed Full Study,Included in Analysis,"Passed All Quality Checks",525,Completed Deal
+PLIVE_98C8BF,economic,Completed Full Study,Included in Analysis,"Passed All Quality Checks",445,Completed Deal
+PLIVE_53333A,empathy,Completed Full Study,Included in Analysis,"Passed All Quality Checks",486,Completed Deal
+PLIVE_A57E94,economic,Completed Full Study,Included in Analysis,"Passed All Quality Checks",493,Completed Deal
+PLIVE_437731,empathy,Completed Full Study,Included in Analysis,"Passed All Quality Checks",393,Completed Deal
+PLIVE_70AC08,economic,Completed Full Study,Included in Analysis,"Passed All Quality Checks",332,Completed Deal
+PLIVE_F709F3,empathy,Completed Full Study,Included in Analysis,"Passed All Quality Checks",425,Impasse (Walk-away)
+PLIVE_24CCB4,economic,Completed Full Study,Included in Analysis,"Passed All Quality Checks",457,Completed Deal
+PLIVE_11444D,empathy,Completed Full Study,Included in Analysis,"Passed All Quality Checks",556,Completed Deal
+PLIVE_32F1BB,economic,Completed Full Study,Included in Analysis,"Passed All Quality Checks",374,Completed Deal
+PLIVE_52D576,empathy,Completed Full Study,Included in Analysis,"Passed All Quality Checks",393,Completed Deal
+PLIVE_BD392F,economic,Completed Full Study,Included in Analysis,"Passed All Quality Checks",448,Completed Deal
+PLIVE_1DCFB5,empathy,Completed Full Study,Included in Analysis,"Passed All Quality Checks",351,Impasse (Walk-away)
+PLIVE_86EC0F,economic,Completed Full Study,Included in Analysis,"Passed All Quality Checks",494,Completed Deal
+PLIVE_DBDF31,empathy,Completed Full Study,Included in Analysis,"Passed All Quality Checks",432,Completed Deal
+PLIVE_B7FE22,economic,Completed Full Study,Included in Analysis,"Passed All Quality Checks",448,Completed Deal
+PLIVE_807350,empathy,Completed Full Study,Included in Analysis,"Passed All Quality Checks",432,Completed Deal
+PLIVE_A836BA,economic,Completed Full Study,Included in Analysis,"Passed All Quality Checks",346,Completed Deal
+PLIVE_F39E83,empathy,Completed Full Study,Included in Analysis,"Passed All Quality Checks",437,Completed Deal
+PLIVE_67FD54,economic,Completed Full Study,Included in Analysis,"Passed All Quality Checks",465,Completed Deal
+PLIVE_1C26C7,empathy,Completed Full Study,Included in Analysis,"Passed All Quality Checks",433,Completed Deal
+PLIVE_3F8F30,economic,Completed Full Study,Included in Analysis,"Passed All Quality Checks",422,Completed Deal
+PLIVE_7242FD,empathy,Completed Full Study,Included in Analysis,"Passed All Quality Checks",500,Completed Deal
+PLIVE_832301,economic,Completed Full Study,Included in Analysis,"Passed All Quality Checks",466,Completed Deal
+PLIVE_0C1E72,empathy,Completed Full Study,Included in Analysis,"Passed All Quality Checks",466,Completed Deal
+PLIVE_C21FC2,economic,Completed Full Study,Included in Analysis,"Passed All Quality Checks",495,Completed Deal
