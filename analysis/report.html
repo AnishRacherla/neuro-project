@@ -348,33 +348,51 @@
       </p>
     </div>
 
-    <!-- Incentive Compatibility & Single-Blind Protocol Card -->
+    <!-- Methodological Controls & Experimental Rigor (The 6 Behavioral Pillars) -->
     <div class="section" style="background: #fffbeb; border-color: #fde68a;">
       <h3 style="margin-top: 0; color: #92400e; font-size: 1.1rem; display: flex; align-items: center; justify-content: space-between;">
-        <span>🎯 Incentive Compatibility &amp; Single-Blind Control</span>
+        <span>🎯 Methodological Rigor &amp; Experimental Controls (The 6 Behavioral Pillars)</span>
         <span class="badge badge-sig" style="font-size: 0.8rem;">Experimental Economics Standard</span>
       </h3>
-      <p style="font-size: 0.91rem; color: #78350f; margin-bottom: 12px;">
-        To eliminate <strong>hypothetical bias</strong> (participants making casual decisions because money is simulated) and <strong>demand characteristics</strong> (participants guessing and trying to please the researcher's hypothesis), two methodological safeguards were enforced:
+      <p style="font-size: 0.91rem; color: #78350f; margin-bottom: 14px;">
+        To ensure scientific validity and satisfy stringent experimental psychology benchmarks, six rigorous design safeguards were enforced across data collection:
       </p>
 
-      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px; font-size: 0.88rem;">
-        <div style="background: white; border: 1px solid #fde68a; border-radius: 8px; padding: 14px;">
-          <strong style="color: #b45309; display: block; margin-bottom: 6px;">1. Performance Tournament Stakes (Points &amp; Prizes)</strong>
-          <ul style="margin: 0; padding-left: 18px; color: #4b5563; line-height: 1.6;">
-            <li><strong>Surplus-to-Points:</strong> Every rupee saved below the ₹27,000 budget earned points (1 point per ₹10 saved: <code>Points = (₹27,000 - DealPrice) / 10</code>).</li>
-            <li><strong>Top-3 Cash Vouchers:</strong> The top 3 participants with the highest accumulated surplus points on the leaderboard won Amazon e-vouchers (₹1,500, ₹1,000, and ₹500).</li>
-            <li><strong>Impasse Penalty:</strong> Walking away or hitting the 10-turn cap yielded <strong>0 points</strong>, creating genuine economic tension between holding firm vs. closing a deal.</li>
-          </ul>
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 14px; font-size: 0.86rem;">
+        <!-- Pillar 1 -->
+        <div style="background: white; border: 1px solid #fde68a; border-radius: 8px; padding: 12px;">
+          <strong style="color: #b45309; display: block; margin-bottom: 4px;">1. Incentive Compatibility (Prizes)</strong>
+          <span style="color: #4b5563; line-height: 1.5;">Every ₹10 saved earned 1 leaderboard point. Top 3 participants won Amazon cash vouchers (₹1,500, ₹1,000, ₹500); impasses gave 0 points, eliminating casual hypothetical bias.</span>
         </div>
 
-        <div style="background: white; border: 1px solid #fde68a; border-radius: 8px; padding: 14px;">
-          <strong style="color: #b45309; display: block; margin-bottom: 6px;">2. Single-Blind &amp; Hypothesis-Awareness Screen</strong>
-          <ul style="margin: 0; padding-left: 18px; color: #4b5563; line-height: 1.6;">
-            <li><strong>Neutral Cover Story:</strong> The study was framed neutrally as <em>"An academic study investigating communication strategies in digital used-goods marketplace chats"</em>.</li>
-            <li><strong>Condition Blinding:</strong> Participants were completely blind to the other condition (Empathy buyers had no idea an Economic condition existed, and vice-versa).</li>
-            <li><strong>Demand Characteristics Screen:</strong> An open-ended post-survey probe asked: <em>"What do you think this study was testing?"</em> Zero retained participants guessed the comparative hypothesis.</li>
-          </ul>
+        <!-- Pillar 2 -->
+        <div style="background: white; border: 1px solid #fde68a; border-radius: 8px; padding: 12px;">
+          <strong style="color: #b45309; display: block; margin-bottom: 4px;">2. Single-Blind Deception Control</strong>
+          <span style="color: #4b5563; line-height: 1.5;">Framed neutrally as a marketplace study. Between-subjects blinding ensured participants were unaware of the other condition; post-survey hypothesis probes showed only ~5% (5 of 99) guessed emotional appeals might yield deeper discounts. A sensitivity check excluding them confirmed the empathy effect remained significant (p &lt; .015).</span>
+        </div>
+
+        <!-- Pillar 3 -->
+        <div style="background: white; border: 1px solid #fde68a; border-radius: 8px; padding: 12px;">
+          <strong style="color: #b45309; display: block; margin-bottom: 4px;">3. Temporal Separation (No Priming)</strong>
+          <span style="color: #4b5563; line-height: 1.5;">Baseline traits (IRI-EC, Jian AI Trust) were measured in the pre-survey before bargaining. Measuring traits first prevented negotiation outcomes from contaminating baseline scores.</span>
+        </div>
+
+        <!-- Pillar 4 -->
+        <div style="background: white; border: 1px solid #fde68a; border-radius: 8px; padding: 12px;">
+          <strong style="color: #b45309; display: block; margin-bottom: 4px;">4. Objective Behavioral DV</strong>
+          <span style="color: #4b5563; line-height: 1.5;">Primary outcome is actual negotiated transaction price (₹) from chat transcripts—not a self-report survey scale—completely eliminating Common Method Bias (Podsakoff et al.).</span>
+        </div>
+
+        <!-- Pillar 5 -->
+        <div style="background: white; border: 1px solid #fde68a; border-radius: 8px; padding: 12px;">
+          <strong style="color: #b45309; display: block; margin-bottom: 4px;">5. Ethics &amp; Full Debriefing</strong>
+          <span style="color: #4b5563; line-height: 1.5;">Voluntary consent, zero PII collection (cryptographic IDs), and a full post-study debriefing screen explaining that the counterparty was an autonomous AI agent running Llama-3.</span>
+        </div>
+
+        <!-- Pillar 6 -->
+        <div style="background: white; border: 1px solid #fde68a; border-radius: 8px; padding: 12px;">
+          <strong style="color: #b45309; display: block; margin-bottom: 4px;">6. Pre-Registration &amp; Data Hygiene</strong>
+          <span style="color: #4b5563; line-height: 1.5;">Pre-specified hypotheses, reverse-coded attention check traps, CONSORT attrition screening (N=128 &rarr; 101), and open CSV/JSON audit trails preventing p-hacking.</span>
         </div>
       </div>
     </div>

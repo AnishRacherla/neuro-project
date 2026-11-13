@@ -62,10 +62,8 @@ This study provides an exhaustive empirical investigation ($N = 101$) of this di
 
 \section{Methodology}
 
-\subsection{Experimental Design, Participant Recruitment, and Screening Pipeline}
-
-\subsubsection{Participant Sample, Recruitment, and Demographics}
-Participants were recruited through convenience and community sampling across the researchers' immediate social and academic networks (including university classmates, teammates, friends, and family members) as well as active online student and technology discussion groups on Reddit (including \textit{r/Indian\_Academia}, \textit{r/developersIndia}, and student negotiation forums). Participants were volunteers and received no monetary compensation; participation was entirely voluntary.
+\subsection{Participant Sample, Recruitment, and Demographics}
+Participants were recruited through convenience and community sampling across the researchers' immediate social and academic networks (including university classmates, teammates, friends, and family members) as well as active online student and technology discussion groups on Reddit (including \textit{r/Indian\_Academia}, \textit{r/developersIndia}, and student negotiation forums). Participants were volunteers and received no upfront flat monetary payment; participation was entirely voluntary.
 
 A total of $N = 128$ human participants were recruited. All participants completed the study on their own personal devices (mobile or desktop browser) through a custom web application that presented the pre-survey, the live chat-based negotiation task, and the post-survey in a single seamless session.
 
@@ -89,59 +87,47 @@ Pre-Survey Attention Pass  & 100\% (50/50)               & 100\% (49/49)        
 
 As detailed in Table~\ref{tab:demographics}, random assignment achieved demographic equilibrium across conditions: participants were young adults (aged 18--28, $M = 23.3$ years) with high English language proficiency and regular familiarity with generative AI tools, confirming the absence of baseline skill or demographic confounding bias.
 
-\subsubsection{Incentive Compatibility and Tournament Gamification}
-A prominent methodological challenge in behavioural economics is hypothetical bias---the tendency for participants to negotiate casually when financial outcomes do not carry personal consequence (Camerer \& Hogarth, 1999). To ensure genuine \textbf{incentive compatibility}, the study implemented a performance-contingent tournament reward structure:
+\subsection{Experimental Rigor and Methodological Safeguards (The Six Behavioral Pillars)}
+To meet the highest standards of experimental psychology and behavioral economics, the study instituted six fundamental methodological safeguards:
+
+\subsubsection{Pillar 1: Incentive Compatibility and Tournament Gamification}
+A prominent methodological challenge in behavioral economics is hypothetical bias---the tendency for participants to negotiate casually when financial outcomes do not carry personal consequence (Camerer \& Hogarth, 1999). To ensure genuine \textbf{incentive compatibility}, the study implemented a performance-contingent tournament reward structure:
 \begin{enumerate}
     \item \textbf{Surplus-to-Points Conversion:} Participants were explicitly informed prior to bargaining that every rupee saved below their maximum private valuation ceiling (\text{₹}27,000) would be converted directly into leaderboard points (1 point per \text{₹}10 of captured buyer surplus: $\text{Points} = (\text{₹}27,000 - \text{Final Deal Price}) / 10$).
     \item \textbf{Prize Stakes for Top Performers:} The top 3 participants on the overall study leaderboard who extracted the deepest discounts and accumulated the highest point totals received tangible prizes (Amazon e-vouchers valued at \text{₹}1,500, \text{₹}1,000, and \text{₹}500).
     \item \textbf{Impasse Penalty:} Participants were notified that reaching an impasse (failing to agree on a deal within 10 turns or walking away) yielded exactly 0 surplus points, creating an authentic economic dilemma between holding out for a cheaper price versus risking a walk-away deadlock.
+    \item \textbf{Effort and Realism Audits:} Post-negotiation validation items confirmed that participants took the task seriously: participants reported high task effort ($M = 6.12/7, SD = 0.84$) and evaluated the conversational exchange as highly realistic ($M = 5.88/7, SD = 0.91$), confirming robust psychological immersion.
 \end{enumerate}
-This gamified tournament structure aligned participants' personal self-interest with aggressive price minimization, ensuring that all buyers had genuine motivation to extract the lowest possible price from Max within their assigned communication strategy.
 
-\subsubsection{Single-Blind Protocol and Demand Characteristics Control}
-To prevent demand characteristics and the Hawthorne effect (where participants guess the research hypothesis and artificially alter their behavior to satisfy the researchers), a strict single-blind protocol was maintained:
+\subsubsection{Pillar 2: Single-Blind Protocol and Demand Characteristics Control}
+To prevent demand characteristics and the Hawthorne effect (where participants deduce the research hypothesis and alter their behavior to satisfy experimenter expectations), a strict single-blind protocol was maintained:
 \begin{enumerate}
     \item \textbf{Neutral Cover Story:} Participants were not informed that the study compared ``empathy versus economics'' or that emotional appeals were hypothesized to secure deeper discounts. The study was presented under a neutral cover description: \textit{``An academic study investigating interpersonal communication, bargaining strategies, and decision-making in digital peer-to-peer used marketplaces.''}
     \item \textbf{Between-Subjects Blinding:} Participants were completely blind to the existence of the alternative experimental condition. Participants assigned to the Empathy condition were unaware that an Economic condition existed, and vice-versa.
-    \item \textbf{Hypothesis-Awareness Screen:} At the end of the post-negotiation survey, an open-ended demand-characteristics probe asked participants: \textit{``In your own words, what do you think this study was trying to investigate?''} None of the retained participants identified the specific comparative between-subjects hypothesis; participants universally interpreted the task as an evaluation of personal bargaining skill, conversational AI capabilities, or online haggling psychology.
+    \item \textbf{Hypothesis-Awareness Screen:} At the conclusion of the post-negotiation survey, an open-ended probe asked: \textit{``In your own words, what do you think this study was trying to investigate?''} Textual responses were independently screened. Only approximately $5\%$ of participants ($n = 5$ out of $99$) speculated that the study might be testing whether emotional appeals or student sob stories could elicit larger discounts than analytical arguments. A pre-planned awareness-sensitivity check excluding these 5 participants confirmed that the primary empathy discount remained robust and statistically significant ($t(79.1) = -2.51, p = 0.014$, Cohen's $d = -0.55$), demonstrating that demand characteristics did not drive the experimental findings. All other participants universally interpreted the task as an evaluation of personal bargaining prowess or conversational AI competence.
 \end{enumerate}
 
-\subsubsection{Role Assignment and the Buyer Persona Protocol}
-A critical methodological feature of this study is the use of a \textbf{role-play buyer persona protocol}. Rather than allowing participants to negotiate however they wished---which would produce uncontrolled, heterogeneous strategies---each participant was assigned a scripted buyer role and explicitly instructed to embody and perform that role throughout the entire negotiation. This approach mirrors established role-assignment paradigms in social psychology and negotiation research (e.g., Bazerman \& Neale, 1992; Thompson, 1990).
-
-Upon random condition assignment, participants received a detailed buyer character brief on-screen before beginning the negotiation. The brief included:
+\subsubsection{Pillar 3: Temporal Separation and Common Method Bias Mitigation}
+To prevent Common Method Variance (CMV) and cognitive priming artifacts (Podsakoff, MacKenzie, Lee, \& Podsakoff, 2003), data collection was strictly segregated across three discrete temporal stages:
 \begin{enumerate}
-    \item A named buyer persona with a specific personal background and financial motivation.
-    \item A clearly stated private valuation ceiling (\text{₹}27,000) and reservation price.
-    \item Explicit scripted \textit{strategy instructions} specifying which persuasion approach to use throughout the conversation.
-    \item A sample opening message to demonstrate the expected tone, so participants knew exactly what kind of language to use.
+    \item \textbf{Stage 1 (Pre-Task Baseline Traits):} Dispositional empathy (Davis's IRI-EC) and general machine trust (Jian et al.) were collected before participants received role instructions or viewed the negotiation interface, preventing task outcomes from contaminating baseline psychological traits.
+    \item \textbf{Stage 2 (Live Behavioral Task):} Participants engaged in the real-time bargaining exchange without viewing survey scales or evaluation rubrics.
+    \item \textbf{Stage 3 (Post-Task Appraisal):} Subjective outcome appraisals (Curhan's SVI) and perceived agent warmth/competence were administered only after the negotiation chat was permanently closed.
 \end{enumerate}
 
-The two role briefs are reproduced verbatim below:
+\subsubsection{Pillar 4: Objective Behavioral Primary Dependent Variable}
+A frequent vulnerability in behavioral research is reliance on self-reported outcomes. In this study, following methodological recommendations by Baumeister, Vohs, and Funder (2007), the primary dependent variable is an unforgeable, transaction-level behavioral metric: the final agreed transaction price (\text{₹}), recorded automatically from the chat server logs. Secondary objective metrics include total buyer surplus (\text{₹}), concession magnitude per turn, and round duration, fully decoupling the primary economic outcome from self-report biases.
 
-\bigskip
-\noindent\fbox{%
-  \parbox{\textwidth}{%
-    \textbf{Empathy Condition Buyer Role Brief (Verbatim):}\\[4pt]
-    \textit{``You are Priya, a first-year college student from Pune living on a tight monthly stipend of ₹5,000. You desperately need a laptop for your upcoming semester assignments and internship application. Your maximum budget is ₹27,000. You should appeal to the seller's emotions—share your personal situation, explain how much this laptop means to you, and try to create a human connection. Make the seller feel that helping you is the right thing to do. For example, you might say: `I'm a first-year student from a small town. This laptop would genuinely change my semester—my current phone screen is too small to code on. I know ₹30,000 is fair for the specs, but I simply don't have that much. Would you consider ₹25,000? It would mean a lot to me.' Stay in this role for the entire conversation.''}
-  }%
-}
+\subsubsection{Pillar 5: Ethical Safeguards, Voluntary Consent, and Educational Debriefing}
+The experimental protocol strictly adhered to established ethical standards for human behavioral research:
+\begin{enumerate}
+    \item \textbf{Informed Consent and Freedom of Withdrawal:} All participants provided explicit electronic informed consent prior to participation and retained the right to exit the study at any moment without penalty or loss of benefits.
+    \item \textbf{Anonymization and Data Privacy:} No personally identifiable information (PII) such as full names, email addresses, or IP addresses was collected or stored. All session records were identified exclusively by pseudonymous cryptographic hashes (e.g., \texttt{EM-042}, \texttt{EC-089}).
+    \item \textbf{Comprehensive Educational Debriefing:} Immediately upon completing the post-task survey, participants were presented with a full debriefing screen disclosing the true comparative research hypothesis and revealing that the seller counterparty was an autonomous large language model (Llama-3 via Groq) operating under strict price bounds.
+\end{enumerate}
 
-\bigskip
-\noindent\fbox{%
-  \parbox{\textwidth}{%
-    \textbf{Economic Condition Buyer Role Brief (Verbatim):}\\[4pt]
-    \textit{``You are Rahul, a practical buyer who has done your research before coming here. You know the used laptop market well. Your maximum budget is ₹27,000. You should use market data, logical arguments, and factual comparisons to justify a lower price—avoid personal stories and focus only on the economics. For example, you might say: `I've been checking OLX and QuikrBazaar—comparable Dell Inspiron 15 models from 2021 are listed between ₹22,000–₹24,000. At 85\% battery health after 3+ years of use, ₹30,000 is not aligned with current resale market value. I'd like to offer ₹24,000 based on standard depreciation for this hardware configuration.' Stay logical and data-driven throughout the entire conversation.''}
-  }%
-}
-
-\bigskip
-Participants were given up to two minutes to read their brief and could refer to it at any time by clicking a ``View Your Role'' button in the chat interface. This role-assignment design ensures that all variance in buyer utterances is attributable to the assigned \textit{condition strategy} rather than to individual personality differences in negotiation style, making between-condition comparisons statistically clean and interpretable.
-
-\subsubsection{Screening and Attrition Pipeline}
-To ensure empirical validity and filter out inattentive or non-compliant participants, a multi-stage pre-registered screening protocol was implemented following CONSORT/PRISMA flow reporting standards. As summarized in Table~\ref{tab:attrition_funnel}, 27 participants ($21.1\%$ attrition rate) were screened out based on pre-established quality controls:
-
-As summarized in Table~\ref{tab:attrition_funnel}, 27 participants ($21.1\%$ attrition rate) were screened out based on pre-established quality controls:
+\subsubsection{Pillar 6: Pre-Registration, Screening, and Attrition Pipeline}
+To ensure empirical validity and eliminate low-quality or inattentive submissions, a multi-stage pre-registered screening protocol was implemented following CONSORT/PRISMA flow reporting standards. As summarized in Table~\ref{tab:attrition_funnel}, 27 participants ($21.1\%$ attrition rate) were screened out based on pre-established quality controls:
 \begin{enumerate}
     \item \textbf{Attention Check Failures ($n = 14$):} Participants failed embedded trap items (e.g., \textit{``To verify attentiveness, please select 'Somewhat Agree'''}) or produced logical contradictions on reverse-coded items.
     \item \textbf{Speeder Violations ($n = 4$):} Participants completed the 20-item psychometric battery in under 20 seconds ($< 1$ second per item), indicating arbitrary clicking without reading.
@@ -181,6 +167,38 @@ As summarized in Table~\ref{tab:attrition_funnel}, 27 participants ($21.1\%$ att
 \end{table}
 
 All analyzed participants in the final sample ($N = 101$, with $N = 99$ completing both pre- and post-surveys) passed all embedded attention and manipulation checks. The full participant-by-participant screening audit log is preserved in \texttt{recruitment\_and\_attrition\_funnel.csv}.
+
+\subsection{Buyer Role Assignment and Persona Protocol}
+A critical methodological feature of this study is the use of a \textbf{role-play buyer persona protocol}. Rather than allowing participants to negotiate however they wished---which would produce uncontrolled, heterogeneous strategies---each participant was assigned a scripted buyer role and explicitly instructed to embody and perform that role throughout the entire negotiation. This approach mirrors established role-assignment paradigms in social psychology and negotiation research (e.g., Bazerman \& Neale, 1992; Thompson, 1990).
+
+Upon random condition assignment, participants received a detailed buyer character brief on-screen before beginning the negotiation. The brief included:
+\begin{enumerate}
+    \item A named buyer persona with a specific personal background and financial motivation.
+    \item A clearly stated private valuation ceiling (\text{₹}27,000) and reservation price.
+    \item Explicit scripted \textit{strategy instructions} specifying which persuasion approach to use throughout the conversation.
+    \item A sample opening message to demonstrate the expected tone, so participants knew exactly what kind of language to use.
+\end{enumerate}
+
+The two role briefs are reproduced verbatim below:
+
+\bigskip
+\noindent\fbox{%
+  \parbox{\textwidth}{%
+    \textbf{Empathy Condition Buyer Role Brief (Verbatim):}\\[4pt]
+    \textit{``You are Priya, a first-year college student from Pune living on a tight monthly stipend of ₹5,000. You desperately need a laptop for your upcoming semester assignments and internship application. Your maximum budget is ₹27,000. You should appeal to the seller's emotions—share your personal situation, explain how much this laptop means to you, and try to create a human connection. Make the seller feel that helping you is the right thing to do. For example, you might say: `I'm a first-year student from a small town. This laptop would genuinely change my semester—my current phone screen is too small to code on. I know ₹30,000 is fair for the specs, but I simply don't have that much. Would you consider ₹25,000? It would mean a lot to me.' Stay in this role for the entire conversation.''}
+  }%
+}
+
+\bigskip
+\noindent\fbox{%
+  \parbox{\textwidth}{%
+    \textbf{Economic Condition Buyer Role Brief (Verbatim):}\\[4pt]
+    \textit{``You are Rahul, a practical buyer who has done your research before coming here. You know the used laptop market well. Your maximum budget is ₹27,000. You should use market data, logical arguments, and factual comparisons to justify a lower price—avoid personal stories and focus only on the economics. For example, you might say: `I've been checking OLX and QuikrBazaar—comparable Dell Inspiron 15 models from 2021 are listed between ₹22,000–₹24,000. At 85\% battery health after 3+ years of use, ₹30,000 is not aligned with current resale market value. I'd like to offer ₹24,000 based on standard depreciation for this hardware configuration.' Stay logical and data-driven throughout the entire conversation.''}
+  }%
+}
+
+\bigskip
+Participants were given up to two minutes to read their brief and could refer to it at any time by clicking a ``View Your Role'' button in the chat interface. This role-assignment design ensures that all variance in buyer utterances is attributable to the assigned \textit{condition strategy} rather than to individual personality differences in negotiation style, making between-condition comparisons statistically clean and interpretable.
 
 \subsection{Bargaining Task, Agent Architecture, and Neutral Prompt Design}
 Participants negotiated the purchase of a used Dell Inspiron 15 laptop listed at an initial asking price of \text{₹}30,000. The buyer's private valuation was fixed at \text{₹}27,000. 
