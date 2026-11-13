@@ -118,11 +118,14 @@ To prevent Common Method Variance (CMV) and cognitive priming artifacts (Podsako
 \subsubsection{Pillar 4: Objective Behavioral Primary Dependent Variable}
 A frequent vulnerability in behavioral research is reliance on self-reported outcomes. In this study, following methodological recommendations by Baumeister, Vohs, and Funder (2007), the primary dependent variable is an unforgeable, transaction-level behavioral metric: the final agreed transaction price (\text{₹}), recorded automatically from the chat server logs. Secondary objective metrics include total buyer surplus (\text{₹}), concession magnitude per turn, and round duration, fully decoupling the primary economic outcome from self-report biases.
 
-\subsubsection{Pillar 5: Ethical Safeguards, Voluntary Consent, and Educational Debriefing}
-The experimental protocol strictly adhered to established ethical standards for human behavioral research:
+\subsubsection{Pillar 5: Ethical Safeguards, Privacy by Design, and Educational Debriefing}
+The experimental protocol strictly adhered to established ethical standards for human behavioral research and AI privacy:
 \begin{enumerate}
     \item \textbf{Informed Consent and Freedom of Withdrawal:} All participants provided explicit electronic informed consent prior to participation and retained the right to exit the study at any moment without penalty or loss of benefits.
-    \item \textbf{Anonymization and Data Privacy:} No personally identifiable information (PII) such as full names, email addresses, or IP addresses was collected or stored. All session records were identified exclusively by pseudonymous cryptographic hashes (e.g., \texttt{EM-042}, \texttt{EC-089}).
+    \item \textbf{Scripted Fictional Roles (Protection against Vulnerability Exposure):} To eliminate emotional distress and prevent exposing authentic personal hardships to third-party language model endpoints, participants in the empathy condition were explicitly instructed to adopt fictional roleplay personas (e.g., a student needing a laptop for exams) and expressly forbidden from submitting real personal life crises.
+    \item \textbf{Data Minimization (Omission of Gender and Education):} In accordance with institutional data minimization principles, extraneous demographic variables (gender and education) that were not hypothesized covariates were excluded from data collection, collecting only age for adult verification ($18+$) and baseline covariate control.
+    \item \textbf{Zero Data-Retention Commercial API Agreement:} All dynamic interactions with the underlying LLM were processed through enterprise API endpoints under strict zero data-retention policies, guaranteeing that participant transcripts are neither retained on external servers nor utilized for model re-training.
+    \item \textbf{Automated PII Transcript Sanitization:} Chat logs were pseudonymized via cryptographic hashes (e.g., \texttt{EM-042}, \texttt{EC-089}) and processed through automated regular expression filters that scrubbed any inadvertent phone numbers, email addresses, or online handles prior to persistent storage.
     \item \textbf{Comprehensive Educational Debriefing:} Immediately upon completing the post-task survey, participants were presented with a full debriefing screen disclosing the true comparative research hypothesis and revealing that the seller counterparty was an autonomous large language model (Llama-3 via Groq) operating under strict price bounds.
 \end{enumerate}
 

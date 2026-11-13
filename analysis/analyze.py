@@ -77,7 +77,7 @@ def build_frames(raw):
         rows.append({
             "pid": p["participantId"], "condition": p["condition"], "completed": bool(p.get("completed")),
             "chat_ended": bool(p.get("chatEnded")), "pre_done": bool(p.get("preSurveyDone")),
-            "age": p.get("age"), "gender": p.get("gender"), "education": p.get("education"),
+            "age": p.get("age"),
             "english": p.get("englishFluency"), "neg_exp": p.get("negotiationExp"), "haggle": p.get("haggleComfort"),
             "used_elec": p.get("usedElectronicsFreq"), "llm_usage": p.get("llmUsage"), "ai_feelings": p.get("aiHasFeelings"),
             "fair_guess": p.get("fairPriceGuess"), "max_pay": p.get("maxWillingToPay"),

@@ -196,16 +196,18 @@ app.post('/api/chat', rateLimit(30, 60_000), async (req, res) => {
     const turn = p.messages.filter(m => m.role === 'user').length + 1;
     const prevAsk = p.lastSellerAsk ?? START_PRICE;
 
+    const scrubbedMessage = scrubPII(message);
+
     // History for the LLM: skip the opening line (it is in the system prompt), add the new buyer message
     const history = p.messages.filter(m => m.turnNumber > 0).map(m => ({ role: m.role, content: m.content }));
-    history.push({ role: 'user', content: message });
+    history.push({ role: 'user', content: scrubbedMessage });
 
-    const r = await chat(history, { turn, prevAsk, userText: message, lastBuyerOffer: p.lastBuyerOffer });
+    const r = await chat(history, { turn, prevAsk, userText: scrubbedMessage, lastBuyerOffer: p.lastBuyerOffer });
 
     // Persist the buyer message and the reply (only reached if the LLM call succeeded)
     p.messages.push({
-      turnNumber: turn, role: 'user', content: message,
-      priceOffered: r.buyerOffer, pricesMentioned: extractPrices(message),
+      turnNumber: turn, role: 'user', content: scrubbedMessage,
+      priceOffered: r.buyerOffer, pricesMentioned: extractPrices(scrubbedMessage),
     });
     p.messages.push({
       turnNumber: turn, role: 'assistant', content: r.reply,
