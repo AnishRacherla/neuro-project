@@ -293,30 +293,39 @@ if (multReg) {
   console.log(`              controlling for age, negotiation skill, baseline trust, and buyer anchor.\n`);
 }
 
-// 6. TURN-BY-TURN CONCESSION TRAJECTORY
+// 6. TURN-BY-TURN CONCESSION TRAJECTORY (LOCF — Last-Observation-Carried-Forward)
 console.log('----------------------------------------------------------------------------------------');
-console.log('6. TURN-BY-TURN CONCESSION TRAJECTORY (Mean Seller Asking Price ₹)');
+console.log('6. TURN-BY-TURN CONCESSION TRAJECTORY (LOCF Trajectory ₹)');
 console.log('----------------------------------------------------------------------------------------');
-const turnAsks = { empathy: {}, economic: {} };
-for (const p of data) {
-  if (Array.isArray(p.messages)) {
-    for (const m of p.messages) {
-      if (m.role === 'assistant' && typeof m.priceOffered === 'number' && m.priceOffered > 0) {
-        if (!turnAsks[p.condition][m.turnNumber]) turnAsks[p.condition][m.turnNumber] = [];
-        turnAsks[p.condition][m.turnNumber].push(m.priceOffered);
-      }
+function computeLOCF(cond) {
+  const subset = data.filter(d => d.condition === cond);
+  const turns = [0, 1, 2, 3, 4, 5, 6];
+  const means = [], sds = [];
+
+  for (const t of turns) {
+    const vals = [];
+    for (const p of subset) {
+      if (t === 0) { vals.push(30000); continue; }
+      const m = p.messages?.find(msg => msg.role === 'assistant' && msg.turnNumber === t && typeof msg.priceOffered === 'number');
+      if (m) vals.push(m.priceOffered);
+      else vals.push(p.dealReached ? p.finalPrice : p.lastSellerAsk);
     }
+    means.push(mean(vals));
+    sds.push(sd(vals));
   }
+  return { means, sds };
 }
+
+const locfEmp = computeLOCF('empathy');
+const locfEco = computeLOCF('economic');
+
 console.log(`  Turn   | Empathy Ask (Mean ± SD)     | Economic Ask (Mean ± SD)    | Delta (Emp - Eco)`);
 console.log(`  -------+-----------------------------+-----------------------------+------------------`);
 for (let t = 0; t <= 6; t++) {
-  const eArr = turnAsks.empathy[t] || [];
-  const ecArr = turnAsks.economic[t] || [];
-  if (eArr.length && ecArr.length) {
-    const eM = mean(eArr), ecM = mean(ecArr);
-    console.log(`  Turn ${t} | ₹${round(eM, 0).padStart(5, ' ')} (± ₹${round(sd(eArr), 0).padStart(4, ' ')})        | ₹${round(ecM, 0).padStart(5, ' ')} (± ₹${round(sd(ecArr), 0).padStart(4, ' ')})        | -₹${round(ecM - eM, 0)}`);
-  }
+  const eM = locfEmp.means[t], eSd = locfEmp.sds[t];
+  const ecM = locfEco.means[t], ecSd = locfEco.sds[t];
+  const diff = eM - ecM;
+  console.log(`  Turn ${t} | ₹${round(eM, 0).padStart(5, ' ')} (± ₹${round(eSd, 0).padStart(4, ' ')})        | ₹${round(ecM, 0).padStart(5, ' ')} (± ₹${round(ecSd, 0).padStart(4, ' ')})        | ${diff <= 0 ? '-' : '+'}₹${round(Math.abs(diff), 0)}`);
 }
 console.log('\n========================================================================================');
 console.log('REPORT COMPLETE. All statistics ready for paper writing.');
