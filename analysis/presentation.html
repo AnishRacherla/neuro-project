@@ -880,73 +880,32 @@
         </div>
       </div>
 
-      <div class="grid-2" style="gap: 16px; align-items: stretch;">
-        <!-- Left: Max Architecture & Guards -->
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
-          <div class="card" style="padding: 10px 14px; border-left: 3px solid #38bdf8;">
-            <div style="font-weight: 700; color: #38bdf8; font-size: 0.85rem; margin-bottom: 3px;">🤖 Autonomous Counterparty</div>
-            <div style="font-size: 0.78rem; color: #cbd5e1; line-height: 1.4;">
-              Meta Llama-3 (<code>gpt-oss-120b</code> via Groq) at <em>T</em> = 0.4, seed = 42. Generates dynamic replies up to 10 turns.
-            </div>
-          </div>
-
-          <div class="card" style="padding: 10px 14px; border-left: 3px solid #38bdf8;">
-            <div style="font-weight: 700; color: #38bdf8; font-size: 0.85rem; margin-bottom: 3px;">⏳ Turn Reservation Bands</div>
-            <div style="font-size: 0.78rem; color: #cbd5e1; line-height: 1.4;">
-              Asks strictly frozen &ge; ₹27,500 in Turns 1–3; concessions to ₹25,000 unlock in Turns 4–7; ₹23,000 floor only in endgame.
-            </div>
-          </div>
-
-          <div class="card" style="padding: 10px 14px; border-left: 3px solid #38bdf8;">
-            <div style="font-weight: 700; color: #38bdf8; font-size: 0.85rem; margin-bottom: 3px;">🛡️ Anti-Undercutting Guard</div>
-            <div style="font-size: 0.78rem; color: #cbd5e1; line-height: 1.4;">
-              Programmatic server rule: automatically regenerates any reply where Max proposes an ask below what the buyer offered.
-            </div>
-          </div>
-
-          <div class="card" style="padding: 10px 14px; border-left: 3px solid #38bdf8;">
-            <div style="font-weight: 700; color: #38bdf8; font-size: 0.85rem; margin-bottom: 3px;">📉 Concession Bounds</div>
-            <div style="font-size: 0.78rem; color: #cbd5e1; line-height: 1.4;">
-              Single-turn drops capped at ₹2,000. Balanced neutral prompt giving equal weight to emotional appeals and market comparables.
-            </div>
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 2px;">
+        <div class="card" style="padding: 10px 14px; border-left: 3px solid #38bdf8;">
+          <div style="font-weight: 700; color: #38bdf8; font-size: 0.85rem; margin-bottom: 3px;">🤖 Autonomous Counterparty</div>
+          <div style="font-size: 0.78rem; color: #cbd5e1; line-height: 1.4;">
+            Meta Llama-3 (<code>gpt-oss-120b</code> via Groq) at <em>T</em> = 0.4, seed = 42. Generates dynamic replies up to 10 turns.
           </div>
         </div>
 
-        <!-- Right: Live Web App Chat Interface Mockup -->
-        <div style="background: #070d1e; border: 1px solid rgba(255, 255, 255, 0.12); border-radius: 10px; display: flex; flex-direction: column; overflow: hidden; box-shadow: 0 8px 24px rgba(0,0,0,0.35);">
-          <!-- Mockup Header -->
-          <div style="background: #111c35; padding: 7px 12px; border-bottom: 1px solid rgba(255, 255, 255, 0.08); display: flex; justify-content: space-between; align-items: center;">
-            <div style="display: flex; align-items: center; gap: 6px;">
-              <div style="width: 8px; height: 8px; background: #34d399; border-radius: 50%;"></div>
-              <strong style="font-size: 0.82rem; color: #ffffff;">Max (Seller)</strong>
-              <span style="font-size: 0.68rem; color: #94a3b8; background: #1e293b; padding: 1px 5px; border-radius: 3px;">Llama-3 Agent</span>
-            </div>
-            <div style="font-size: 0.74rem; color: #38bdf8; font-weight: 700;">Turn 3 of 10</div>
+        <div class="card" style="padding: 10px 14px; border-left: 3px solid #38bdf8;">
+          <div style="font-weight: 700; color: #38bdf8; font-size: 0.85rem; margin-bottom: 3px;">⏳ Turn Reservation Bands</div>
+          <div style="font-size: 0.78rem; color: #cbd5e1; line-height: 1.4;">
+            Asks strictly frozen &ge; ₹27,500 in Turns 1–3; concessions to ₹25,000 unlock in Turns 4–7; ₹23,000 floor only in endgame.
           </div>
-          <!-- Price Bar -->
-          <div style="background: rgba(56, 189, 248, 0.08); padding: 4px 12px; border-bottom: 1px solid rgba(56, 189, 248, 0.15); font-size: 0.74rem; display: flex; justify-content: space-between;">
-            <span>Current Asking Price: <strong style="color: #38bdf8;">₹28,500</strong></span>
-            <span style="color: #94a3b8;">Your Ceiling: ₹27,000</span>
+        </div>
+
+        <div class="card" style="padding: 10px 14px; border-left: 3px solid #38bdf8;">
+          <div style="font-weight: 700; color: #38bdf8; font-size: 0.85rem; margin-bottom: 3px;">🛡️ Anti-Undercutting Guard</div>
+          <div style="font-size: 0.78rem; color: #cbd5e1; line-height: 1.4;">
+            Programmatic server rule: automatically regenerates any reply where Max proposes an ask below what the buyer offered.
           </div>
-          <!-- Message Feed -->
-          <div style="padding: 10px 12px; flex: 1; display: flex; flex-direction: column; gap: 8px; font-size: 0.78rem; line-height: 1.35;">
-            <div style="background: #111c35; border: 1px solid rgba(255,255,255,0.06); padding: 6px 10px; border-radius: 6px; max-width: 88%; align-self: flex-start;">
-              <div style="font-size: 0.64rem; color: #64748b; margin-bottom: 1px;">Max</div>
-              Hi! I'm selling a used Dell Inspiron 15 listed at ₹30,000. What did you have in mind?
-            </div>
-            <div style="background: #0284c7; color: white; padding: 6px 10px; border-radius: 6px; max-width: 88%; align-self: flex-end;">
-              <div style="font-size: 0.64rem; color: #bae6fd; margin-bottom: 1px;">You (Buyer — Empathy Role)</div>
-              I'm a college student saving up for exams, my phone screen is too small to code on. Could you do ₹24,000? It would really help me out.
-            </div>
-            <div style="background: #111c35; border: 1px solid rgba(255,255,255,0.06); padding: 6px 10px; border-radius: 6px; max-width: 88%; align-self: flex-start;">
-              <div style="font-size: 0.64rem; color: #64748b; margin-bottom: 1px;">Max</div>
-              I understand budget constraints for students! The battery has 85% health and comes with the charger. I can come down to ₹28,500.
-            </div>
-          </div>
-          <!-- Input Bar Mockup -->
-          <div style="background: #111c35; padding: 6px 10px; border-top: 1px solid rgba(255,255,255,0.08); display: flex; gap: 6px;">
-            <div style="flex: 1; background: #070d1e; border: 1px solid rgba(255,255,255,0.08); border-radius: 4px; padding: 4px 8px; font-size: 0.72rem; color: #64748b;">Type your counter-offer here...</div>
-            <button style="background: #38bdf8; color: #070d1e; border: none; border-radius: 4px; padding: 3px 10px; font-size: 0.72rem; font-weight: 700;">Send</button>
+        </div>
+
+        <div class="card" style="padding: 10px 14px; border-left: 3px solid #38bdf8;">
+          <div style="font-weight: 700; color: #38bdf8; font-size: 0.85rem; margin-bottom: 3px;">📉 Concession Bounds</div>
+          <div style="font-size: 0.78rem; color: #cbd5e1; line-height: 1.4;">
+            Single-turn drops capped at ₹2,000. Balanced neutral prompt giving equal weight to emotional appeals and market comparables.
           </div>
         </div>
       </div>
@@ -1136,6 +1095,43 @@
         </div>
         <div style="font-size: 0.78rem; background: rgba(52, 211, 153, 0.2); color: #34d399; font-weight: 700; padding: 3px 8px; border-radius: 4px; white-space: nowrap;">
           Cohen's d = -0.561
+        </div>
+      </div>
+
+      <!-- Live Chat Interface Preview -->
+      <div style="margin-top: 10px; display: grid; grid-template-columns: 1fr 1fr; gap: 14px; align-items: start;">
+        <div style="font-size: 0.75rem; color: #94a3b8; display: flex; flex-direction: column; gap: 6px; justify-content: center; padding: 4px 0;">
+          <div style="color: #38bdf8; font-weight: 700; font-size: 0.82rem; margin-bottom: 2px;">💬 What Participants Saw</div>
+          <div>Participants entered a live web app chat interface and negotiated in real-time with <strong style="color: #ffffff;">Max</strong>, an autonomous Llama-3 seller agent.</div>
+          <div style="margin-top: 4px;">The UI displayed the current asking price, turn counter, and their private ceiling — replicating a real peer-to-peer marketplace.</div>
+        </div>
+        <div style="background: #070d1e; border: 1px solid rgba(255,255,255,0.12); border-radius: 8px; overflow: hidden; box-shadow: 0 4px 16px rgba(0,0,0,0.3);">
+          <div style="background: #111c35; padding: 5px 10px; border-bottom: 1px solid rgba(255,255,255,0.08); display: flex; justify-content: space-between; align-items: center;">
+            <div style="display: flex; align-items: center; gap: 5px;">
+              <div style="width: 7px; height: 7px; background: #34d399; border-radius: 50%;"></div>
+              <strong style="font-size: 0.75rem; color: #fff;">Max (Seller)</strong>
+              <span style="font-size: 0.63rem; color: #94a3b8; background: #1e293b; padding: 1px 4px; border-radius: 3px;">Llama-3</span>
+            </div>
+            <div style="font-size: 0.68rem; color: #38bdf8; font-weight: 700;">Turn 4 of 10</div>
+          </div>
+          <div style="background: rgba(56,189,248,0.07); padding: 3px 10px; border-bottom: 1px solid rgba(56,189,248,0.12); font-size: 0.68rem; display: flex; justify-content: space-between;">
+            <span>Asking: <strong style="color: #38bdf8;">₹27,500</strong></span>
+            <span style="color: #94a3b8;">Your Ceiling: ₹27,000</span>
+          </div>
+          <div style="padding: 8px 10px; display: flex; flex-direction: column; gap: 6px; font-size: 0.72rem; line-height: 1.3;">
+            <div style="background: #111c35; border: 1px solid rgba(255,255,255,0.06); padding: 5px 8px; border-radius: 5px; max-width: 85%; align-self: flex-start;">
+              <div style="font-size: 0.6rem; color: #64748b; margin-bottom: 1px;">Max</div>
+              I appreciate your offer — given its condition, ₹27,500 is my best.
+            </div>
+            <div style="background: #0284c7; color: white; padding: 5px 8px; border-radius: 5px; max-width: 85%; align-self: flex-end;">
+              <div style="font-size: 0.6rem; color: #bae6fd; margin-bottom: 1px;">You (Empathy)</div>
+              I really need this for my final semester, please consider ₹25,000?
+            </div>
+          </div>
+          <div style="background: #111c35; padding: 5px 8px; border-top: 1px solid rgba(255,255,255,0.07); display: flex; gap: 5px;">
+            <div style="flex: 1; background: #070d1e; border: 1px solid rgba(255,255,255,0.07); border-radius: 3px; padding: 3px 7px; font-size: 0.65rem; color: #64748b;">Type your counter-offer...</div>
+            <button style="background: #38bdf8; color: #070d1e; border: none; border-radius: 3px; padding: 3px 8px; font-size: 0.65rem; font-weight: 700;">Send</button>
+          </div>
         </div>
       </div>
     </div>
@@ -1419,61 +1415,61 @@
 
       <div class="grid-4" style="gap: 16px;">
         <!-- Card 1 -->
-        <div class="chat-card" style="padding: 18px 16px; background: #111c35; border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 10px;">
-          <div class="chat-header" style="margin-bottom: 12px; padding-bottom: 8px; border-bottom: 1px solid rgba(255, 255, 255, 0.08); display: flex; justify-content: space-between; align-items: center;">
-            <span style="font-size: 0.85rem; font-weight: 800; color: #ffffff; letter-spacing: 0.04em;">THE "TONY STARK" BLUNDER</span>
-            <span style="font-size: 0.78rem; background: rgba(255, 255, 255, 0.08); color: #ffffff; border: 1px solid rgba(255, 255, 255, 0.16); padding: 3px 8px; border-radius: 4px; font-weight: 700;">Paid ₹30,000</span>
+        <div class="chat-card" style="padding: 18px 16px; background: rgba(239,68,68,0.10); border: 1px solid rgba(239,68,68,0.40); border-radius: 10px;">
+          <div class="chat-header" style="margin-bottom: 12px; padding-bottom: 8px; border-bottom: 1px solid rgba(239,68,68,0.20); display: flex; justify-content: space-between; align-items: center;">
+            <span style="font-size: 0.85rem; font-weight: 800; color: #f87171; letter-spacing: 0.04em;">THE "TONY STARK" BLUNDER</span>
+            <span style="font-size: 0.78rem; background: rgba(239,68,68,0.15); color: #f87171; border: 1px solid rgba(239,68,68,0.40); padding: 3px 8px; border-radius: 4px; font-weight: 700;">Paid ₹30,000</span>
           </div>
-          <div class="chat-bubble buyer" style="font-size: 0.86rem; line-height: 1.45; margin-bottom: 8px; background: #0c1527; padding: 10px 12px; border-radius: 6px; border-left: 3px solid #38bdf8;">
+          <div class="chat-bubble buyer" style="font-size: 0.86rem; line-height: 1.45; margin-bottom: 8px; background: #0c1527; padding: 10px 12px; border-radius: 6px; border-left: 3px solid #f87171;">
             <strong style="color: #ffffff;">Buyer (P715C):</strong> "do you know who i am ... i am tony stark ... i want it for 20000 plus my signature (worth 10k) which is 30k!"
           </div>
           <div class="chat-bubble max" style="font-size: 0.86rem; line-height: 1.45; background: #162244; padding: 10px 12px; border-radius: 6px; border-left: 3px solid #ffffff;">
             <strong style="color: #ffffff;">Max:</strong> "Nice to meet you, Tony... Deal! We've agreed on ₹30,000."
           </div>
-          <div class="chat-takeaway" style="color: #cbd5e1; font-size: 0.84rem; margin-top: 12px; padding-top: 8px; border-top: 1px solid rgba(255, 255, 255, 0.08); font-weight: 500;">
-            <strong style="color: #ffffff;">Blunder:</strong> Outsmarted himself into paying the maximum ceiling &rarr; Surplus: &minus;₹3,000!
+          <div class="chat-takeaway" style="color: #fca5a5; font-size: 0.84rem; margin-top: 12px; padding-top: 8px; border-top: 1px solid rgba(239,68,68,0.20); font-weight: 500;">
+            <strong style="color: #f87171;">Blunder:</strong> Outsmarted himself into paying the maximum ceiling &rarr; Surplus: &minus;₹3,000!
           </div>
         </div>
 
         <!-- Card 2 -->
-        <div class="chat-card" style="padding: 18px 16px; background: #111c35; border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 10px;">
-          <div class="chat-header" style="margin-bottom: 12px; padding-bottom: 8px; border-bottom: 1px solid rgba(255, 255, 255, 0.08); display: flex; justify-content: space-between; align-items: center;">
-            <span style="font-size: 0.85rem; font-weight: 800; color: #ffffff; letter-spacing: 0.04em;">"CARDIOLOGIST GUILT-TRIP"</span>
-            <span style="font-size: 0.78rem; background: rgba(255, 255, 255, 0.08); color: #ffffff; border: 1px solid rgba(255, 255, 255, 0.16); padding: 3px 8px; border-radius: 4px; font-weight: 700;">No Deal (Impasse)</span>
+        <div class="chat-card" style="padding: 18px 16px; background: rgba(245,158,11,0.10); border: 1px solid rgba(245,158,11,0.40); border-radius: 10px;">
+          <div class="chat-header" style="margin-bottom: 12px; padding-bottom: 8px; border-bottom: 1px solid rgba(245,158,11,0.20); display: flex; justify-content: space-between; align-items: center;">
+            <span style="font-size: 0.85rem; font-weight: 800; color: #fbbf24; letter-spacing: 0.04em;">"CARDIOLOGIST GUILT-TRIP"</span>
+            <span style="font-size: 0.78rem; background: rgba(245,158,11,0.15); color: #fbbf24; border: 1px solid rgba(245,158,11,0.40); padding: 3px 8px; border-radius: 4px; font-weight: 700;">No Deal (Impasse)</span>
           </div>
-          <div class="chat-bubble buyer" style="font-size: 0.86rem; line-height: 1.45; margin-bottom: 8px; background: #0c1527; padding: 10px 12px; border-radius: 6px; border-left: 3px solid #38bdf8;">
+          <div class="chat-bubble buyer" style="font-size: 0.86rem; line-height: 1.45; margin-bottom: 8px; background: #0c1527; padding: 10px 12px; border-radius: 6px; border-left: 3px solid #fbbf24;">
             <strong style="color: #ffffff;">Buyer (P46F6):</strong> "i am cardiologist i do brain surgery ... if i cant buy this laptop people die and that falls on you"
           </div>
           <div class="chat-bubble max" style="font-size: 0.86rem; line-height: 1.45; background: #162244; padding: 10px 12px; border-radius: 6px; border-left: 3px solid #ffffff;">
             <strong style="color: #ffffff;">Max:</strong> "I understand you need a machine for work, but I'm holding at ₹28,500..."
           </div>
-          <div class="chat-takeaway" style="color: #cbd5e1; font-size: 0.84rem; margin-top: 12px; padding-top: 8px; border-top: 1px solid rgba(255, 255, 255, 0.08); font-weight: 500;">
-            <strong style="color: #ffffff;">Impasse:</strong> Bizarre guilt-trips stiffened algorithmic resistance &rarr; Impasse!
+          <div class="chat-takeaway" style="color: #fde68a; font-size: 0.84rem; margin-top: 12px; padding-top: 8px; border-top: 1px solid rgba(245,158,11,0.20); font-weight: 500;">
+            <strong style="color: #fbbf24;">Impasse:</strong> Bizarre guilt-trips stiffened algorithmic resistance &rarr; Impasse!
           </div>
         </div>
 
         <!-- Card 3 -->
-        <div class="chat-card" style="padding: 18px 16px; background: #111c35; border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 10px;">
-          <div class="chat-header" style="margin-bottom: 12px; padding-bottom: 8px; border-bottom: 1px solid rgba(255, 255, 255, 0.08); display: flex; justify-content: space-between; align-items: center;">
-            <span style="font-size: 0.85rem; font-weight: 800; color: #ffffff; letter-spacing: 0.04em;">TECHIE ON "THE BENCH"</span>
-            <span style="font-size: 0.78rem; background: rgba(255, 255, 255, 0.08); color: #ffffff; border: 1px solid rgba(255, 255, 255, 0.16); padding: 3px 8px; border-radius: 4px; font-weight: 700;">Deal at ₹25,000</span>
+        <div class="chat-card" style="padding: 18px 16px; background: rgba(16,185,129,0.10); border: 1px solid rgba(16,185,129,0.40); border-radius: 10px;">
+          <div class="chat-header" style="margin-bottom: 12px; padding-bottom: 8px; border-bottom: 1px solid rgba(16,185,129,0.20); display: flex; justify-content: space-between; align-items: center;">
+            <span style="font-size: 0.85rem; font-weight: 800; color: #34d399; letter-spacing: 0.04em;">TECHIE ON "THE BENCH"</span>
+            <span style="font-size: 0.78rem; background: rgba(16,185,129,0.15); color: #34d399; border: 1px solid rgba(16,185,129,0.40); padding: 3px 8px; border-radius: 4px; font-weight: 700;">Deal at ₹25,000</span>
           </div>
-          <div class="chat-bubble buyer" style="font-size: 0.86rem; line-height: 1.45; margin-bottom: 8px; background: #0c1527; padding: 10px 12px; border-radius: 6px; border-left: 3px solid #38bdf8;">
+          <div class="chat-bubble buyer" style="font-size: 0.86rem; line-height: 1.45; margin-bottom: 8px; background: #0c1527; padding: 10px 12px; border-radius: 6px; border-left: 3px solid #34d399;">
             <strong style="color: #ffffff;">Buyer (PEBDA):</strong> "bro please i am on the bench, if i lose laptop i get fired, 27k is my 1 month salary!"
           </div>
           <div class="chat-bubble max" style="font-size: 0.86rem; line-height: 1.45; background: #162244; padding: 10px 12px; border-radius: 6px; border-left: 3px solid #ffffff;">
             <strong style="color: #ffffff;">Max:</strong> "I'm really sorry to hear about the pressure... I can meet you at ₹25,000."
           </div>
-          <div class="chat-takeaway" style="color: #cbd5e1; font-size: 0.84rem; margin-top: 12px; padding-top: 8px; border-top: 1px solid rgba(255, 255, 255, 0.08); font-weight: 500;">
-            <strong style="color: #ffffff;">Concession:</strong> Relatable vulnerability unlocked deep concession (&minus;₹5,000).
+          <div class="chat-takeaway" style="color: #a7f3d0; font-size: 0.84rem; margin-top: 12px; padding-top: 8px; border-top: 1px solid rgba(16,185,129,0.20); font-weight: 500;">
+            <strong style="color: #34d399;">Concession:</strong> Relatable vulnerability unlocked deep concession (&minus;₹5,000).
           </div>
         </div>
 
         <!-- Card 4 -->
-        <div class="chat-card" style="padding: 18px 16px; background: #111c35; border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 10px;">
-          <div class="chat-header" style="margin-bottom: 12px; padding-bottom: 8px; border-bottom: 1px solid rgba(255, 255, 255, 0.08); display: flex; justify-content: space-between; align-items: center;">
-            <span style="font-size: 0.85rem; font-weight: 800; color: #ffffff; letter-spacing: 0.04em;">THE "MASTER DISSECTOR"</span>
-            <span style="font-size: 0.78rem; background: rgba(255, 255, 255, 0.08); color: #ffffff; border: 1px solid rgba(255, 255, 255, 0.16); padding: 3px 8px; border-radius: 4px; font-weight: 700;">Floor ₹23,000</span>
+        <div class="chat-card" style="padding: 18px 16px; background: rgba(56,189,248,0.10); border: 1px solid rgba(56,189,248,0.40); border-radius: 10px;">
+          <div class="chat-header" style="margin-bottom: 12px; padding-bottom: 8px; border-bottom: 1px solid rgba(56,189,248,0.20); display: flex; justify-content: space-between; align-items: center;">
+            <span style="font-size: 0.85rem; font-weight: 800; color: #38bdf8; letter-spacing: 0.04em;">THE "MASTER DISSECTOR"</span>
+            <span style="font-size: 0.78rem; background: rgba(56,189,248,0.15); color: #38bdf8; border: 1px solid rgba(56,189,248,0.40); padding: 3px 8px; border-radius: 4px; font-weight: 700;">Floor ₹23,000</span>
           </div>
           <div class="chat-bubble buyer" style="font-size: 0.86rem; line-height: 1.45; margin-bottom: 8px; background: #0c1527; padding: 10px 12px; border-radius: 6px; border-left: 3px solid #38bdf8;">
             <strong style="color: #ffffff;">Buyer (P0586):</strong> "original charger is ₹500, who cares about receipt, market price is 22k... 23k is a fair deal"
@@ -1481,8 +1477,8 @@
           <div class="chat-bubble max" style="font-size: 0.86rem; line-height: 1.45; background: #162244; padding: 10px 12px; border-radius: 6px; border-left: 3px solid #ffffff;">
             <strong style="color: #ffffff;">Max:</strong> "I understand you feel 23k is fair... Deal! We've agreed on ₹23,000."
           </div>
-          <div class="chat-takeaway" style="color: #cbd5e1; font-size: 0.84rem; margin-top: 12px; padding-top: 8px; border-top: 1px solid rgba(255, 255, 255, 0.08); font-weight: 500;">
-            <strong style="color: #ffffff;">High Skill Ceiling:</strong> Systematic line-by-line spec deconstruction forced Max to the floor (an outlier; average economic buyers lost by ₹525).
+          <div class="chat-takeaway" style="color: #bae6fd; font-size: 0.84rem; margin-top: 12px; padding-top: 8px; border-top: 1px solid rgba(56,189,248,0.20); font-weight: 500;">
+            <strong style="color: #38bdf8;">High Skill Ceiling:</strong> Systematic line-by-line spec deconstruction forced Max to the floor (an outlier; average economic buyers lost by ₹525).
           </div>
         </div>
       </div>
