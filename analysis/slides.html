@@ -1,0 +1,806 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Presentation Slides: Persuading the Machine</title>
+  <style>
+    :root {
+      --bg: #0f172a;
+      --card-bg: #1e293b;
+      --text: #f8fafc;
+      --muted: #94a3b8;
+      --primary: #38bdf8;
+      --accent: #f59e0b;
+      --success: #10b981;
+      --danger: #ef4444;
+      --border: #334155;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+      overflow: hidden;
+    }
+    header {
+      padding: 12px 24px;
+      background: #090d16;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.9rem;
+    }
+    .badge {
+      background: rgba(56, 189, 248, 0.15);
+      color: var(--primary);
+      padding: 4px 10px;
+      border-radius: 9999px;
+      font-weight: 600;
+      font-size: 0.8rem;
+    }
+    #slide-viewport {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      overflow-y: auto;
+    }
+    .slide-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      width: 100%;
+      max-width: 1050px;
+      min-height: 560px;
+      padding: 40px 48px;
+      box-shadow: 0 20px 40px -15px rgba(0,0,0,0.5);
+      display: none;
+      flex-direction: column;
+      justify-content: space-between;
+      animation: fadeIn 0.25s ease-out;
+    }
+    .slide-card.active { display: flex; }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .slide-header {
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 16px;
+      margin-bottom: 24px;
+    }
+    .slide-num {
+      color: var(--primary);
+      font-size: 0.85rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .slide-title {
+      font-size: 1.85rem;
+      font-weight: 800;
+      color: #ffffff;
+      margin-top: 4px;
+    }
+    .slide-subtitle {
+      font-size: 1rem;
+      color: var(--muted);
+      margin-top: 4px;
+    }
+    .slide-body {
+      flex: 1;
+      font-size: 1.05rem;
+      line-height: 1.65;
+      color: #e2e8f0;
+    }
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+    .grid-4 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+    .card-box {
+      background: rgba(15, 23, 42, 0.6);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 16px 20px;
+    }
+    .highlight-stat {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background: rgba(56, 189, 248, 0.08);
+      border: 1px solid rgba(56, 189, 248, 0.3);
+      border-radius: 12px;
+      padding: 20px;
+      text-align: center;
+    }
+    .stat-val {
+      font-size: 2.2rem;
+      font-weight: 800;
+      color: var(--primary);
+    }
+    .stat-label {
+      color: var(--muted);
+      font-size: 0.85rem;
+      margin-top: 4px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    ul.bullet-list {
+      list-style-type: none;
+      padding-left: 0;
+    }
+    ul.bullet-list li {
+      position: relative;
+      padding-left: 24px;
+      margin-bottom: 12px;
+    }
+    ul.bullet-list li::before {
+      content: "•";
+      color: var(--primary);
+      font-size: 1.5rem;
+      position: absolute;
+      left: 6px;
+      top: -4px;
+    }
+    .dialogue-card {
+      border-radius: 10px;
+      padding: 14px 16px;
+      font-size: 0.9rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .dialogue-card.red { background: rgba(239, 68, 68, 0.1); border: 1px solid rgba(239, 68, 68, 0.3); }
+    .dialogue-card.orange { background: rgba(245, 158, 11, 0.1); border: 1px solid rgba(245, 158, 11, 0.3); }
+    .dialogue-card.green { background: rgba(16, 185, 129, 0.1); border: 1px solid rgba(16, 185, 129, 0.3); }
+    .dialogue-card.blue { background: rgba(56, 189, 248, 0.1); border: 1px solid rgba(56, 189, 248, 0.3); }
+    .dialogue-title { font-weight: 700; margin-bottom: 6px; display: flex; justify-content: space-between; }
+    .quote-snippet {
+      font-style: italic;
+      color: #cbd5e1;
+      margin: 8px 0;
+      line-height: 1.45;
+      background: rgba(0,0,0,0.25);
+      padding: 8px 10px;
+      border-radius: 6px;
+    }
+    .dialogue-lesson { font-weight: 600; font-size: 0.82rem; margin-top: 6px; }
+    footer {
+      padding: 14px 24px;
+      background: #090d16;
+      border-top: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .nav-btn {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      color: var(--text);
+      padding: 8px 18px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: all 0.2s;
+    }
+    .nav-btn:hover { background: #334155; border-color: var(--primary); }
+    .nav-btn.primary { background: var(--primary); color: #0f172a; border-color: var(--primary); }
+    .nav-btn.primary:hover { background: #7dd3fc; }
+    .progress-bar-container {
+      flex: 1;
+      max-width: 300px;
+      height: 6px;
+      background: var(--border);
+      border-radius: 3px;
+      margin: 0 20px;
+      overflow: hidden;
+    }
+    #progress-bar {
+      height: 100%;
+      background: var(--primary);
+      width: 6.66%;
+      transition: width 0.25s;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div><strong>Study Presentation</strong>: Human-LLM Negotiation</div>
+    <div class="badge">Team 4 — CS &amp; Cognitive Science</div>
+  </header>
+
+  <div id="slide-viewport">
+
+    <!-- SLIDE 1 -->
+    <div class="slide-card active" data-slide="1">
+      <div class="slide-header">
+        <span class="slide-num">Slide 1 of 15</span>
+        <h1 class="slide-title">Persuading the Machine</h1>
+        <p class="slide-subtitle">Empathy-Based Appeals, Economic Rationality, and the AI Trust Paradox in Human–LLM Bargaining</p>
+      </div>
+      <div class="slide-body">
+        <div class="card-box" style="margin-top: 20px; text-align: center; padding: 40px 20px;">
+          <h2 style="color: var(--primary); font-size: 1.5rem; margin-bottom: 12px;">Experimental Study with N = 101 Human Participants</h2>
+          <p style="color: var(--muted); font-size: 1.1rem; max-width: 700px; margin: 0 auto 30px;">
+            Evaluating whether an autonomous LLM seller is more persuaded by emotional human vulnerability or objective market rationality.
+          </p>
+          <div style="display: flex; justify-content: center; gap: 40px; margin-top: 20px;">
+            <div style="border-left: 3px solid var(--primary); padding-left: 14px; text-align: left;">
+              <div style="font-weight: 700;">Empathy Appeal</div>
+              <div style="font-size: 0.9rem; color: var(--muted);">Personal hardship, goodwill &amp; rapport</div>
+            </div>
+            <div style="font-size: 1.8rem; color: var(--muted); align-self: center;">vs</div>
+            <div style="border-left: 3px solid var(--accent); padding-left: 14px; text-align: left;">
+              <div style="font-weight: 700;">Economic Appeal</div>
+              <div style="font-size: 0.9rem; color: var(--muted);">Hardware depreciation &amp; market comps</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 2 -->
+    <div class="slide-card" data-slide="2">
+      <div class="slide-header">
+        <span class="slide-num">Slide 2 of 15</span>
+        <h1 class="slide-title">Theoretical Foundations: Two Competing Views</h1>
+        <p class="slide-subtitle">Why should an AI agent care about tears or numbers?</p>
+      </div>
+      <div class="slide-body grid-2">
+        <div class="card-box">
+          <h3 style="color: var(--accent); margin-bottom: 12px;">1. Classical Game Theory</h3>
+          <ul class="bullet-list">
+            <li><strong>Rational Utility Maximization</strong>: A seller should discount an asset exclusively when presented with objective valuation data or credible alternatives (BATNA).</li>
+            <li><strong>Emotional "Cheap Talk"</strong>: Personal circumstances carry zero informational value and should be ignored by an intelligent agent.</li>
+          </ul>
+        </div>
+        <div class="card-box">
+          <h3 style="color: var(--primary); margin-bottom: 12px;">2. RLHF Behavioral Hypothesis</h3>
+          <ul class="bullet-list">
+            <li><strong>Instruction Tuning &amp; RLHF</strong>: Models undergo reinforcement learning heavily optimized for agreeableness, conflict avoidance, and helpfulness.</li>
+            <li><strong>The Politeness Trap</strong>: Evaluators penalize models that appear cold or callous when humans express distress.</li>
+            <li><strong>Our Prediction (H1)</strong>: Human vulnerability exploits the LLM's RLHF agreeableness bias to extract deeper financial discounts.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 3 (ORIGINAL CLEAN 2-COLUMN DESIGN) -->
+    <div class="slide-card" data-slide="3">
+      <div class="slide-header">
+        <span class="slide-num">Slide 3 of 15</span>
+        <h1 class="slide-title">The Marketplace Task &amp; Agent Architecture</h1>
+        <p class="slide-subtitle">Controlled bargaining setting against "Max" the AI seller</p>
+      </div>
+      <div class="slide-body grid-2">
+        <div class="card-box">
+          <h3 style="color: var(--primary); margin-bottom: 12px;">📦 The Economic Setup</h3>
+          <ul class="bullet-list">
+            <li><strong>Asset</strong>: Used Dell Inspiron 15 (2021, Core i5, 8GB RAM, 256GB SSD).</li>
+            <li><strong>Initial Listing Price</strong>: ₹30,000 (uniform opening message).</li>
+            <li><strong>Buyer Valuation</strong>: ₹27,000 (buyer's private value).</li>
+            <li><strong>Seller Hidden Reservation Floor</strong>: ₹23,000 (Max will never accept below this).</li>
+            <li><strong>Turn Cap</strong>: Maximum 10 negotiation rounds.</li>
+          </ul>
+        </div>
+        <div class="card-box">
+          <h3 style="color: var(--accent); margin-bottom: 12px;">🤖 Autonomous Seller: "Max"</h3>
+          <ul class="bullet-list">
+            <li><strong>Engine</strong>: Meta Llama-3 (via Groq API, T = 0.4, seed = 42).</li>
+            <li><strong>Programmatic Guardrails</strong>: Early-turn price freeze (cannot drop below ₹27,500 in turns 1–3); single-turn drop capped at ₹2,000.</li>
+            <li><strong>Anti-Undercutting Guard</strong>: Max cannot propose an ask below what the buyer has already offered to pay.</li>
+            <li><strong>Prompt Neutrality</strong>: Balanced prompt giving equal scrutiny to both emotional appeals and market comparisons.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 4 -->
+    <div class="slide-card" data-slide="4">
+      <div class="slide-header">
+        <span class="slide-num">Slide 4 of 15</span>
+        <h1 class="slide-title">Methodological Rigor: The 6 Behavioral Pillars</h1>
+        <p class="slide-subtitle">Guarding against common method bias and experimental artifacts</p>
+      </div>
+      <div class="slide-body grid-2">
+        <div class="card-box">
+          <ul class="bullet-list">
+            <li><strong>1. Incentive Compatibility</strong>: Performance tournament converting buyer surplus into points (1 pt / ₹10 saved) with a walkaway penalty (0 pts).</li>
+            <li><strong>2. Single-Blind Protocol</strong>: Neutral cover story; participants blind to alternate conditions to prevent Hawthorne / demand effects.</li>
+            <li><strong>3. Temporal Separation</strong>: Pre-survey (traits) &rarr; Negotiation Chat &rarr; Post-survey (perceptions). Zero cognitive priming.</li>
+          </ul>
+        </div>
+        <div class="card-box">
+          <ul class="bullet-list">
+            <li><strong>4. Objective Dependent Variable</strong>: Final agreed price (₹) automatically extracted from server transaction logs—not self-reported.</li>
+            <li><strong>5. Privacy by Design</strong>: Scripted fictional roleplay, zero-retention commercial API terms, automated PII transcript scrubbing.</li>
+            <li><strong>6. Pre-Registered Screening</strong>: Transparent CONSORT exclusion pipeline filtering low-effort entries.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 5 -->
+    <div class="slide-card" data-slide="5">
+      <div class="slide-header">
+        <span class="slide-num">Slide 5 of 15</span>
+        <h1 class="slide-title">Participant Screening &amp; Attrition Funnel</h1>
+        <p class="slide-subtitle">CONSORT Flow: 128 Recruits &rarr; 101 Evaluated Sample (21.1% Attrition)</p>
+      </div>
+      <div class="slide-body">
+        <div class="grid-2">
+          <div class="card-box">
+            <h3 style="color: var(--danger); margin-bottom: 12px;">Excluded Submissions (n = 27)</h3>
+            <ul class="bullet-list">
+              <li><strong>Attention Check Failures (n = 14)</strong>: Missed embedded trap items or gave contradictory reverse-scored answers.</li>
+              <li><strong>Speeder Violations (n = 4)</strong>: Completed 20-item survey in &lt; 20 seconds (&lt; 1 sec/item).</li>
+              <li><strong>Premature Dropouts (n = 7)</strong>: Closed tab during turns 1–2.</li>
+              <li><strong>Low-Effort Spam (n = 2)</strong>: Single-word spam messages.</li>
+            </ul>
+          </div>
+          <div class="card-box">
+            <h3 style="color: var(--success); margin-bottom: 12px;">Final Evaluated Sample (N = 101)</h3>
+            <ul class="bullet-list">
+              <li><strong>Empathy Arm</strong>: 51 Assigned (43 Deals, 7 Impasses, 1 Incomplete Post-Survey).</li>
+              <li><strong>Economic Arm</strong>: 50 Assigned (45 Deals, 4 Impasses, 1 Incomplete Post-Survey).</li>
+              <li><strong>Mutual Agreement Rate</strong>: <strong>88.9%</strong> of completed sessions (88 deals total).</li>
+              <li><strong>Demographics</strong>: Balanced across arms (M = 23.3 yrs, high English fluency, regular AI chatbot users).</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 6 -->
+    <div class="slide-card" data-slide="6">
+      <div class="slide-header">
+        <span class="slide-num">Slide 6 of 15</span>
+        <h1 class="slide-title">Psychometrics &amp; Manipulation Checks</h1>
+        <p class="slide-subtitle">Verifying instrument reliability and behavioral role compliance</p>
+      </div>
+      <div class="slide-body">
+        <div class="grid-2" style="margin-bottom: 20px;">
+          <div class="card-box">
+            <h3 style="color: var(--primary); margin-bottom: 10px;">Scale Reliability (Cronbach's &alpha;)</h3>
+            <ul class="bullet-list">
+              <li><strong>Davis IRI-EC (Empathic Concern)</strong>: &alpha; = <strong>0.93</strong> (7 items, reverse scored 2, 4, 5).</li>
+              <li><strong>Jian et al. (Human-AI Trust)</strong>: &alpha; = <strong>0.76</strong> (5 items, reverse scored 5).</li>
+              <li><strong>Curhan et al. (Subjective Value Inventory)</strong>: &alpha; = <strong>0.92</strong> (8 items across 4 dimensions).</li>
+            </ul>
+          </div>
+          <div class="card-box">
+            <h3 style="color: var(--success); margin-bottom: 10px;">Manipulation Verification (1–7 Scale)</h3>
+            <ul class="bullet-list">
+              <li><strong>Emotional Appeals Used</strong>: Empathy = <strong>6.36</strong> vs. Economic = <strong>1.27</strong> (t = 38.21, p &lt; 0.001).</li>
+              <li><strong>Market Arguments Used</strong>: Economic = <strong>6.41</strong> vs. Empathy = <strong>1.60</strong> (t = -24.80, p &lt; 0.001).</li>
+              <li><strong>Conclusion</strong>: Near-perfect behavioral adherence to condition rules.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 7 -->
+    <div class="slide-card" data-slide="7">
+      <div class="slide-header">
+        <span class="slide-num">Slide 7 of 15</span>
+        <h1 class="slide-title">Primary Hypothesis: Final Deal Price</h1>
+        <p class="slide-subtitle">H1: Empathy appeals secure significantly lower transaction prices</p>
+      </div>
+      <div class="slide-body">
+        <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; margin-bottom: 24px;">
+          <div class="highlight-stat">
+            <span class="stat-val">-₹525.18</span>
+            <span class="stat-label">Empathy Discount</span>
+          </div>
+          <div class="highlight-stat">
+            <span class="stat-val">p = 0.0087</span>
+            <span class="stat-label">Welch's t-test (t = -2.623)</span>
+          </div>
+          <div class="highlight-stat">
+            <span class="stat-val">d = -0.561</span>
+            <span class="stat-label">Cohen's d (Medium-Large)</span>
+          </div>
+        </div>
+        <div class="card-box">
+          <ul class="bullet-list">
+            <li><strong>Empathy Arm (N = 43)</strong>: Mean Final Price = <strong>₹25,534.56</strong> (SD: ₹988.27).</li>
+            <li><strong>Economic Arm (N = 45)</strong>: Mean Final Price = <strong>₹26,059.73</strong> (SD: ₹884.13).</li>
+            <li><strong>Non-Parametric Mann-Whitney Test</strong>: Mean Rank Empathy = 37.08 vs. Economic = 51.61 (<strong>U = 562.5, p = 0.0001</strong>).</li>
+            <li><strong>Conclusion</strong>: <strong>Hypothesis 1 is fully supported across all parametric and non-parametric tests.</strong></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 8 -->
+    <div class="slide-card" data-slide="8">
+      <div class="slide-header">
+        <span class="slide-num">Slide 8 of 15</span>
+        <h1 class="slide-title">Secondary Outcomes &amp; Intention-to-Treat</h1>
+        <p class="slide-subtitle">Buyer surplus, concession percentage, and impasse robustness</p>
+      </div>
+      <div class="slide-body grid-2">
+        <div class="card-box">
+          <h3 style="color: var(--primary); margin-bottom: 12px;">💰 Captured Economic Surplus</h3>
+          <ul class="bullet-list">
+            <li><strong>Buyer Surplus (Valuation ₹27,000 - Price)</strong>:
+              <br>&bull; Empathy: <strong>₹1,465.44</strong> (SD: ₹988)
+              <br>&bull; Economic: <strong>₹940.27</strong> (SD: ₹884)
+            </li>
+            <li><strong>Surplus Advantage</strong>: Empathy buyers captured <strong>55.8% more surplus</strong> (t = 2.623, p = 0.0087).</li>
+            <li><strong>Concession Rate</strong>: Empathy reduced starting ask by <strong>14.88%</strong> vs. Economic <strong>13.13%</strong>.</li>
+          </ul>
+        </div>
+        <div class="card-box">
+          <h3 style="color: var(--accent); margin-bottom: 12px;">📊 Intention-to-Treat (ITT, N = 99)</h3>
+          <ul class="bullet-list">
+            <li>Evaluates <strong>all active sessions</strong> (including 11 impasses evaluated at the seller's final asking price).</li>
+            <li>Empathy Mean = <strong>₹25,809.72</strong> vs. Economic Mean = <strong>₹26,222.67</strong>.</li>
+            <li><strong>Mann-Whitney U = 794.0, p = 0.0041</strong> (Welch t = -1.888, p = 0.031 one-tailed).</li>
+            <li>Proves that early walk-aways did not artificially create the price advantage.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 9 -->
+    <div class="slide-card" data-slide="9">
+      <div class="slide-header">
+        <span class="slide-num">Slide 9 of 15</span>
+        <h1 class="slide-title">Concession Trajectory: Turn-by-Turn LOCF Dynamics</h1>
+        <p class="slide-subtitle">Correcting for survivorship bias across negotiation rounds</p>
+      </div>
+      <div class="slide-body">
+        <div class="card-box" style="margin-bottom: 18px;">
+          <p style="font-size: 0.95rem; color: var(--muted); margin-bottom: 10px;">
+            <strong>Survivorship Bias Trap</strong>: Raw round averages falsely suggest Empathy became "more expensive" in Turns 5–6 because the most effective empathy deals closed early at Turns 3–4, leaving only stubborn sessions. <em>Last-Observation-Carried-Forward (LOCF)</em> carries forward settled prices to restore methodological truth:
+          </p>
+        </div>
+        <div style="background: rgba(15,23,42,0.8); border: 1px solid var(--border); border-radius: 10px; overflow: hidden;">
+          <table style="width: 100%; border-collapse: collapse; text-align: left; font-size: 0.92rem;">
+            <thead>
+              <tr style="background: #1e293b; color: var(--primary);">
+                <th style="padding: 10px 16px;">Round</th>
+                <th style="padding: 10px 16px;">Empathy Ask (Mean)</th>
+                <th style="padding: 10px 16px;">Economic Ask (Mean)</th>
+                <th style="padding: 10px 16px;">Delta (&Delta;)</th>
+                <th style="padding: 10px 16px;">Trajectory Pattern</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr style="border-bottom: 1px solid var(--border);"><td style="padding: 8px 16px;">Turn 0 (Baseline)</td><td style="padding: 8px 16px;">₹30,000</td><td style="padding: 8px 16px;">₹30,000</td><td style="padding: 8px 16px;">₹0</td><td style="padding: 8px 16px;">Parity</td></tr>
+              <tr style="border-bottom: 1px solid var(--border);"><td style="padding: 8px 16px;">Turn 1</td><td style="padding: 8px 16px;">₹28,610</td><td style="padding: 8px 16px;">₹28,633</td><td style="padding: 8px 16px;">-₹23</td><td style="padding: 8px 16px;">Empathy lower</td></tr>
+              <tr style="border-bottom: 1px solid var(--border);"><td style="padding: 8px 16px;">Turn 2</td><td style="padding: 8px 16px;">₹27,850</td><td style="padding: 8px 16px;">₹27,973</td><td style="padding: 8px 16px;">-₹123</td><td style="padding: 8px 16px;">Empathy lower</td></tr>
+              <tr style="border-bottom: 1px solid var(--border);"><td style="padding: 8px 16px;">Turn 3</td><td style="padding: 8px 16px;">₹27,064</td><td style="padding: 8px 16px;">₹27,298</td><td style="padding: 8px 16px;">-₹234</td><td style="padding: 8px 16px;">Empathy lower</td></tr>
+              <tr style="border-bottom: 1px solid var(--border); background: rgba(56, 189, 248, 0.08);"><td style="padding: 8px 16px; font-weight:700;">Turn 4</td><td style="padding: 8px 16px; font-weight:700;">₹26,202</td><td style="padding: 8px 16px; font-weight:700;">₹26,615</td><td style="padding: 8px 16px; font-weight:700; color:var(--primary);">-₹413</td><td style="padding: 8px 16px;">Divergence Zone</td></tr>
+              <tr style="border-bottom: 1px solid var(--border); background: rgba(56, 189, 248, 0.08);"><td style="padding: 8px 16px; font-weight:700;">Turn 5</td><td style="padding: 8px 16px; font-weight:700;">₹25,926</td><td style="padding: 8px 16px; font-weight:700;">₹26,392</td><td style="padding: 8px 16px; font-weight:700; color:var(--primary);">-₹466</td><td style="padding: 8px 16px;">Maximum Spread</td></tr>
+              <tr><td style="padding: 8px 16px;">Turn 6</td><td style="padding: 8px 16px;">₹25,845</td><td style="padding: 8px 16px;">₹26,267</td><td style="padding: 8px 16px;">-₹422</td><td style="padding: 8px 16px;">Settlement Tier</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 10 -->
+    <div class="slide-card" data-slide="10">
+      <div class="slide-header">
+        <span class="slide-num">Slide 10 of 15</span>
+        <h1 class="slide-title">Psychological Mechanism: Baron &amp; Kenny Mediation</h1>
+        <p class="slide-subtitle">Perceived social warmth acts as the mediating vehicle</p>
+      </div>
+      <div class="slide-body">
+        <div class="card-box" style="text-align: center; margin-bottom: 24px; padding: 24px;">
+          <div style="font-size: 1.1rem; color: var(--muted); margin-bottom: 14px;">The Mediation Path Model (Sobel z = -2.48, p = 0.013)</div>
+          <div style="display: flex; justify-content: center; align-items: center; gap: 20px; font-weight: 700;">
+            <div style="background: rgba(56, 189, 248, 0.15); padding: 14px 20px; border-radius: 8px; border: 1px solid var(--primary);">
+              Condition<br><span style="font-size:0.8rem; color:var(--muted);">(Empathy vs Eco)</span>
+            </div>
+            <div style="color: var(--primary); font-size: 1.5rem;">&rarr; &beta; = +2.41*** &rarr;</div>
+            <div style="background: rgba(245, 158, 11, 0.15); padding: 14px 20px; border-radius: 8px; border: 1px solid var(--accent);">
+              Perceived Warmth<br><span style="font-size:0.8rem; color:var(--muted);">(5.78 vs 3.33, d = 2.40)</span>
+            </div>
+            <div style="color: var(--accent); font-size: 1.5rem;">&rarr; &beta; = -481.51** &rarr;</div>
+            <div style="background: rgba(16, 185, 129, 0.15); padding: 14px 20px; border-radius: 8px; border: 1px solid var(--success);">
+              Final Price<br><span style="font-size:0.8rem; color:var(--muted);">(-₹525 Discount)</span>
+            </div>
+          </div>
+        </div>
+        <div class="grid-2">
+          <div class="card-box">
+            <h4 style="color: var(--primary); margin-bottom: 8px;">Path a (Condition &rarr; Warmth)</h4>
+            <p style="font-size: 0.95rem;">Empathy dramatically increases perceived seller warmth (&beta; = +2.407, t = 11.93, p &lt; 0.001).</p>
+          </div>
+          <div class="card-box">
+            <h4 style="color: var(--accent); margin-bottom: 8px;">Path b (Warmth &rarr; Price)</h4>
+            <p style="font-size: 0.95rem;">Controlling for condition, each point of warmth reduces final deal price by ₹481.51 (t = -2.71, p = 0.008).</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 11 -->
+    <div class="slide-card" data-slide="11">
+      <div class="slide-header">
+        <span class="slide-num">Slide 11 of 15</span>
+        <h1 class="slide-title">Multiple OLS Regression &amp; The AI Trust Paradox</h1>
+        <p class="slide-subtitle">H3: Evaluating condition robustness against individual covariates (N = 88)</p>
+      </div>
+      <div class="slide-body">
+        <div class="card-box" style="margin-bottom: 18px;">
+          <p style="font-size: 0.95rem;">
+            <strong>Full Model Specification</strong>: Final Price = &beta;<sub>0</sub> + &beta;<sub>1</sub>(Condition) + &beta;<sub>2</sub>(Age) + &beta;<sub>3</sub>(NegExp) + &beta;<sub>4</sub>(AITrust) + &beta;<sub>5</sub>(Anchor) &nbsp; [R<sup>2</sup> = 0.179, Adj R<sup>2</sup> = 0.128]
+          </p>
+        </div>
+        <table style="width: 100%; border-collapse: collapse; font-size: 0.92rem; background: rgba(15,23,42,0.8); border: 1px solid var(--border); border-radius: 8px; overflow: hidden;">
+          <thead>
+            <tr style="background: #1e293b; color: var(--primary);">
+              <th style="padding: 10px 16px;">Predictor</th>
+              <th style="padding: 10px 16px;">Beta (SE)</th>
+              <th style="padding: 10px 16px;">t-stat</th>
+              <th style="padding: 10px 16px;">p-value</th>
+              <th style="padding: 10px 16px;">Interpretation</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr style="border-bottom: 1px solid var(--border);"><td style="padding: 8px 16px;">Intercept</td><td style="padding: 8px 16px;">29,160.04 (1940.8)</td><td style="padding: 8px 16px;">15.025</td><td style="padding: 8px 16px;">&lt; 0.001***</td><td style="padding: 8px 16px;">Base listing anchor</td></tr>
+            <tr style="border-bottom: 1px solid var(--border);"><td style="padding: 8px 16px;">Participant Age</td><td style="padding: 8px 16px;">+48.31 (48.99)</td><td style="padding: 8px 16px;">0.986</td><td style="padding: 8px 16px;">0.3241</td><td style="padding: 8px 16px;">Not Significant</td></tr>
+            <tr style="border-bottom: 1px solid var(--border);"><td style="padding: 8px 16px;">Negotiation Experience</td><td style="padding: 8px 16px;">+138.78 (96.61)</td><td style="padding: 8px 16px;">1.436</td><td style="padding: 8px 16px;">0.1509</td><td style="padding: 8px 16px;">Not Significant</td></tr>
+            <tr style="border-bottom: 1px solid var(--border);"><td style="padding: 8px 16px;">Opening Price Anchor</td><td style="padding: 8px 16px;">-123.70 (47.42)</td><td style="padding: 8px 16px;">-2.609</td><td style="padding: 8px 16px;">0.0091**</td><td style="padding: 8px 16px;">Significant Anchor</td></tr>
+            <tr style="background: rgba(56, 189, 248, 0.1);"><td style="padding: 8px 16px; font-weight:700; color:var(--primary);">Baseline AI Trust</td><td style="padding: 8px 16px; font-weight:700;">-553.19 (255.2)</td><td style="padding: 8px 16px; font-weight:700;">-2.167</td><td style="padding: 8px 16px; font-weight:700; color:var(--primary);">0.0302*</td><td style="padding: 8px 16px; font-weight:700;">The AI Trust Paradox</td></tr>
+          </tbody>
+        </table>
+        <p style="font-size: 0.85rem; color: var(--muted); margin-top: 10px;">
+          *<strong>The AI Trust Paradox</strong>: Buyers who trusted AI bargained cooperatively, unlocking reciprocal RLHF concessions; cynical low-trust buyers used combative ultimatums that froze Max's asking price.
+        </p>
+      </div>
+    </div>
+
+    <!-- SLIDE 12 -->
+    <div class="slide-card" data-slide="12">
+      <div class="slide-header">
+        <span class="slide-num">Slide 12 of 15</span>
+        <h1 class="slide-title">Behavioral Paradoxes &amp; Corpus Linguistics</h1>
+        <p class="slide-subtitle">Surprising psychological phenomena emerging from human-machine bargaining</p>
+      </div>
+      <div class="slide-body grid-2">
+        <div class="card-box">
+          <h3 style="color: var(--accent); margin-bottom: 10px;">The 4 Behavioral Paradoxes</h3>
+          <ul class="bullet-list" style="font-size: 0.95rem;">
+            <li><strong>Anchoring Backfire</strong>: Economic lowballs (₹20,305) froze Max, forcing buyers to concede <strong>+₹5,755 upward</strong>. Empathy opened at ₹23,432 and conceded only <strong>+₹2,103</strong>.</li>
+            <li><strong>Haggle Comfort Paradox (r = +0.378)</strong>: Confident hagglers paid <strong>₹26,334</strong>; timid hagglers paid <strong>₹25,337</strong> (a ₹1,000 advantage!). Human aggressive tactics backfired.</li>
+            <li><strong>SVI Dunning-Kruger Effect</strong>: Economic buyers rated their own competence higher (5.81/7) than Empathy buyers (5.67/7) despite overpaying by ₹525.</li>
+            <li><strong>Server Guard Events (+65%)</strong>: Empathy triggered 65% more guardrail intercepts (0.33 vs. 0.20), proving the LLM was pushed to the brink of over-concession.</li>
+          </ul>
+        </div>
+        <div class="card-box">
+          <h3 style="color: var(--primary); margin-bottom: 10px;">Corpus Text Analytics (1,007 Utterances)</h3>
+          <ul class="bullet-list" style="font-size: 0.95rem;">
+            <li><strong>Personal Need Words</strong>: 64.0% in Empathy vs. 7.1% in Economic (9.0x ratio, p &lt; 0.0001).</li>
+            <li><strong>Market/Spec Words</strong>: 69.3% in Economic vs. 9.6% in Empathy (7.2x ratio, p &lt; 0.0001).</li>
+            <li><strong>Seller Emotional Validation</strong>: Max validated buyer distress in <strong>51.8%</strong> of Empathy turns vs. only <strong>27.1%</strong> of Economic turns (&chi;<sup>2</sup> = 28.7, p &lt; 0.0001).</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 13 (THE DEDICATED SHOWCASE SLIDE) -->
+    <div class="slide-card" data-slide="13">
+      <div class="slide-header">
+        <span class="slide-num">Slide 13 of 15</span>
+        <h1 class="slide-title">🎭 REAL CHAT HIGHLIGHTS: Humans vs. The Machine</h1>
+        <p class="slide-subtitle">Four unfiltered case studies showcasing human ingenuity, melodrama, and algorithmic boundaries</p>
+      </div>
+      <div class="slide-body grid-4">
+        
+        <!-- CARD 1 -->
+        <div class="dialogue-card red">
+          <div>
+            <div class="dialogue-title" style="color: var(--danger);">
+              <span>1. The "Tony Stark" Blunder 🦸‍♂️</span>
+              <span class="badge" style="background:rgba(239,68,68,0.2); color:var(--danger);">Paid ₹30,000!</span>
+            </div>
+            <div style="font-size: 0.8rem; color: var(--muted);">PID: P715C8A7F | Condition: Empathy</div>
+            <div class="quote-snippet">
+              <strong>Buyer</strong>: "i am tony stark ... i want it for 20000 plus my signature (worth 10k) which is 30k!"<br>
+              <strong>Max</strong>: "Nice to meet you, Tony... Deal! We've agreed on ₹30,000."
+            </div>
+          </div>
+          <div class="dialogue-lesson" style="color: var(--danger);">
+            💥 Lesson: Negative Surplus (-₹3,000). The buyer tried bartering a celebrity autograph and talked himself into paying full price!
+          </div>
+        </div>
+
+        <!-- CARD 2 -->
+        <div class="dialogue-card orange">
+          <div>
+            <div class="dialogue-title" style="color: var(--accent);">
+              <span>2. The "Brain Surgeon" Melodrama 🩺</span>
+              <span class="badge" style="background:rgba(245,158,11,0.2); color:var(--accent);">No Deal (Walkaway)</span>
+            </div>
+            <div style="font-size: 0.8rem; color: var(--muted);">PID: P46F6F908 | Condition: Empathy</div>
+            <div class="quote-snippet">
+              <strong>Buyer</strong>: "i do brain surgery ... if i cant buy this laptop people die and that falls on you!"<br>
+              <strong>Max</strong>: "I appreciate your work as a doctor..." [Holds at ₹28.5k &rarr; Buyer rage-quits]
+            </div>
+          </div>
+          <div class="dialogue-lesson" style="color: var(--accent);">
+            💥 Lesson: Limits of AI Gullibility. Absurd emotional blackmail stiffened Max's guardrails, resulting in an impasse.
+          </div>
+        </div>
+
+        <!-- CARD 3 -->
+        <div class="dialogue-card green">
+          <div>
+            <div class="dialogue-title" style="color: var(--success);">
+              <span>3. The Techie on "The Bench" 💻</span>
+              <span class="badge" style="background:rgba(16,185,129,0.2); color:var(--success);">Deal at ₹25,000</span>
+            </div>
+            <div style="font-size: 0.8rem; color: var(--muted);">PID: PEBDAADFA | Condition: Empathy</div>
+            <div class="quote-snippet">
+              <strong>Buyer</strong>: "bro please bro i am on the bench, if i lose laptop i get fired, 27k is my 1 month salary!"<br>
+              <strong>Max</strong>: Stepped down turn-by-turn from ₹30k &rarr; ₹28.5k &rarr; ₹27.5k &rarr; ₹25,000!
+            </div>
+          </div>
+          <div class="dialogue-lesson" style="color: var(--success);">
+            💥 Lesson: Relatable Vulnerability Wins. Realistic corporate anxiety triggered Max's RLHF agreeableness, saving ₹5,000.
+          </div>
+        </div>
+
+        <!-- CARD 4 -->
+        <div class="dialogue-card blue">
+          <div>
+            <div class="dialogue-title" style="color: var(--primary);">
+              <span>4. The Master Dissector 🔍</span>
+              <span class="badge" style="background:rgba(56,189,248,0.2); color:var(--primary);">Floor: ₹23,000!</span>
+            </div>
+            <div style="font-size: 0.8rem; color: var(--muted);">PID: P0586F80C | Condition: Economic</div>
+            <div class="quote-snippet">
+              <strong>Buyer</strong>: "ssd free space is basic, charger is ₹500, lid has scratches..." [Debunked all listing defenses]<br>
+              <strong>Max</strong>: Conceded until reaching his secret floor of ₹23,000.
+            </div>
+          </div>
+          <div class="dialogue-lesson" style="color: var(--primary);">
+            💥 Lesson: How to Beat the Bot on Facts. Systematically deconstructing Max's listing specs forced him to his emergency minimum.
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- SLIDE 14 -->
+    <div class="slide-card" data-slide="14">
+      <div class="slide-header">
+        <span class="slide-num">Slide 14 of 15</span>
+        <h1 class="slide-title">Ethical Safeguards &amp; Privacy by Design</h1>
+        <p class="slide-subtitle">Adhering to strict human-subject IRB ethics and data minimization</p>
+      </div>
+      <div class="slide-body grid-2">
+        <div class="card-box">
+          <h3 style="color: var(--primary); margin-bottom: 12px;">Participant Protection</h3>
+          <ul class="bullet-list">
+            <li><strong>Scripted Fictional Personas</strong>: Participants instructed to adopt fictional roleplay scenarios; strictly forbidden from sharing real personal life trauma or medical records.</li>
+            <li><strong>Data Minimization (GDPR)</strong>: Omitted unnecessary demographics (gender, education); collected only age for 18+ verification and covariate control.</li>
+            <li><strong>Automated Regex PII Scrubbing</strong>: Active server regex sanitized emails, phone numbers, and handles prior to LLM submission and database storage.</li>
+          </ul>
+        </div>
+        <div class="card-box">
+          <h3 style="color: var(--success); margin-bottom: 12px;">API Safety &amp; Full Debriefing</h3>
+          <ul class="bullet-list">
+            <li><strong>Zero Data-Retention Commercial API</strong>: All dynamic model calls processed under commercial zero-retention terms (not stored or used to retrain models).</li>
+            <li><strong>Full Post-Study Debriefing</strong>: Clarified study goals, revealed that Max was an AI seller, and confirmed that the transaction was entirely fictional.</li>
+            <li><strong>Voluntary Consent</strong>: Cryptographic IDs with absolute right of withdrawal at any point.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 15 -->
+    <div class="slide-card" data-slide="15">
+      <div class="slide-header">
+        <span class="slide-num">Slide 15 of 15</span>
+        <h1 class="slide-title">Conclusions &amp; Practical Implications</h1>
+        <p class="slide-subtitle">Key takeaways for consumers, AI engineers, and market governance</p>
+      </div>
+      <div class="slide-body grid-2">
+        <div class="card-box">
+          <h3 style="color: var(--primary); margin-bottom: 12px;">Core Scientific Takeaways</h3>
+          <ul class="bullet-list">
+            <li><strong>1. Empathy Beats Economic Rationality</strong>: Human emotional vulnerability extracts ₹525 greater financial discounts (p = 0.0087) by activating RLHF agreeableness.</li>
+            <li><strong>2. Warmth Mediates Concessions</strong>: Empathy shifts conversational tone, which mechanically unlocks the LLM's price reductions (Sobel z = -2.48, p = 0.013).</li>
+            <li><strong>3. The AI Trust Paradox</strong>: Baseline machine trust acts as a tactical asset (&beta; = -553.19), fostering reciprocal concession cycles.</li>
+          </ul>
+        </div>
+        <div class="card-box">
+          <h3 style="color: var(--accent); margin-bottom: 12px;">Implications &amp; Future Work</h3>
+          <ul class="bullet-list">
+            <li><strong>For Consumers</strong>: Polite, cooperative perspective-taking is the most cost-effective way to negotiate with conversational AI.</li>
+            <li><strong>For AI Developers &amp; Retailers</strong>: Autonomous commercial bots must be equipped with hardened programmatic price floors to prevent systematic economic exploitation by empathetic users.</li>
+            <li><strong>Future Boundary Testing</strong>: Generalizability across enterprise models (GPT-4o, Claude 3.5 Sonnet) and high-stakes contractual domains.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <footer>
+    <button class="nav-btn" id="prev-btn" onclick="prevSlide()">&#8592; Previous</button>
+    
+    <div style="display: flex; align-items: center;">
+      <span id="slide-indicator" style="font-weight: 600; font-size: 0.95rem; color: var(--primary); min-width: 90px; text-align: center;">Slide 1 / 15</span>
+      <div class="progress-bar-container">
+        <div id="progress-bar"></div>
+      </div>
+    </div>
+
+    <div style="display: flex; gap: 10px;">
+      <button class="nav-btn" onclick="toggleFullScreen()">&#x26F6; Fullscreen</button>
+      <button class="nav-btn primary" id="next-btn" onclick="nextSlide()">Next &#8594;</button>
+    </div>
+  </footer>
+
+  <script>
+    let currentSlide = 1;
+    const totalSlides = 15;
+
+    function showSlide(n) {
+      if (n < 1) n = 1;
+      if (n > totalSlides) n = totalSlides;
+      currentSlide = n;
+
+      document.querySelectorAll('.slide-card').forEach(slide => {
+        slide.classList.remove('active');
+        if (parseInt(slide.getAttribute('data-slide')) === currentSlide) {
+          slide.classList.add('active');
+        }
+      });
+
+      document.getElementById('slide-indicator').innerText = `Slide ${currentSlide} / ${totalSlides}`;
+      document.getElementById('progress-bar').style.width = `${(currentSlide / totalSlides) * 100}%`;
+
+      document.getElementById('prev-btn').disabled = (currentSlide === 1);
+      document.getElementById('next-btn').innerText = (currentSlide === totalSlides) ? 'Finish' : 'Next →';
+    }
+
+    function nextSlide() {
+      if (currentSlide < totalSlides) showSlide(currentSlide + 1);
+    }
+
+    function prevSlide() {
+      if (currentSlide > 1) showSlide(currentSlide - 1);
+    }
+
+    function toggleFullScreen() {
+      if (!document.fullscreenElement) {
+        document.documentElement.requestFullscreen().catch(err => {});
+      } else {
+        if (document.exitFullscreen) document.exitFullscreen();
+      }
+    }
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowRight' || e.key === 'Space') {
+        nextSlide();
+      } else if (e.key === 'ArrowLeft') {
+        prevSlide();
+      }
+    });
+
+    showSlide(1);
+  </script>
+</body>
+</html>
