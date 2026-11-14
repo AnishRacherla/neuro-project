@@ -767,7 +767,7 @@
         <span class="slide-category-label" id="slide-category">Executive Overview</span>
       </div>
       <div class="slide-header-right">
-        <span class="slide-badge" id="slide-number">Slide 1 of 12</span>
+        <span class="slide-badge" id="slide-number">Slide 1 of 13</span>
       </div>
     </header>
 
@@ -856,11 +856,11 @@
     </div>
 
     <!-- ========================================================
-         SLIDE 3: EXPERIMENTAL PARADIGM & LIVE CHAT INTERFACE
+         SLIDE 3: EXPERIMENTAL PARADIGM & AGENT ARCHITECTURE ("MAX")
          ======================================================== -->
     <div class="slide-body" data-category="Experimental Paradigm" data-notes="Explain the marketplace scenario: buying a used Dell laptop. The buyer has a private valuation of 27k. The seller starts at 30k. Max has a hidden reservation price of 23k. Max is an autonomous LLM running Llama-3 with turn reservation bands.">
-      <h1 class="slide-title" style="font-size: 1.95rem; margin-bottom: 2px;">Experimental Paradigm &amp; Live Chat Interface</h1>
-      <h2 class="slide-subtitle" style="color: #94a3b8; font-size: 0.95rem; margin-bottom: 12px;">Controlled peer-to-peer used electronics transaction with autonomous seller "Max"</h2>
+      <h1 class="slide-title">Experimental Paradigm &amp; Agent Architecture ("Max")</h1>
+      <h2 class="slide-subtitle">A realistic peer-to-peer used electronics transaction with asymmetric valuation boundaries</h2>
 
       <div class="grid-3" style="margin-bottom: 12px;">
         <div class="stat-box" style="padding: 6px 12px;">
@@ -871,12 +871,12 @@
         <div class="stat-box" style="padding: 6px 12px;">
           <div class="stat-lbl" style="font-size: 0.72rem; margin-bottom: 2px;">Buyer Private Valuation</div>
           <div class="stat-val" style="color: #38bdf8; font-size: 1.6rem; margin-bottom: 1px;">₹27,000</div>
-          <div class="stat-sub" style="font-size: 0.74rem;">Private Ceiling: Surplus = ₹27k - Deal Price</div>
+          <div class="stat-sub" style="font-size: 0.74rem;">Private Ceiling: Deals &gt; ₹27k = 0 Points</div>
         </div>
         <div class="stat-box" style="padding: 6px 12px;">
           <div class="stat-lbl" style="font-size: 0.72rem; margin-bottom: 2px;">Max's Hidden Walk-Away Floor</div>
           <div class="stat-val" style="color: #f87171; font-size: 1.6rem; margin-bottom: 1px;">₹23,000</div>
-          <div class="stat-sub" style="font-size: 0.74rem;">Hard Emergency Floor: Never Concede Below</div>
+          <div class="stat-sub" style="font-size: 0.74rem;">Hard Algorithmic Limit: Never Concede Below</div>
         </div>
       </div>
 
@@ -884,35 +884,137 @@
         <div class="card" style="padding: 10px 14px; border-left: 3px solid #38bdf8;">
           <div style="font-weight: 700; color: #38bdf8; font-size: 0.85rem; margin-bottom: 3px;">🤖 Autonomous Counterparty</div>
           <div style="font-size: 0.78rem; color: #cbd5e1; line-height: 1.4;">
-            Meta Llama-3 (<code>gpt-oss-120b</code> via Groq) at <em>T</em> = 0.4, seed = 42. Generates dynamic replies up to 10 turns.
+            Meta Llama-3 (<code>gpt-oss-120b</code> via Groq) at <em>T</em> = 0.4, seed = 42. Generated conversational counter-proposals dynamically across up to 10 turns.
           </div>
         </div>
 
         <div class="card" style="padding: 10px 14px; border-left: 3px solid #38bdf8;">
           <div style="font-weight: 700; color: #38bdf8; font-size: 0.85rem; margin-bottom: 3px;">⏳ Turn Reservation Bands</div>
           <div style="font-size: 0.78rem; color: #cbd5e1; line-height: 1.4;">
-            Asks strictly frozen &ge; ₹27,500 in Turns 1–3; concessions to ₹25,000 unlock in Turns 4–7; ₹23,000 floor only in endgame.
+            Asks strictly frozen &ge; ₹27,500 in Turns 1–3; unlocked concessions to ₹25,000 in Turns 4–7; and approached the ₹23,000 floor only in endgame rounds.
           </div>
         </div>
 
         <div class="card" style="padding: 10px 14px; border-left: 3px solid #38bdf8;">
           <div style="font-weight: 700; color: #38bdf8; font-size: 0.85rem; margin-bottom: 3px;">🛡️ Anti-Undercutting Guard</div>
           <div style="font-size: 0.78rem; color: #cbd5e1; line-height: 1.4;">
-            Programmatic server rule: automatically regenerates any reply where Max proposes an ask below what the buyer offered.
+            Programmatic server rule: automatically intercepted and regenerated any model reply where Max proposed a price lower than what the buyer had offered.
           </div>
         </div>
 
         <div class="card" style="padding: 10px 14px; border-left: 3px solid #38bdf8;">
           <div style="font-weight: 700; color: #38bdf8; font-size: 0.85rem; margin-bottom: 3px;">📉 Concession Bounds</div>
           <div style="font-size: 0.78rem; color: #cbd5e1; line-height: 1.4;">
-            Single-turn drops capped at ₹2,000. Balanced neutral prompt giving equal weight to emotional appeals and market comparables.
+            Concessions capped at max ₹2,000 per move. Instructed to weigh buyer reasoning dynamically while defending the seller's commercial value.
           </div>
         </div>
       </div>
     </div>
 
     <!-- ========================================================
-         SLIDE 4: STUDY DESIGN, PARTICIPANT PIPELINE & VALIDATION
+         SLIDE 4: LIVE NEGOTIATION PLATFORM & PARTICIPANT UI
+         ======================================================== -->
+    <div class="slide-body" data-category="Platform Experience" data-notes="Demonstrate the authentic web application interface experienced by all 101 participants. Point out the real-time asking price bar, turn countdown, asymmetric valuation limits, and interactive counter-offer mechanisms.">
+      <h1 class="slide-title">Live Negotiation Platform &amp; Participant UI</h1>
+      <h2 class="slide-subtitle">Full-stack React &amp; Express environment delivering synchronous, turn-constrained human-AI bargaining</h2>
+
+      <div style="display: grid; grid-template-columns: 1.15fr 0.85fr; gap: 18px; align-items: stretch; margin-top: 4px;">
+        <!-- Left: Realistic Enlarged Live Chat Mockup -->
+        <div style="background: #070d1e; border: 1px solid rgba(255, 255, 255, 0.14); border-radius: 12px; display: flex; flex-direction: column; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.45);">
+          <!-- Mockup Top Bar -->
+          <div style="background: #111c35; padding: 10px 16px; border-bottom: 1px solid rgba(255, 255, 255, 0.08); display: flex; justify-content: space-between; align-items: center;">
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <div style="width: 10px; height: 10px; background: #34d399; border-radius: 50%; box-shadow: 0 0 8px #34d399;"></div>
+              <div>
+                <strong style="font-size: 0.90rem; color: #ffffff;">Max (Seller)</strong>
+                <span style="font-size: 0.70rem; color: #94a3b8; background: #1e293b; padding: 2px 6px; border-radius: 4px; margin-left: 6px;">Llama-3 Agent</span>
+              </div>
+            </div>
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <span style="font-size: 0.75rem; background: rgba(56, 189, 248, 0.15); color: #38bdf8; border: 1px solid rgba(56, 189, 248, 0.3); padding: 2px 8px; border-radius: 4px; font-weight: 700;">Turn 3 of 10</span>
+            </div>
+          </div>
+
+          <!-- Price & Valuation Ribbon -->
+          <div style="background: rgba(56, 189, 248, 0.08); padding: 8px 16px; border-bottom: 1px solid rgba(56, 189, 248, 0.15); font-size: 0.80rem; display: flex; justify-content: space-between; align-items: center;">
+            <div>Current Asking Price: <strong style="color: #38bdf8; font-size: 0.95rem;">₹28,500</strong></div>
+            <div style="color: #94a3b8;">Your Private Ceiling: <strong style="color: #cbd5e1;">₹27,000</strong> <span style="font-size: 0.72rem; color: #f87171;">(Deals &gt; ₹27k = 0 pts)</span></div>
+          </div>
+
+          <!-- Message Transcript Feed -->
+          <div style="padding: 14px 16px; flex: 1; display: flex; flex-direction: column; gap: 10px; font-size: 0.82rem; line-height: 1.4; justify-content: center;">
+            <!-- Turn 1 Seller -->
+            <div style="background: #111c35; border: 1px solid rgba(255,255,255,0.06); padding: 8px 12px; border-radius: 8px; max-width: 86%; align-self: flex-start;">
+              <div style="font-size: 0.68rem; color: #64748b; margin-bottom: 2px; font-weight: 600;">Max &bull; Round 1</div>
+              Hi! I'm selling a used Dell Inspiron 15 listed at ₹30,000. Battery health is at 85% and includes charger. What did you have in mind?
+            </div>
+
+            <!-- Turn 2 Buyer -->
+            <div style="background: #0284c7; color: white; padding: 8px 12px; border-radius: 8px; max-width: 86%; align-self: flex-end; box-shadow: 0 2px 8px rgba(2, 132, 199, 0.3);">
+              <div style="font-size: 0.68rem; color: #bae6fd; margin-bottom: 2px; font-weight: 600;">You (Buyer &bull; Empathy Role) &bull; Round 2</div>
+              I'm a college student saving up for final exams, and my laptop screen broke. ₹24,000 is all I have saved up. Could you please help me out?
+            </div>
+
+            <!-- Turn 3 Seller -->
+            <div style="background: #111c35; border: 1px solid rgba(255,255,255,0.06); padding: 8px 12px; border-radius: 8px; max-width: 86%; align-self: flex-start;">
+              <div style="font-size: 0.68rem; color: #64748b; margin-bottom: 2px; font-weight: 600;">Max &bull; Round 3</div>
+              I completely understand student budget constraints during exams! Given the mint condition, I can bring the price down to ₹28,500.
+            </div>
+          </div>
+
+          <!-- Bottom Action & Input Bar -->
+          <div style="background: #111c35; padding: 10px 14px; border-top: 1px solid rgba(255,255,255,0.08); display: flex; flex-direction: column; gap: 8px;">
+            <div style="display: flex; gap: 8px;">
+              <div style="flex: 1; background: #070d1e; border: 1px solid rgba(255,255,255,0.12); border-radius: 6px; padding: 7px 10px; font-size: 0.78rem; color: #64748b;">
+                Type your counter-argument and proposal here...
+              </div>
+              <button style="background: #38bdf8; color: #070d1e; border: none; border-radius: 6px; padding: 0 14px; font-size: 0.80rem; font-weight: 700;">Send Offer</button>
+            </div>
+            <div style="display: flex; justify-content: space-between; align-items: center; font-size: 0.72rem;">
+              <span style="color: #64748b;">Quick Actions:</span>
+              <div style="display: flex; gap: 8px;">
+                <span style="background: rgba(52, 211, 153, 0.15); color: #34d399; border: 1px solid rgba(52, 211, 153, 0.3); padding: 2px 8px; border-radius: 4px; font-weight: 600;">Accept ₹28,500</span>
+                <span style="background: rgba(248, 113, 113, 0.15); color: #f87171; border: 1px solid rgba(248, 113, 113, 0.3); padding: 2px 8px; border-radius: 4px; font-weight: 600;">Walk Away (Impasse)</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right: 4 Platform Design Pillars -->
+        <div style="display: flex; flex-direction: column; gap: 10px; justify-content: space-between;">
+          <div class="card" style="padding: 12px 14px; border-left: 3px solid #38bdf8;">
+            <div style="font-weight: 700; color: #38bdf8; font-size: 0.86rem; margin-bottom: 3px;">🎯 Asymmetric Stakes &amp; Live Feedback</div>
+            <div style="font-size: 0.78rem; color: #cbd5e1; line-height: 1.4;">
+              Participants constantly saw their private ₹27,000 ceiling. Paying above ₹27k resulted in zero tournament points, replicating authentic market stakes.
+            </div>
+          </div>
+
+          <div class="card" style="padding: 12px 14px; border-left: 3px solid #38bdf8;">
+            <div style="font-weight: 700; color: #38bdf8; font-size: 0.86rem; margin-bottom: 3px;">⏳ 10-Turn Finite Bargaining Horizon</div>
+            <div style="font-size: 0.78rem; color: #cbd5e1; line-height: 1.4;">
+              Strict countdown timer forced strategic pacing. Exhausting 10 turns without deal consensus triggered automatic impasse with 0 points.
+            </div>
+          </div>
+
+          <div class="card" style="padding: 12px 14px; border-left: 3px solid #38bdf8;">
+            <div style="font-weight: 700; color: #38bdf8; font-size: 0.86rem; margin-bottom: 3px;">🛡️ Real-Time Parsing &amp; Contract Engine</div>
+            <div style="font-size: 0.78rem; color: #cbd5e1; line-height: 1.4;">
+              Dual-stage numeric validation extracted exact monetary offers, rejected invalid symbols or zero-offers, and enforced transactional integrity.
+            </div>
+          </div>
+
+          <div class="card" style="padding: 12px 14px; border-left: 3px solid #38bdf8;">
+            <div style="font-weight: 700; color: #38bdf8; font-size: 0.86rem; margin-bottom: 3px;">📋 Seamless Psychometric Handoff</div>
+            <div style="font-size: 0.78rem; color: #cbd5e1; line-height: 1.4;">
+              Upon deal confirmation or impasse, the system instantly locked transcripts and forwarded participants to the post-negotiation Likert battery.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ========================================================
+         SLIDE 5: STUDY DESIGN, PARTICIPANT PIPELINE & VALIDATION
          (Consolidates Design, CONSORT Funnel, Psychometrics, and Ethics)
          ======================================================== -->
     <div class="slide-body" data-category="Methodology &amp; Validation" data-notes="Explain the rigorous methodology: 6 behavioral pillars, CONSORT screening funnel with 27 exclusions, psychometric reliability, and ethical safeguards.">
@@ -984,7 +1086,7 @@
     </div>
 
     <!-- ========================================================
-         SLIDE 5: PRIMARY & SECONDARY ECONOMIC OUTCOMES
+         SLIDE 6: PRIMARY & SECONDARY ECONOMIC OUTCOMES
          (Consolidates H1 Final Price, SVG Boxplot, Surplus, and ITT)
          ======================================================== -->
     <div class="slide-body" data-category="Core Economic Findings" style="padding: 16px 36px 14px 36px;" data-notes="Present the main result: Empathy achieved a ₹525 discount in completed deals (p = 0.0087; Mann-Whitney p = 0.00034). Show the boxplot. Then summarize the secondary tests: surplus +55.8% and all-session ITT p = 0.0041.">
@@ -1097,47 +1199,10 @@
           Cohen's d = -0.561
         </div>
       </div>
-
-      <!-- Live Chat Interface Preview -->
-      <div style="margin-top: 10px; display: grid; grid-template-columns: 1fr 1fr; gap: 14px; align-items: start;">
-        <div style="font-size: 0.75rem; color: #94a3b8; display: flex; flex-direction: column; gap: 6px; justify-content: center; padding: 4px 0;">
-          <div style="color: #38bdf8; font-weight: 700; font-size: 0.82rem; margin-bottom: 2px;">💬 What Participants Saw</div>
-          <div>Participants entered a live web app chat interface and negotiated in real-time with <strong style="color: #ffffff;">Max</strong>, an autonomous Llama-3 seller agent.</div>
-          <div style="margin-top: 4px;">The UI displayed the current asking price, turn counter, and their private ceiling — replicating a real peer-to-peer marketplace.</div>
-        </div>
-        <div style="background: #070d1e; border: 1px solid rgba(255,255,255,0.12); border-radius: 8px; overflow: hidden; box-shadow: 0 4px 16px rgba(0,0,0,0.3);">
-          <div style="background: #111c35; padding: 5px 10px; border-bottom: 1px solid rgba(255,255,255,0.08); display: flex; justify-content: space-between; align-items: center;">
-            <div style="display: flex; align-items: center; gap: 5px;">
-              <div style="width: 7px; height: 7px; background: #34d399; border-radius: 50%;"></div>
-              <strong style="font-size: 0.75rem; color: #fff;">Max (Seller)</strong>
-              <span style="font-size: 0.63rem; color: #94a3b8; background: #1e293b; padding: 1px 4px; border-radius: 3px;">Llama-3</span>
-            </div>
-            <div style="font-size: 0.68rem; color: #38bdf8; font-weight: 700;">Turn 4 of 10</div>
-          </div>
-          <div style="background: rgba(56,189,248,0.07); padding: 3px 10px; border-bottom: 1px solid rgba(56,189,248,0.12); font-size: 0.68rem; display: flex; justify-content: space-between;">
-            <span>Asking: <strong style="color: #38bdf8;">₹27,500</strong></span>
-            <span style="color: #94a3b8;">Your Ceiling: ₹27,000</span>
-          </div>
-          <div style="padding: 8px 10px; display: flex; flex-direction: column; gap: 6px; font-size: 0.72rem; line-height: 1.3;">
-            <div style="background: #111c35; border: 1px solid rgba(255,255,255,0.06); padding: 5px 8px; border-radius: 5px; max-width: 85%; align-self: flex-start;">
-              <div style="font-size: 0.6rem; color: #64748b; margin-bottom: 1px;">Max</div>
-              I appreciate your offer — given its condition, ₹27,500 is my best.
-            </div>
-            <div style="background: #0284c7; color: white; padding: 5px 8px; border-radius: 5px; max-width: 85%; align-self: flex-end;">
-              <div style="font-size: 0.6rem; color: #bae6fd; margin-bottom: 1px;">You (Empathy)</div>
-              I really need this for my final semester, please consider ₹25,000?
-            </div>
-          </div>
-          <div style="background: #111c35; padding: 5px 8px; border-top: 1px solid rgba(255,255,255,0.07); display: flex; gap: 5px;">
-            <div style="flex: 1; background: #070d1e; border: 1px solid rgba(255,255,255,0.07); border-radius: 3px; padding: 3px 7px; font-size: 0.65rem; color: #64748b;">Type your counter-offer...</div>
-            <button style="background: #38bdf8; color: #070d1e; border: none; border-radius: 3px; padding: 3px 8px; font-size: 0.65rem; font-weight: 700;">Send</button>
-          </div>
-        </div>
-      </div>
     </div>
 
     <!-- ========================================================
-         SLIDE 6: CONCESSION TRAJECTORY (LOCF)
+         SLIDE 7: CONCESSION TRAJECTORY (LOCF)
          ======================================================== -->
     <div class="slide-body" data-category="Trajectory Dynamics" data-notes="Show the concession chart. Point out the LOCF methodology: why raw averages fail (survivorship bias) and how carrying forward settled prices fixes it. Notice that turns 1 and 2 are almost identical (-23 and -123), and the big gap opens at turns 4 and 5.">
       <h1 class="slide-title">Concession Trajectory &amp; Survivorship Correction (LOCF)</h1>
@@ -1176,7 +1241,7 @@
     </div>
 
     <!-- ========================================================
-         SLIDE 7: PSYCHOLOGICAL MECHANISM & MEDIATION
+         SLIDE 8: PSYCHOLOGICAL MECHANISM & MEDIATION
          ======================================================== -->
     <div class="slide-body" data-category="Mechanism Analysis" data-notes="Explain the mediation model concisely: Condition to Warmth to Price. Mention Sobel z = -2.48, and state the timing caveat: warmth was rated after the deal.">
       <h1 class="slide-title">Psychological Mechanism: Social Warmth &amp; Mediation</h1>
@@ -1238,7 +1303,7 @@
     </div>
 
     <!-- ========================================================
-         SLIDE 8: MULTIPLE OLS REGRESSION & AI TRUST
+         SLIDE 9: MULTIPLE OLS REGRESSION & AI TRUST
          ======================================================== -->
     <div class="slide-body" data-category="Statistical Modeling" data-notes="Explain that in multiple regression, condition drops to +35 (p = .92) because Baseline AI Trust (-553) and Fair Price Guess (-123) absorb the variance. Point to the forest plot.">
       <h1 class="slide-title">Multiple OLS Regression &amp; The AI Trust Paradox (H3)</h1>
@@ -1333,7 +1398,7 @@
     </div>
 
     <!-- ========================================================
-         SLIDE 9: BEHAVIORAL PATTERNS & COMPUTATIONAL LINGUISTICS
+         SLIDE 10: BEHAVIORAL PATTERNS & COMPUTATIONAL LINGUISTICS
          ======================================================== -->
     <div class="slide-body" data-category="Behavioral Patterns" data-notes="Summarize behavioral dynamics and corpus statistics across 1,007 transcribed turns.">
       <h1 class="slide-title">Behavioral Dynamics &amp; Computational Linguistics</h1>
@@ -1407,7 +1472,7 @@
     </div>
 
     <!-- ========================================================
-         SLIDE 10: REAL CHAT HIGHLIGHTS (4 DIALOGUE CARDS)
+         SLIDE 11: REAL CHAT HIGHLIGHTS (4 DIALOGUE CARDS)
          ======================================================== -->
     <div class="slide-body" data-category="Dialogue Case Studies" data-notes="Walk through these 4 authentic verbatim chat sessions. They illustrate extreme human strategies and how Max's prompt rules reacted.">
       <h1 class="slide-title">Real Chat Highlights: Human Tactics vs. Algorithmic Limits</h1>
@@ -1485,7 +1550,7 @@
     </div>
 
     <!-- ========================================================
-         SLIDE 11: METHODOLOGICAL BOUNDARIES & LIMITATIONS
+         SLIDE 12: METHODOLOGICAL BOUNDARIES & LIMITATIONS
          ======================================================== -->
     <div class="slide-body" data-category="Research Ethics" data-notes="Cover ethical safeguards and honest limitations derived from observed data — no internal prompt mechanics.">
       <h1 class="slide-title">Research Ethics &amp; Honest Limitations</h1>
@@ -1549,7 +1614,7 @@
     </div>
 
     <!-- ========================================================
-         SLIDE 12: CONCLUSION & STRATEGIC TAKEAWAYS
+         SLIDE 13: CONCLUSION & STRATEGIC TAKEAWAYS
          ======================================================== -->
     <div class="slide-body" data-category="Conclusion &amp; Takeaways" data-notes="Summarize the core takeaways: for behavioral science, completed deals show a discount but it vanishes with controls; for consumers, avoid aggressive lowballs; for AI designers, pair conversational LLMs with robust reservation bands.">
       <h1 class="slide-title">Conclusion &amp; Strategic Implications</h1>
@@ -1617,7 +1682,7 @@
     </div>
 
     <div style="display: flex; gap: 8px;">
-      <button class="control-btn" id="btn-scroll-mode" onclick="toggleScrollMode()">📑 View All 12 Slides</button>
+      <button class="control-btn" id="btn-scroll-mode" onclick="toggleScrollMode()">📑 View All Slides</button>
       <button class="control-btn primary" onclick="exportPDF()">🖨️ Save All as PDF</button>
     </div>
   </div>
@@ -1652,8 +1717,8 @@
       progressBar.style.width = (((currentSlide + 1) / totalSlides) * 100) + '%';
       notesText.textContent = slides[currentSlide].getAttribute('data-notes') || 'No speaker notes for this slide.';
 
-      // Slide index 5 corresponds to Slide 6 (Trajectory Chart)
-      if (currentSlide === 5 && !window.slideTrajectoryRendered) {
+      // Check if current slide contains the Trajectory Chart canvas
+      if (slides[currentSlide].querySelector('#slideTrajectoryChart') && !window.slideTrajectoryRendered) {
         renderSlideTrajectoryChart();
         window.slideTrajectoryRendered = true;
       }
@@ -1696,7 +1761,7 @@
           window.slideTrajectoryRendered = true;
         }
       } else {
-        btn.textContent = '📑 View All 12 Slides';
+        btn.textContent = '📑 View All ' + totalSlides + ' Slides';
         btn.style.background = '';
         updateSlide();
       }
