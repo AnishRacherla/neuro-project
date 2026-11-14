@@ -1,0 +1,68 @@
+<h1 class="slide-title">Conclusion &amp; Strategic Implications</h1>
+      <h2 class="slide-subtitle">Evidence-based insights for behavioral researchers, human consumers, and AI system architects</h2>
+
+      <div class="grid-3" style="margin-top: 16px; gap: 18px;">
+        <div class="card" style="border-top: 5px solid var(--primary); padding: 20px 22px;">
+          <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 12px;">
+            <span style="font-size: 1.8rem;">🧠</span>
+            <strong style="color: var(--primary); font-size: 1.08rem;">Behavioral Science</strong>
+          </div>
+          <ul style="margin: 0; padding-left: 18px; font-size: 0.90rem; color: #cbd5e1; line-height: 1.6;">
+            <li style="margin-bottom: 8px;"><strong>Raw Discount:</strong> Empathy deals were ₹525 cheaper (<em>p</em> = 0.0087, <em>d</em> = -0.56) in unadjusted comparisons.</li>
+            <li><strong>Control Absorption:</strong> Vanishes under multiple regression (+₹35, <em>p</em> = 0.92) once baseline trust and initial anchors are controlled.</li>
+          </ul>
+        </div>
+
+        <div class="card" style="border-top: 5px solid var(--empathy); padding: 20px 22px;">
+          <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 12px;">
+            <span style="font-size: 1.8rem;">🛒</span>
+            <strong style="color: var(--empathy-dark); font-size: 1.08rem;">Human Consumers</strong>
+          </div>
+          <ul style="margin: 0; padding-left: 18px; font-size: 0.90rem; color: #cbd5e1; line-height: 1.6;">
+            <li style="margin-bottom: 8px;"><strong>Dangers of Lowballs:</strong> Aggressive lowballs trigger defensive ask-freezes and lead to panic capitulation.</li>
+            <li><strong>Collaborative Anchors:</strong> Moderate, polite offers extract the deepest concessions from algorithmic counterparties.</li>
+          </ul>
+        </div>
+
+        <div class="card" style="border-top: 5px solid var(--economic); padding: 20px 22px;">
+          <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 12px;">
+            <span style="font-size: 1.8rem;">⚙️</span>
+            <strong style="color: var(--economic-dark); font-size: 1.08rem;">AI System Architects</strong>
+          </div>
+          <ul style="margin: 0; padding-left: 18px; font-size: 0.90rem; color: #cbd5e1; line-height: 1.6;">
+            <li style="margin-bottom: 8px;"><strong>Hard Reservation Bands:</strong> Conversational LLMs must be bounded by programmatic price floors to prevent drift.</li>
+            <li><strong>Consistency Guards:</strong> Automated validation checks prevent models from undercutting buyer bids during multi-turn chats.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div style="text-align: center; margin-top: 24px; padding: 16px; background: #111c35; border-radius: 12px; border: 1px solid var(--border-subtle); box-shadow: 0 2px 4px rgba(0,0,0,0.02);">
+        <strong style="font-size: 1.15rem; color: #ffffff;">Thank You! Questions &amp; Discussion</strong>
+        <div style="font-size: 0.88rem; color: var(--text-muted); margin-top: 4px;">
+          Full dataset, CONSORT screening funnel, and open analysis scripts available in the project repository.
+        </div>
+      </div>
+    </div>
+
+    <!-- ========================================================
+         DECK CONTROLS & SPEAKER NOTES
+         ======================================================== -->
+    <div id="notes-drawer">
+      <strong>Speaker Notes:</strong> <span id="notes-text">Welcome everyone...</span>
+    </div>
+
+    <div id="deck-controls">
+      <div style="display: flex; gap: 8px;">
+        <button class="control-btn" onclick="prevSlide()">◀ Previous</button>
+        <button class="control-btn" onclick="nextSlide()">Next ▶</button>
+      </div>
+
+      <div style="color: var(--text-muted); font-size: 0.82rem;">
+        Navigate: <strong>&larr;</strong> / <strong>&rarr;</strong> or <strong>Space</strong> &bull; Fullscreen: <strong>F</strong> &bull; Notes: <strong>N</strong>
+      </div>
+
+      <div style="display: flex; gap: 8px;">
+        <button class="control-btn" id="btn-scroll-mode" onclick="toggleScrollMode()">📑 View All 12 Slides</button>
+        <button class="control-btn primary" onclick="exportPDF()">🖨️ Save All as PDF</button>
+      </div>
+    </div>
