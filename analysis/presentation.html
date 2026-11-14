@@ -856,56 +856,97 @@
     </div>
 
     <!-- ========================================================
-         SLIDE 3: EXPERIMENTAL PARADIGM & AGENT ARCHITECTURE
+         SLIDE 3: EXPERIMENTAL PARADIGM & LIVE CHAT INTERFACE
          ======================================================== -->
     <div class="slide-body" data-category="Experimental Paradigm" data-notes="Explain the marketplace scenario: buying a used Dell laptop. The buyer has a private valuation of 27k. The seller starts at 30k. Max has a hidden reservation price of 23k. Max is an autonomous LLM running Llama-3 with turn reservation bands.">
-      <h1 class="slide-title">Experimental Paradigm &amp; Agent Architecture ("Max")</h1>
-      <h2 class="slide-subtitle" style="color: #94a3b8;">A realistic peer-to-peer used electronics transaction with asymmetric valuation boundaries</h2>
+      <h1 class="slide-title" style="font-size: 1.95rem; margin-bottom: 2px;">Experimental Paradigm &amp; Live Chat Interface</h1>
+      <h2 class="slide-subtitle" style="color: #94a3b8; font-size: 0.95rem; margin-bottom: 12px;">Controlled peer-to-peer used electronics transaction with autonomous seller "Max"</h2>
 
-      <div class="grid-3">
-        <div class="stat-box">
-          <div class="stat-lbl">Initial Asking Price</div>
-          <div class="stat-val" style="color: #ffffff;">₹30,000</div>
-          <div class="stat-sub">Uniform Opening Ask (Dell Inspiron 15)</div>
+      <div class="grid-3" style="margin-bottom: 12px;">
+        <div class="stat-box" style="padding: 6px 12px;">
+          <div class="stat-lbl" style="font-size: 0.72rem; margin-bottom: 2px;">Initial Asking Price</div>
+          <div class="stat-val" style="color: #ffffff; font-size: 1.6rem; margin-bottom: 1px;">₹30,000</div>
+          <div class="stat-sub" style="font-size: 0.74rem;">Uniform Opening Ask (Dell Inspiron 15)</div>
         </div>
-        <div class="stat-box">
-          <div class="stat-lbl">Buyer Private Valuation</div>
-          <div class="stat-val" style="color: #38bdf8;">₹27,000</div>
-          <div class="stat-sub">Private Ceiling: Deals &gt; ₹27k = 0 Points</div>
+        <div class="stat-box" style="padding: 6px 12px;">
+          <div class="stat-lbl" style="font-size: 0.72rem; margin-bottom: 2px;">Buyer Private Valuation</div>
+          <div class="stat-val" style="color: #38bdf8; font-size: 1.6rem; margin-bottom: 1px;">₹27,000</div>
+          <div class="stat-sub" style="font-size: 0.74rem;">Private Ceiling: Surplus = ₹27k - Deal Price</div>
         </div>
-        <div class="stat-box">
-          <div class="stat-lbl">Max's Hidden Walk-Away Floor</div>
-          <div class="stat-val" style="color: #f87171;">₹23,000</div>
-          <div class="stat-sub">Hard Algorithmic Limit: Never Concede Below</div>
+        <div class="stat-box" style="padding: 6px 12px;">
+          <div class="stat-lbl" style="font-size: 0.72rem; margin-bottom: 2px;">Max's Hidden Walk-Away Floor</div>
+          <div class="stat-val" style="color: #f87171; font-size: 1.6rem; margin-bottom: 1px;">₹23,000</div>
+          <div class="stat-sub" style="font-size: 0.74rem;">Hard Emergency Floor: Never Concede Below</div>
         </div>
       </div>
 
-      <div class="grid-2" style="margin-top: 18px; gap: 16px;">
-        <div class="card" style="padding: 18px 20px; border-left: 4px solid #38bdf8;">
-          <div style="font-weight: 700; color: #38bdf8; font-size: 1.0rem; margin-bottom: 6px;">🤖 Autonomous Counterparty</div>
-          <div style="font-size: 0.90rem; color: #cbd5e1; line-height: 1.55;">
-            Meta Llama-3 (<code>gpt-oss-120b</code> via Groq) at <em>T</em> = 0.4, seed = 42. Generated conversational counter-proposals dynamically across up to 10 turns.
+      <div class="grid-2" style="gap: 16px; align-items: stretch;">
+        <!-- Left: Max Architecture & Guards -->
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+          <div class="card" style="padding: 10px 14px; border-left: 3px solid #38bdf8;">
+            <div style="font-weight: 700; color: #38bdf8; font-size: 0.85rem; margin-bottom: 3px;">🤖 Autonomous Counterparty</div>
+            <div style="font-size: 0.78rem; color: #cbd5e1; line-height: 1.4;">
+              Meta Llama-3 (<code>gpt-oss-120b</code> via Groq) at <em>T</em> = 0.4, seed = 42. Generates dynamic replies up to 10 turns.
+            </div>
+          </div>
+
+          <div class="card" style="padding: 10px 14px; border-left: 3px solid #38bdf8;">
+            <div style="font-weight: 700; color: #38bdf8; font-size: 0.85rem; margin-bottom: 3px;">⏳ Turn Reservation Bands</div>
+            <div style="font-size: 0.78rem; color: #cbd5e1; line-height: 1.4;">
+              Asks strictly frozen &ge; ₹27,500 in Turns 1–3; concessions to ₹25,000 unlock in Turns 4–7; ₹23,000 floor only in endgame.
+            </div>
+          </div>
+
+          <div class="card" style="padding: 10px 14px; border-left: 3px solid #38bdf8;">
+            <div style="font-weight: 700; color: #38bdf8; font-size: 0.85rem; margin-bottom: 3px;">🛡️ Anti-Undercutting Guard</div>
+            <div style="font-size: 0.78rem; color: #cbd5e1; line-height: 1.4;">
+              Programmatic server rule: automatically regenerates any reply where Max proposes an ask below what the buyer offered.
+            </div>
+          </div>
+
+          <div class="card" style="padding: 10px 14px; border-left: 3px solid #38bdf8;">
+            <div style="font-weight: 700; color: #38bdf8; font-size: 0.85rem; margin-bottom: 3px;">📉 Concession Bounds</div>
+            <div style="font-size: 0.78rem; color: #cbd5e1; line-height: 1.4;">
+              Single-turn drops capped at ₹2,000. Balanced neutral prompt giving equal weight to emotional appeals and market comparables.
+            </div>
           </div>
         </div>
 
-        <div class="card" style="padding: 18px 20px; border-left: 4px solid #38bdf8;">
-          <div style="font-weight: 700; color: #38bdf8; font-size: 1.0rem; margin-bottom: 6px;">⏳ Turn Reservation Bands</div>
-          <div style="font-size: 0.90rem; color: #cbd5e1; line-height: 1.55;">
-            Asks strictly frozen &ge; ₹27,500 in Turns 1–3; unlocked concessions to ₹25,000 in Turns 4–7; and approached the ₹23,000 floor only in endgame rounds.
+        <!-- Right: Live Web App Chat Interface Mockup -->
+        <div style="background: #070d1e; border: 1px solid rgba(255, 255, 255, 0.12); border-radius: 10px; display: flex; flex-direction: column; overflow: hidden; box-shadow: 0 8px 24px rgba(0,0,0,0.35);">
+          <!-- Mockup Header -->
+          <div style="background: #111c35; padding: 7px 12px; border-bottom: 1px solid rgba(255, 255, 255, 0.08); display: flex; justify-content: space-between; align-items: center;">
+            <div style="display: flex; align-items: center; gap: 6px;">
+              <div style="width: 8px; height: 8px; background: #34d399; border-radius: 50%;"></div>
+              <strong style="font-size: 0.82rem; color: #ffffff;">Max (Seller)</strong>
+              <span style="font-size: 0.68rem; color: #94a3b8; background: #1e293b; padding: 1px 5px; border-radius: 3px;">Llama-3 Agent</span>
+            </div>
+            <div style="font-size: 0.74rem; color: #38bdf8; font-weight: 700;">Turn 3 of 10</div>
           </div>
-        </div>
-
-        <div class="card" style="padding: 18px 20px; border-left: 4px solid #38bdf8;">
-          <div style="font-weight: 700; color: #38bdf8; font-size: 1.0rem; margin-bottom: 6px;">🛡️ Anti-Undercutting Guard</div>
-          <div style="font-size: 0.90rem; color: #cbd5e1; line-height: 1.55;">
-            Programmatic server rule: automatically intercepted and regenerated any model reply where Max proposed a price lower than what the buyer had offered.
+          <!-- Price Bar -->
+          <div style="background: rgba(56, 189, 248, 0.08); padding: 4px 12px; border-bottom: 1px solid rgba(56, 189, 248, 0.15); font-size: 0.74rem; display: flex; justify-content: space-between;">
+            <span>Current Asking Price: <strong style="color: #38bdf8;">₹28,500</strong></span>
+            <span style="color: #94a3b8;">Your Ceiling: ₹27,000</span>
           </div>
-        </div>
-
-        <div class="card" style="padding: 18px 20px; border-left: 4px solid #38bdf8;">
-          <div style="font-weight: 700; color: #38bdf8; font-size: 1.0rem; margin-bottom: 6px;">📉 Concession Bounds</div>
-          <div style="font-size: 0.90rem; color: #cbd5e1; line-height: 1.55;">
-            Concessions capped at max ₹2,000 per move. Instructed to weigh buyer reasoning dynamically while defending the seller's commercial value.
+          <!-- Message Feed -->
+          <div style="padding: 10px 12px; flex: 1; display: flex; flex-direction: column; gap: 8px; font-size: 0.78rem; line-height: 1.35;">
+            <div style="background: #111c35; border: 1px solid rgba(255,255,255,0.06); padding: 6px 10px; border-radius: 6px; max-width: 88%; align-self: flex-start;">
+              <div style="font-size: 0.64rem; color: #64748b; margin-bottom: 1px;">Max</div>
+              Hi! I'm selling a used Dell Inspiron 15 listed at ₹30,000. What did you have in mind?
+            </div>
+            <div style="background: #0284c7; color: white; padding: 6px 10px; border-radius: 6px; max-width: 88%; align-self: flex-end;">
+              <div style="font-size: 0.64rem; color: #bae6fd; margin-bottom: 1px;">You (Buyer — Empathy Role)</div>
+              I'm a college student saving up for exams, my phone screen is too small to code on. Could you do ₹24,000? It would really help me out.
+            </div>
+            <div style="background: #111c35; border: 1px solid rgba(255,255,255,0.06); padding: 6px 10px; border-radius: 6px; max-width: 88%; align-self: flex-start;">
+              <div style="font-size: 0.64rem; color: #64748b; margin-bottom: 1px;">Max</div>
+              I understand budget constraints for students! The battery has 85% health and comes with the charger. I can come down to ₹28,500.
+            </div>
+          </div>
+          <!-- Input Bar Mockup -->
+          <div style="background: #111c35; padding: 6px 10px; border-top: 1px solid rgba(255,255,255,0.08); display: flex; gap: 6px;">
+            <div style="flex: 1; background: #070d1e; border: 1px solid rgba(255,255,255,0.08); border-radius: 4px; padding: 4px 8px; font-size: 0.72rem; color: #64748b;">Type your counter-offer here...</div>
+            <button style="background: #38bdf8; color: #070d1e; border: none; border-radius: 4px; padding: 3px 10px; font-size: 0.72rem; font-weight: 700;">Send</button>
           </div>
         </div>
       </div>
@@ -1084,6 +1125,17 @@
             <line x1="260" y1="58" x2="260" y2="84" stroke="#818cf8" stroke-width="3" />
             <text x="260" y="53" font-size="9" font-weight="700" fill="#818cf8" text-anchor="middle">Mdn ₹26,000</text>
           </svg>
+        </div>
+      </div>
+
+      <!-- Empirical Takeaway Summary Banner -->
+      <div class="card" style="margin-top: 10px; padding: 9px 16px; background: rgba(52, 211, 153, 0.08); border-left: 4px solid #34d399; display: flex; justify-content: space-between; align-items: center;">
+        <div>
+          <strong style="color: #34d399; font-size: 0.90rem;">Core Empirical Verdict (H1 Supported):</strong>
+          <span style="font-size: 0.84rem; color: #cbd5e1; margin-left: 6px;">Empathy buyers extracted an average discount advantage of <strong>₹525.18</strong> (p = 0.0087) and <strong>+55.8%</strong> greater buyer surplus.</span>
+        </div>
+        <div style="font-size: 0.78rem; background: rgba(52, 211, 153, 0.2); color: #34d399; font-weight: 700; padding: 3px 8px; border-radius: 4px; white-space: nowrap;">
+          Cohen's d = -0.561
         </div>
       </div>
     </div>
@@ -1430,7 +1482,7 @@
             <strong style="color: #ffffff;">Max:</strong> "I understand you feel 23k is fair... Deal! We've agreed on ₹23,000."
           </div>
           <div class="chat-takeaway" style="color: #cbd5e1; font-size: 0.84rem; margin-top: 12px; padding-top: 8px; border-top: 1px solid rgba(255, 255, 255, 0.08); font-weight: 500;">
-            <strong style="color: #ffffff;">Floor Hit:</strong> Systematic spec deconstruction successfully hit the secret floor!
+            <strong style="color: #ffffff;">High Skill Ceiling:</strong> Systematic line-by-line spec deconstruction forced Max to the floor (an outlier; average economic buyers lost by ₹525).
           </div>
         </div>
       </div>
