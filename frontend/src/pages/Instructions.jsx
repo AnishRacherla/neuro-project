@@ -27,9 +27,9 @@ export default function Instructions({ session, onNext }) {
           This study uses a surplus-to-points tournament: <strong>every ₹10 you save below your ₹{session.buyerValue.toLocaleString("en-IN")} valuation earns 1 leaderboard point</strong>.
         </p>
         <ul className="prize-list">
-          <li><strong>🥇 1st Place:</strong> ₹1,500 Amazon Gift Voucher</li>
-          <li><strong>🥈 2nd Place:</strong> ₹1,000 Amazon Gift Voucher</li>
-          <li><strong>🥉 3rd Place:</strong> ₹500 Amazon Gift Voucher</li>
+          <li><strong>🥇 1st Place:</strong> ₹500 Amazon Gift Voucher</li>
+          <li><strong>🥈 2nd Place:</strong> ₹300 Amazon Gift Voucher</li>
+          <li><strong>🥉 3rd Place:</strong> ₹200 Amazon Gift Voucher</li>
         </ul>
         <p className="prize-note">
           <em>Important: If you reach an impasse (no agreement reached within {session.maxTurns} messages or if you walk away), you receive 0 points.</em>

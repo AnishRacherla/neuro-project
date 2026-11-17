@@ -155,9 +155,9 @@ export default function PreSurvey({ session, onNext }) {
           </p>
           <div className={`field ${showErrors && missing.fairPriceGuess ? 'invalid' : ''}`}>
             <label>What price (in ₹) would you consider fair? *</label>
-            <input type="text" inputMode="numeric" placeholder="e.g. 25000 or 25,000" className="num-input" value={form.fairPriceGuess}
+            <input type="text" inputMode="numeric" placeholder="Enter amount (in ₹)" className="num-input" value={form.fairPriceGuess}
               onChange={e => setField('fairPriceGuess', e.target.value)} />
-            {showErrors && missing.fairPriceGuess && <div className="field-error">Please enter a valid price in rupees (e.g. 25000).</div>}
+            {showErrors && missing.fairPriceGuess && <div className="field-error">Please enter a valid amount in rupees.</div>}
           </div>
         </section>
 
@@ -165,14 +165,14 @@ export default function PreSurvey({ session, onNext }) {
           <h3>Your budget</h3>
           <div className={`field ${showErrors && missing.maxWillingToPay ? 'invalid' : ''}`}>
             <label>What is the maximum you would be willing to pay for this laptop? (in ₹) *</label>
-            <input type="text" inputMode="numeric" placeholder="e.g. 27000 or 27,000" className="num-input" value={form.maxWillingToPay}
+            <input type="text" inputMode="numeric" placeholder="Enter amount (in ₹)" className="num-input" value={form.maxWillingToPay}
               onChange={e => setField('maxWillingToPay', e.target.value)} />
-            {showErrors && missing.maxWillingToPay && <div className="field-error">Please enter a valid price in rupees (e.g. 27000).</div>}
+            {showErrors && missing.maxWillingToPay && <div className="field-error">Please enter a valid amount in rupees.</div>}
           </div>
         </section>
 
         <section>
-          <h3>About how you relate to others (adapted from Davis)</h3>
+          <h3>About how you relate to others</h3>
           <p className="hint">1 = does not describe me at all, 7 = describes me very well</p>
           {EMPATHY_ITEMS.map((item, i) => (
             <Likert key={i} label={item} name={`emp_${i}`} value={form.empathyItems[i]}
