@@ -29,6 +29,24 @@ export default function Consent({ onNext }) {
       <h1>Negotiation Study</h1>
       <h2>An Online Study on Negotiation Conversations</h2>
 
+      <div className="prize-box">
+        <h3>🏆 Tournament &amp; Cash Prizes: Top 3 Win Amazon Vouchers!</h3>
+        <p>
+          Participate in our live bargaining tournament! You will negotiate the price of a laptop with an AI seller:
+        </p>
+        <ul className="prize-list">
+          <li><strong>🥇 1st Place:</strong> ₹1,500 Amazon Gift Voucher</li>
+          <li><strong>🥈 2nd Place:</strong> ₹1,000 Amazon Gift Voucher</li>
+          <li><strong>🥉 3rd Place:</strong> ₹500 Amazon Gift Voucher</li>
+        </ul>
+        <p style={{ marginTop: '8px' }}>
+          <strong>Tournament Scoring:</strong> You earn <strong>1 point for every ₹10 saved</strong> below your private valuation (₹27,000). For example, reaching a deal at ₹25,000 earns you <strong>200 points</strong>.
+        </p>
+        <p className="prize-note">
+          <em>⚠️ Impasse Rule: If no deal is reached within 10 turns (or if you walk away), you earn 0 points. Negotiate strategically to maximize your savings!</em>
+        </p>
+      </div>
+
       <div className="card">
         <h3>What this study is about</h3>
         <p>

@@ -35,7 +35,9 @@ Under the **Environment Variables** section on Render, add:
 | Key | Value | Where to find it |
 | :--- | :--- | :--- |
 | `MONGODB_URI` | `mongodb+srv://...` | Copy from your local `backend/.env` |
-| `GROQ_API_KEY` | `gsk_...` | Copy from your local `backend/.env` |
+| `GROQ_API_KEY` | `gsk_...` | Primary Groq key from `backend/.env` |
+| `GROQ_API_KEYS` | *(Optional)* `gsk_1, gsk_2, ...` | Multiple backup keys (comma-separated). The server automatically rotates keys if one hits rate limits! |
+| `GROQ_MODEL` | `openai/gpt-oss-120b` | Model ID on Groq (or `llama-3.3-70b-versatile` / `llama3-70b-8192`) |
 | `ADMIN_TOKEN` | *your-secret-password* | Any secret string to protect stats/export |
 | `NODE_VERSION` | `20` | Ensures standard Node runtime |
 | `CORS_ORIGIN` | `*` | Allows browser communication |

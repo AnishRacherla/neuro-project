@@ -45,28 +45,50 @@ const LISTING = {
 const OPENING_MESSAGE =
   `Hi! I'm Max. I'm selling a used Dell Inspiron 15 laptop in good condition, listed at ₹${START_PRICE.toLocaleString('en-IN')}. What did you have in mind?`;
 
-// Support multiple API keys (comma-separated in GROQ_API_KEYS or groq_api_keys in .env)
+// Support multiple API keys (comma-separated in GROQ_API_KEYS or GROQ_API_KEY)
 let clients = [];
 let currentKeyIndex = 0;
+
+function parseKeyString(str, keyList) {
+  if (!str) return;
+  const parts = str.split(/[\r\n,]+/).map(k => k.trim().replace(/^['"]|['"]$/g, '')).filter(Boolean);
+  for (const k of parts) {
+    if (k && !keyList.includes(k) && !k.startsWith('#')) keyList.push(k);
+  }
+}
 
 function initGroqClients() {
   if (clients.length > 0) return clients;
   const keys = [];
-  if (process.env.GROQ_API_KEY) keys.push(process.env.GROQ_API_KEY.trim());
+
+  // 1. Process environment variables (works both locally and in cloud deployment)
+  parseKeyString(process.env.GROQ_API_KEYS, keys);
+  parseKeyString(process.env.GROQ_API_KEY, keys);
+  parseKeyString(process.env.OPENAI_API_KEYS, keys);
+  parseKeyString(process.env.OPENAI_API_KEY, keys);
+
+  // 2. Read from backend/.env if available
   try {
     const envPath = path.resolve(__dirname, '.env');
     if (fs.existsSync(envPath)) {
       const text = fs.readFileSync(envPath, 'utf8');
-      const m = text.match(/^#?groq_api_keys=(.+)$/m);
-      if (m) {
-        const extra = m[1].split(',').map(k => k.trim()).filter(Boolean);
-        for (const k of extra) if (!keys.includes(k)) keys.push(k);
+      const lines = text.split('\n');
+      for (const line of lines) {
+        const trimmed = line.trim();
+        const m = trimmed.match(/^#?(?:groq_api_keys|GROQ_API_KEYS|GROQ_API_KEY)\s*=\s*(.+)$/i);
+        if (m) parseKeyString(m[1], keys);
       }
     }
   } catch (err) {
-    // Ignore error reading extra keys
+    // Ignore error reading extra keys from .env
   }
-  if (keys.length === 0) throw new Error('GROQ_API_KEY or OPENAI_API_KEY is not set in environment variables / .env');
+
+  if (keys.length === 0) {
+    throw new Error('GROQ_API_KEY or GROQ_API_KEYS is not set in environment variables / .env');
+  }
+
+  console.log(`[LLM] Initialized key pool with ${keys.length} API key(s) for automatic failover.`);
+
   clients = keys.map(k => {
     const baseURL = process.env.GROQ_BASE_URL || process.env.OPENAI_BASE_URL ||
       (k.startsWith('gsk_') ? 'https://api.groq.com/openai/v1' : 'https://motapis.com/v1');
@@ -82,7 +104,10 @@ function getGroq() {
 
 function rotateGroq() {
   const cl = initGroqClients();
+  if (cl.length <= 1) return cl[0];
+  const prev = currentKeyIndex;
   currentKeyIndex = (currentKeyIndex + 1) % cl.length;
+  console.warn(`[LLM Failover] Switched API key (${prev + 1} -> ${currentKeyIndex + 1} of ${cl.length}) due to rate limit/error.`);
   return cl[currentKeyIndex];
 }
 

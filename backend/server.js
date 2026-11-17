@@ -104,7 +104,7 @@ app.post('/api/start', async (req, res) => {
     const participant = new Participant({
       participantId,
       condition,
-      llmModel: process.env.GROQ_MODEL || process.env.LLM_MODEL || 'glm-5.3-flash',
+      llmModel: process.env.GROQ_MODEL || process.env.LLM_MODEL || (process.env.GROQ_API_KEY?.startsWith('gsk_') ? 'openai/gpt-oss-120b' : 'glm-5.3-flash'),
       promptVersion: PROMPT_VERSION,
       temperature: TEMPERATURE,
       seed: SEED,
@@ -360,7 +360,8 @@ connectDB()
   .then(() => {
     app.listen(PORT, () => {
       console.log(`\n🚀 Negotiation Study Backend running on port ${PORT}`);
-      console.log(`   Prompt ${PROMPT_VERSION} | model ${process.env.GROQ_MODEL || process.env.LLM_MODEL || 'glm-5.3-flash'} | T=${TEMPERATURE} | seed=${SEED}`);
+      const activeModel = process.env.GROQ_MODEL || process.env.LLM_MODEL || (process.env.GROQ_API_KEY?.startsWith('gsk_') ? 'openai/gpt-oss-120b' : 'glm-5.3-flash');
+      console.log(`   Prompt ${PROMPT_VERSION} | model ${activeModel} | T=${TEMPERATURE} | seed=${SEED}`);
       console.log(`   Reservation ₹${RESERVATION_PRICE} is enforced server-side. Admin endpoints ${process.env.ADMIN_TOKEN ? 'enabled' : 'DISABLED (set ADMIN_TOKEN)'}.`);
     });
   })
