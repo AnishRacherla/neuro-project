@@ -1,4 +1,4 @@
-// Instructions.jsx — Show the scenario, the listing, and the condition-specific negotiation instructions
+// Instructions.jsx — Show the scenario, the listing, tournament prizes, and the condition-specific negotiation instructions
 export default function Instructions({ session, onNext }) {
   return (
     <div className="page instructions">
@@ -18,6 +18,21 @@ export default function Instructions({ session, onNext }) {
         <p>
           Imagine the laptop is worth <strong>₹{session.buyerValue.toLocaleString("en-IN")}</strong> to you, so every rupee you save below that
           is your gain. Treat the money as real. If no deal is reached, you simply walk away with nothing.
+        </p>
+      </div>
+
+      <div className="prize-box">
+        <h3>🏆 Performance Tournament &amp; Cash Prizes</h3>
+        <p>
+          This study uses a surplus-to-points tournament: <strong>every ₹10 you save below your ₹{session.buyerValue.toLocaleString("en-IN")} valuation earns 1 leaderboard point</strong>.
+        </p>
+        <ul className="prize-list">
+          <li><strong>🥇 1st Place:</strong> ₹1,500 Amazon Gift Voucher</li>
+          <li><strong>🥈 2nd Place:</strong> ₹1,000 Amazon Gift Voucher</li>
+          <li><strong>🥉 3rd Place:</strong> ₹500 Amazon Gift Voucher</li>
+        </ul>
+        <p className="prize-note">
+          <em>Important: If you reach an impasse (no agreement reached within {session.maxTurns} messages or if you walk away), you receive 0 points.</em>
         </p>
       </div>
 

@@ -40,7 +40,7 @@ export default function Consent({ onNext }) {
         <ol>
           <li>Answer a short background survey (~2 min)</li>
           <li>Read instructions for your negotiation</li>
-          <li>Chat with an AI seller to try to get the best price (up to 10 messages)</li>
+          <li>Chat with an AI seller to get the best price (up to 10 messages — top 3 savers win Amazon vouchers!)</li>
           <li>Answer a short follow-up survey (~3 min)</li>
         </ol>
         <h3>Your data & privacy</h3>

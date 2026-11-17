@@ -1,3 +1,4 @@
+const fs = require('fs');
 // server.js — Express backend for LLM Negotiation Study (MongoDB)
 const path = require('path');
 require('dotenv').config({ path: path.resolve(__dirname, '.env') });
@@ -341,6 +342,18 @@ app.get('/api/stats', requireAdmin, async (req, res) => {
     res.status(500).json({ error: 'Stats retrieval failed' });
   }
 });
+
+
+// ─── Production Frontend Static Serving ──────────────────────────────────────
+const frontendDist = path.resolve(__dirname, '../frontend/dist');
+if (fs.existsSync(frontendDist)) {
+  app.use(express.static(frontendDist));
+  app.get('*', (req, res, next) => {
+    if (req.path.startsWith('/api')) return next();
+    res.sendFile(path.join(frontendDist, 'index.html'));
+  });
+  console.log('📦 Serving production frontend build from:', frontendDist);
+}
 
 // ─── Start Server ─────────────────────────────────────────────────────────────
 connectDB()

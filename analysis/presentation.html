@@ -309,61 +309,6 @@
 
     /* CALLOUT BOXES */
     
-      /* PRINT OVERRIDES SPECIFICALLY FOR SLIDE 5 TO PREVENT CLIPPING */
-      .slide-body[data-category="Core Economic Findings"] {
-        padding: 6mm 14mm 6mm 14mm !important;
-      }
-      .slide-body[data-category="Core Economic Findings"] .print-slide-tag {
-        margin-bottom: 4px !important;
-      }
-      .slide-body[data-category="Core Economic Findings"] .slide-title {
-        font-size: 1.7rem !important;
-        margin: 0 0 2px 0 !important;
-      }
-      .slide-body[data-category="Core Economic Findings"] .slide-subtitle {
-        font-size: 0.90rem !important;
-        margin: 0 0 6px 0 !important;
-      }
-      .slide-body[data-category="Core Economic Findings"] .grid-4 {
-        margin-bottom: 6px !important;
-        gap: 8px !important;
-      }
-      .slide-body[data-category="Core Economic Findings"] .stat-box {
-        padding: 5px 8px !important;
-      }
-      .slide-body[data-category="Core Economic Findings"] .stat-val {
-        font-size: 1.55rem !important;
-        margin-bottom: 1px !important;
-      }
-      .slide-body[data-category="Core Economic Findings"] .stat-lbl {
-        font-size: 0.70rem !important;
-        margin-bottom: 1px !important;
-      }
-      .slide-body[data-category="Core Economic Findings"] .stat-sub {
-        font-size: 0.72rem !important;
-      }
-      .slide-body[data-category="Core Economic Findings"] .grid-2 {
-        gap: 10px !important;
-      }
-      .slide-body[data-category="Core Economic Findings"] .slide-table {
-        font-size: 0.76rem !important;
-      }
-      .slide-body[data-category="Core Economic Findings"] .slide-table th {
-        padding: 4px 6px !important;
-        font-size: 0.70rem !important;
-      }
-      .slide-body[data-category="Core Economic Findings"] .slide-table td {
-        padding: 3.5px 6px !important;
-        font-size: 0.74rem !important;
-        line-height: 1.25 !important;
-      }
-      .slide-body[data-category="Core Economic Findings"] .card {
-        padding: 6px 8px !important;
-      }
-      .slide-body[data-category="Core Economic Findings"] svg {
-        height: 90px !important;
-      }
-
       .callout {
       border-radius: 10px;
       padding: 16px 20px;
@@ -498,56 +443,58 @@
     .print-slide-tag { display: none; }
 
         
-    /* SLIDE 5 COMPACT TUNING: PREVENTS ROW 4 CLIPPING */
+    
+    /* CORE ECONOMIC FINDINGS (SLIDE 5/6) COMPACT TUNING */
     .slide-body[data-category="Core Economic Findings"] {
-      padding: 16px 36px 12px 36px !important;
+      padding: 12px 32px 10px 32px !important;
     }
     .slide-body[data-category="Core Economic Findings"] .slide-title {
-      font-size: 1.8rem !important;
+      font-size: 1.7rem !important;
       margin: 0 0 2px 0 !important;
     }
     .slide-body[data-category="Core Economic Findings"] .slide-subtitle {
-      font-size: 0.92rem !important;
+      font-size: 0.88rem !important;
       margin: 0 0 6px 0 !important;
     }
     .slide-body[data-category="Core Economic Findings"] .grid-4 {
       margin-bottom: 6px !important;
-      gap: 10px !important;
+      gap: 8px !important;
     }
     .slide-body[data-category="Core Economic Findings"] .stat-box {
-      padding: 6px 8px !important;
+      padding: 4px 8px !important;
     }
     .slide-body[data-category="Core Economic Findings"] .stat-val {
-      font-size: 1.65rem !important;
-      margin-bottom: 1px !important;
+      font-size: 1.45rem !important;
+      margin-bottom: 0 !important;
     }
     .slide-body[data-category="Core Economic Findings"] .stat-lbl {
-      font-size: 0.72rem !important;
+      font-size: 0.68rem !important;
       margin-bottom: 1px !important;
     }
     .slide-body[data-category="Core Economic Findings"] .stat-sub {
-      font-size: 0.74rem !important;
-    }
-    .slide-body[data-category="Core Economic Findings"] .grid-2 {
-      gap: 12px !important;
-    }
-    .slide-body[data-category="Core Economic Findings"] .slide-table {
-      font-size: 0.78rem !important;
-    }
-    .slide-body[data-category="Core Economic Findings"] .slide-table th {
-      padding: 4px 6px !important;
       font-size: 0.72rem !important;
     }
-    .slide-body[data-category="Core Economic Findings"] .slide-table td {
-      padding: 4px 6px !important;
+    .slide-body[data-category="Core Economic Findings"] .grid-2 {
+      gap: 10px !important;
+      align-items: start !important;
+    }
+    .slide-body[data-category="Core Economic Findings"] .slide-table {
       font-size: 0.75rem !important;
+    }
+    .slide-body[data-category="Core Economic Findings"] .slide-table th {
+      padding: 3.5px 6px !important;
+      font-size: 0.70rem !important;
+    }
+    .slide-body[data-category="Core Economic Findings"] .slide-table td {
+      padding: 3px 6px !important;
+      font-size: 0.72rem !important;
       line-height: 1.25 !important;
     }
     .slide-body[data-category="Core Economic Findings"] .card {
-      padding: 6px 10px !important;
+      padding: 6px 8px !important;
     }
     .slide-body[data-category="Core Economic Findings"] svg {
-      height: 95px !important;
+      height: 85px !important;
     }
 
     /* PRINT / PDF EXPORT ENGINE: EXACT 1 PAGE PER SLIDE WITH LARGE CRISP FONTS */
@@ -720,6 +667,68 @@
       .chat-takeaway {
         font-size: 0.80rem !important;
       }
+    
+      /* ABSOLUTE FINAL PRINT OVERRIDES FOR CORE ECONOMIC FINDINGS (PREVENTS ROW 4 CLIPPING) */
+      .slide-body[data-category="Core Economic Findings"] {
+        padding: 4mm 14mm 4mm 14mm !important;
+      }
+      .slide-body[data-category="Core Economic Findings"] .print-slide-tag {
+        margin-bottom: 3px !important;
+        padding-bottom: 2px !important;
+        font-size: 0.70rem !important;
+      }
+      .slide-body[data-category="Core Economic Findings"] .slide-title {
+        font-size: 1.6rem !important;
+        margin: 0 0 2px 0 !important;
+        line-height: 1.15 !important;
+      }
+      .slide-body[data-category="Core Economic Findings"] .slide-subtitle {
+        font-size: 0.85rem !important;
+        margin: 0 0 5px 0 !important;
+        line-height: 1.2 !important;
+      }
+      .slide-body[data-category="Core Economic Findings"] .grid-4 {
+        margin-bottom: 5px !important;
+        gap: 6px !important;
+      }
+      .slide-body[data-category="Core Economic Findings"] .stat-box {
+        padding: 3px 6px !important;
+      }
+      .slide-body[data-category="Core Economic Findings"] .stat-val {
+        font-size: 1.35rem !important;
+        margin-bottom: 0 !important;
+        line-height: 1.1 !important;
+      }
+      .slide-body[data-category="Core Economic Findings"] .stat-lbl {
+        font-size: 0.66rem !important;
+        margin-bottom: 1px !important;
+      }
+      .slide-body[data-category="Core Economic Findings"] .stat-sub {
+        font-size: 0.68rem !important;
+      }
+      .slide-body[data-category="Core Economic Findings"] .grid-2 {
+        gap: 8px !important;
+        align-items: start !important;
+      }
+      .slide-body[data-category="Core Economic Findings"] .slide-table {
+        font-size: 0.72rem !important;
+      }
+      .slide-body[data-category="Core Economic Findings"] .slide-table th {
+        padding: 3px 6px !important;
+        font-size: 0.68rem !important;
+      }
+      .slide-body[data-category="Core Economic Findings"] .slide-table td {
+        padding: 2.5px 6px !important;
+        font-size: 0.70rem !important;
+        line-height: 1.2 !important;
+      }
+      .slide-body[data-category="Core Economic Findings"] .card {
+        padding: 5px 8px !important;
+      }
+      .slide-body[data-category="Core Economic Findings"] svg {
+        height: 80px !important;
+      }
+
     }
 
     /* SCROLL VIEW MODE (Read through all 12 slides seamlessly) */
@@ -1025,7 +1034,7 @@
         <div class="card" style="border-top: 3px solid #38bdf8; padding: 18px 20px;">
           <strong style="color: #38bdf8; font-size: 1.02rem;">1. Incentive Compatibility</strong>
           <p style="font-size: 0.92rem; color: #cbd5e1; margin: 6px 0 0 0; line-height: 1.55;">
-            Surplus-to-points tournament (1 pt per ₹10 saved). Top 3 won <strong>₹500, ₹300, and ₹200 Amazon vouchers</strong>; impasses earned 0 pts.
+            Surplus-to-points tournament (1 pt per ₹10 saved). Top 3 won <strong>₹1,500, ₹1,000, and ₹500 Amazon vouchers</strong>; impasses earned 0 pts.
           </p>
         </div>
         <div class="card" style="border-top: 3px solid #38bdf8; padding: 18px 20px;">
@@ -1145,12 +1154,7 @@
               <td style="padding: 5px 8px;">₹26,187.51</td>
               <td style="padding: 5px 8px;"><strong>MW U = 794.0, p = 0.0041**</strong> (Welch p = 0.062)</td>
             </tr>
-            <tr>
-              <td style="padding: 5px 8px;"><strong>Seller Concession Rate &amp; Turns</strong></td>
-              <td style="padding: 5px 8px;">14.88% (5.5 turns)</td>
-              <td style="padding: 5px 8px;">13.13% (5.1 turns)</td>
-              <td style="padding: 5px 8px;">Concession: p = 0.0087** (Duration Parity)</td>
-            </tr>
+            
           </tbody>
         </table>
 
@@ -1245,7 +1249,7 @@
          ======================================================== -->
     <div class="slide-body" data-category="Mechanism Analysis" data-notes="Explain the mediation model concisely: Condition to Warmth to Price. Mention Sobel z = -2.48, and state the timing caveat: warmth was rated after the deal.">
       <h1 class="slide-title">Psychological Mechanism: Social Warmth &amp; Mediation</h1>
-      <h2 class="slide-subtitle" style="color: #94a3b8;">Perceived warmth strongly mediates concessions, while Subjective Value (SVI) shows complete satisfaction parity</h2>
+      <h2 class="slide-subtitle" style="color: #94a3b8;">Conversational warmth channels the indirect discount, but statistical suppression reveals opposing behavioral forces</h2>
 
       <div class="grid-3" style="margin-bottom: 16px;">
         <div class="stat-box">
@@ -1457,15 +1461,21 @@
                 <td><strong style="color: #38bdf8;">7.2 &times;</strong> Economic</td>
               </tr>
               <tr>
-                <td><strong>Max's Emotional Validation</strong></td>
+                <td><strong>Emotional Validation (Max)</strong></td>
                 <td><strong style="color: #34d399;">51.8%</strong> (118)</td>
                 <td>27.1% (61)</td>
                 <td>&chi;&sup2; = 28.7, p &lt; .0001</td>
               </tr>
+              <tr>
+                <td><strong>Hardware Spec Defense (Max)</strong></td>
+                <td>65.4% (149)</td>
+                <td><strong style="color: #818cf8;">72.4%</strong> (163)</td>
+                <td>+7.0% Economic</td>
+              </tr>
             </tbody>
           </table>
           <div style="font-size: 0.78rem; color: #94a3b8; margin-top: 8px;">
-            Max validated student hardship in 51.8% of turns, but defended hardware specs in 69.3% of economic turns.
+            Economic buyers cited specs in 69.3% of turns (vs. 9.6%), prompting Max to defend hardware in 72.4% of economic turns (vs. 65.4%). Conversely, Max validated distress in 51.8% of empathy turns.
           </div>
         </div>
       </div>
