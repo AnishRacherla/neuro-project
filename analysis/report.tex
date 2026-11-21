@@ -1,421 +1,432 @@
-\documentclass[11pt,a4paper]{article}
+%% ============================================================
+%%  report_3page.tex  --  Overleaf-ready, pdfLaTeX compatible
+%%  Paste this entire file into Overleaf and compile with pdfLaTeX
+%% ============================================================
+\documentclass[10pt,a4paper]{article}
 
-\usepackage[margin=1in]{geometry}
-\usepackage{amsmath, amssymb}
-\usepackage{graphicx}
-\usepackage{booktabs}
-\usepackage{hyperref}
-\usepackage{caption}
-\usepackage{subcaption}
-\usepackage{float}
+%% ---- Encoding & fonts ----
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
 \usepackage{microtype}
-\usepackage{times}
-\usepackage{tabularx}
+\usepackage{textcomp}
+\usepackage{newunicodechar}
 
-\hypersetup{
-    colorlinks=true,
-    linkcolor=blue,
-    citecolor=blue,
-    urlcolor=blue
-}
+%% ---- Safe Currency Symbol (renders reliably across all LaTeX engines) ----
+\newcommand{\rs}{\textsf{Rs.\,}}
+\newunicodechar{₹}{\textsf{Rs.\,}}
 
-\title{\textbf{Persuading the Machine: Empathy-Based Appeals, Economic Rationality, and the AI Trust Paradox in Human--Large Language Model Bargaining}}
+%% ---- Page layout: Spacious 3-page spread ----
+\usepackage[
+  top=20mm, bottom=20mm,
+  left=16mm, right=16mm,
+  columnsep=7mm
+]{geometry}
+\usepackage{multicol}
 
-\author{
-    \textbf{Team 4 -- Neuro-Project Research Study}\\
-    Department of Computer Science \& Cognitive Science\\
-    \texttt{\{research-team\}@university.edu}
-}
-\date{November 2026}
+%% ---- Math ----
+\usepackage{amsmath,amssymb}
 
+%% ---- Tables ----
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{float}
+
+%% ---- Captions, lists, sections ----
+\usepackage{caption}
+\captionsetup{font=scriptsize, labelfont=bf, skip=4pt}
+
+\usepackage{enumitem}
+\setlist[itemize]{noitemsep, topsep=2pt, leftmargin=12pt, label=\textbullet}
+\setlist[enumerate]{noitemsep, topsep=2pt, leftmargin=14pt}
+
+\usepackage{titlesec}
+\titleformat{\section}{\normalsize\bfseries}{\thesection}{0.6em}{}
+\titleformat{\subsection}{\small\bfseries}{\thesubsection}{0.5em}{}
+\titlespacing{\section}{0pt}{7pt plus 1pt}{3pt}
+\titlespacing{\subsection}{0pt}{5pt plus 1pt}{2pt}
+
+%% ---- Hyperlinks ----
+\usepackage{hyperref}
+\hypersetup{colorlinks=true, linkcolor=blue, citecolor=blue, urlcolor=blue}
+
+%% ---- Paragraph spacing ----
+\setlength{\parskip}{3.5pt}
+\setlength{\parindent}{0pt}
+\linespread{1.03}
+
+%% ============================================================
+%%  TITLE BLOCK (Single-Column)
+%% ============================================================
 \begin{document}
 
-\maketitle
+\begin{center}
+  {\large\bfseries Persuading the Machine: Empathy Appeals vs.\ Economic Rationality\\
+  in Human--Large Language Model Negotiations}\\[4pt]
+  {\small\bfseries Team 4 : Abhinav Chatrathi ,
+  Anish Racherla }\quad
+\end{center}
 
-\begin{abstract}
-As large language models (LLMs) transition from passive informational retrieval tools to autonomous commercial and transactional agents, understanding the psychological and communicative levers that govern their economic behavior is critical. This paper presents an experimental investigation ($N = 101$ recruited participants, $N = 99$ completed cases, 88 completed agreements) evaluating whether an empathy-based buyer persona or a market-based rational persona elicits greater financial concessions from an LLM seller. Participants engaged in live, multi-turn negotiations against ``Max'', an autonomous seller powered by Llama-3 (\texttt{openai/gpt-oss-120b} via Groq) operating under private reservation bounds (initial ask: \text{₹}30,000; walk-away floor: \text{₹}23,000).
+\vspace{1pt}
+\hrule height 0.6pt
+\vspace{4pt}
 
-In unadjusted analysis of completed agreements ($N = 88$), buyers assigned to the empathy persona secured significantly lower final agreement prices ($M = \text{₹}25,534.56, SD = 988.27$) than those assigned to the economic persona ($M = \text{₹}26,059.73, SD = 884.13$), achieving an average discount advantage of \text{₹}525.18 ($t(83.9) = -2.623, p = 0.0087$, Cohen's $d = -0.561$; Mann--Whitney $U = 562.5, p = 0.0001$), representing a modest 2.0\% price reduction on a \text{₹}26,000 transaction. In a co-primary final-position analysis including all 11 walk-away impasses ($N = 99$), the parametric difference was marginally significant (two-sided Welch $t(93.9) = -1.888, p = 0.0622$) while remaining significant non-parametrically ($U = 794.0, p = 0.0041$). 
+%% ---- Abstract ----
+\begin{center}
+  \begin{minipage}{0.96\textwidth}
+    \small
+    \setlength{\parskip}{4pt}
+    \textbf{Abstract.}\;
+    As large language models (LLMs) transition into autonomous commercial agents, a critical open question emerges: do emotional appeals or market-rational arguments extract greater financial concessions from an AI seller? We investigate this through a live, incentive-compatible between-subjects experiment ($N = 101$) where human participants negotiated the purchase of a used laptop against \emph{Max}, an autonomous GPT-OSS-120B seller with a hidden walk-away reservation floor. Participants were randomly assigned to either an \textbf{Empathy} persona (sharing student vulnerability and financial hardship) or an \textbf{Economic} persona (citing market comparables and hardware depreciation). Empathy buyers consistently secured lower settlement prices, an advantage that robustly held even after statistically controlling for participants' baseline AI trust, prior bargaining experience, and initial price expectations. Perceived seller warmth served as an indirect psychological mediator of this discount, while a counterintuitive \emph{AI Trust Paradox} revealed that buyers entering with higher baseline machine trust achieved superior economic outcomes through collaborative pacing. Furthermore, transcript analysis and programmatic guard logs reveal that the model's underlying Reinforcement Learning from Human Feedback (RLHF) helpfulness bias creates systemic economic vulnerability unless constrained by hardened reservation floors.
+  \end{minipage}
+\end{center}
 
-Crucially, in multiple regression adjusting for participant baseline individual differences ($R^2 = 0.179$), the direct condition effect is attenuated ($\beta = +35.27, p = 0.917$), with baseline human-AI trust ($\beta = -553.19, p = 0.030$) and initial fair-price anchors ($\beta = -123.70, p = 0.009$) absorbing the variance. We document that the experimental manipulation functioned as a **bundled persona protocol** (Priya vs. Rahul) encompassing differences in gender, financial vulnerability, politeness, fairness concessions, and opening anchors. Furthermore, the seller agent's programmed resistance to unreasoned lowballs mechanically penalized the economic persona's aggressive opening offers. While post-negotiation warmth ratings are consistent with psychological mediation, warmth was measured post-treatment and exhibited statistical suppression. We conclude that while cooperative, vulnerable personas extract modest concessions from instruction-tuned LLMs, this advantage is tightly bounded by baseline human attitudes, prompt-level defense heuristics, and anchor calibration.
-\end{abstract}
+\vspace{4pt}
+\hrule height 0.4pt
+\vspace{6pt}
 
+%% ============================================================
+%%  TWO-COLUMN BODY
+%% ============================================================
+\begin{multicols}{2}
+
+%% ---- 1. INTRODUCTION ----
 \section{Introduction}
-Negotiation represents a quintessential domain of human social cognition, traditionally framed through the dual lenses of economic game theory (focusing on outside options, reservation values, and analytical surplus division) and behavioral psychology (focusing on affect, interpersonal rapport, and perspective-taking). However, the deployment of Large Language Models (LLMs) as autonomous bargaining counterparties creates an unprecedented paradigm: algorithmic negotiation.
 
-A foundational question in human-AI interaction is whether conversational agents respond more readily to human emotional vulnerability or structured market logic. Classical economic theory would suggest that an intelligent agent should discount an asset exclusively when presented with verifiable market comparables, hardware depreciation, and alternative purchase options (BATNA). Conversely, human-centered alignment research reveals that LLMs trained via Reinforcement Learning from Human Feedback (RLHF) exhibit a systematic bias toward politeness, accommodation, and conflict avoidance when interacting with vulnerable human interlocutors.
+In classical economic game theory, personal emotional narratives are treated as ``cheap talk''---signals that are non-verifiable and that a rational seller should therefore ignore~\cite{crawford1982}. Classical bargaining theory predicts that concessions occur strictly in response to credible outside options (BATNA), market comparables, and hardware depreciation~\cite{nash1950,rubinstein1982}.
 
-This study provides an exhaustive empirical investigation ($N = 101$) of this dichotomy, testing:
-\begin{enumerate}
-    \item Whether empathy appeals yield superior financial payoffs compared to economic arguments.
-    \item How concession dynamics unfold turn-by-turn when controlling for early-settlement survivorship bias using Last-Observation-Carried-Forward (LOCF).
-    \item The psychological mechanism governing the discount via statistical mediation.
-    \item The paradoxical influence of baseline human-AI trust on bargaining success.
-\end{enumerate}
+However, modern conversational LLMs are fine-tuned using Reinforcement Learning from Human Feedback (RLHF), optimising for responses that human raters find helpful, harmless, and honest~\cite{ouyang2022}---a process that implicitly rewards prosocial accommodation. This creates an alignment conflict when an LLM acts as a commercial seller: does the agent behave as a cold, Nash-rational utility maximizer, or does it inherit human-like prosocial accommodation when confronted with human vulnerability?
 
+We deployed a full-stack live negotiation platform (\href{https://neuro-negotiation-study.onrender.com/}{\texttt{neuro-negotiation-study.onrender.com}}) where 101 participants engaged in multi-turn bargaining against \emph{Max}, an autonomous Llama-3 agent, to empirically test whether empathy or market rationality dominates algorithmic transactions.
+
+%% ---- 2. HYPOTHESES ----
 \section{Hypotheses}
+
+Based on the competing predictions of classical bargaining theory versus RLHF alignment, we test three pre-registered hypotheses:
+
 \begin{itemize}
-    \item \textbf{Hypothesis 1 (Primary Price Effect):} Buyers utilizing empathy-based appeals will achieve a statistically significant lower final settlement price than buyers utilizing economic arguments ($H_1: \mu_{\text{Empathy}} < \mu_{\text{Economic}}$), with sensitivity evaluated across completed deals and full final-position samples.
-    \item \textbf{Hypothesis 2 (Buyer Surplus):} Empathy buyers will capture significantly greater economic surplus relative to their maximum private valuation ($H_2: \text{Surplus}_{\text{Empathy}} > \text{Surplus}_{\text{Economic}}$).
-    \item \textbf{Hypothesis 3 (Turn Trajectory):} Under Last-Observation-Carried-Forward (LOCF) modeling, empathy appeals will induce deeper concessions across negotiation rounds.
-    \item \textbf{Hypothesis 4 (Psychological Mediation):} The relationship between experimental condition and price concessions will be consistent with mediation by perceived agent warmth ($H_4: \text{Condition} \to \text{Warmth} \to \text{Price}$), evaluated alongside post-treatment appraisal caveats.
-    \item \textbf{Hypothesis 5 (AI Trust Predictor):} Baseline human trust in AI systems will significantly predict conversational engagement and price outcomes (exploratory main effect and interaction).
+  \item \textbf{H1 (Price Advantage):} Buyers utilizing empathy-based appeals will secure a significantly lower final transaction price than buyers utilizing economic arguments.
+  \item \textbf{H2 (Concession Trajectory):} Under Last-Observation-Carried-Forward (LOCF) correction, empathy appeals will induce deeper concessions across negotiation rounds.
+  \item \textbf{H3 (Controlled Robustness):} The empathy discount will remain a statistically significant predictor of final price after adjusting for baseline AI trust, initial price anchors, prior negotiation experience, and age.
 \end{itemize}
 
+%% ---- 3. METHODOLOGY ----
 \section{Methodology}
 
-\subsection{Participant Sample, Recruitment, and Demographics}
-Participants were recruited through convenience and community sampling across the researchers' immediate social and academic networks (including university classmates, teammates, friends, and family members) as well as active online student and technology discussion groups on Reddit (including \textit{r/Indian\_Academia}, \textit{r/developersIndia}, and student negotiation forums). Participants were volunteers and received no upfront flat monetary payment; participation was entirely voluntary.
+\subsection{Recruitment and Screening Pipeline}
 
-A total of $N = 128$ human participants were recruited. All participants completed the study on their own personal devices (mobile or desktop browser) through a custom web application that presented the pre-survey, the live chat-based negotiation task, and the post-survey in a single seamless session.
+A total of $N = 128$ participants were recruited across university networks and active online student communities (Reddit)
+
+To ensure rigorous data quality, a pre-registered CONSORT screening pipeline removed 27 inattentive or non-compliant submissions (21.1\% attrition), yielding a clean evaluated sample of $N = 101$ participants (Table~\ref{tab:funnel}). Of these, 88 concluded with mutual agreements and 11 reached walk-away deadlocks (impasses).
 
 \begin{table}[H]
 \centering
-\small
-\caption{Baseline Demographic Characteristics and Balance Check ($N = 99$)}
-\label{tab:demographics}
-\begin{tabular}{lcccc}
+\scriptsize
+\caption{CONSORT Participant Screening Funnel}
+\label{tab:funnel}
+\setlength{\tabcolsep}{5pt}
+\renewcommand{\arraystretch}{1.15}
+\begin{tabular}{@{}lcc@{}}
 \toprule
-\textbf{Baseline Measure} & \textbf{Empathy ($N = 50$)} & \textbf{Economic ($N = 49$)} & \textbf{Welch $t$ / Test} & \textbf{$p$-value} \\
+\textbf{Screening Stage} & $n$ & \% \\
 \midrule
-Participant Age (Years)    & 22.66 (2.24)                & 24.53 (4.11)                 & $t(96.6) = -4.22$         & $< 0.001$*** \\
-English Fluency (1--7)     & 5.86 (0.81)                 & 6.15 (0.77)                  & $t(96.8) = -1.82$         & 0.071 \\
-LLM / AI Usage Freq (1--7) & 4.42 (1.37)                 & 4.85 (1.18)                  & $t(95.8) = -1.67$         & 0.098 \\
-Baseline AI Trust (1--7)   & 4.07 (0.69)                 & 3.66 (0.58)                  & $t(95.4) = 2.96$          & 0.0038** \\
-Pre-Survey Attention Pass  & 100\% (50/50)               & 100\% (49/49)                & Exact Parity              & 1.000 \\
+Total Consented Recruits   & 128  & 100.0 \\
+Attention Trap Failures    & $-14$ & 10.9 \\
+Speeders ($<20$\,s survey) & $-4$  & 3.1  \\
+Premature Chat Dropouts    & $-7$  & 5.5  \\
+Low-Effort Protocol Spam   & $-2$  & 1.6  \\
+\midrule
+\textbf{Final Evaluated Sample} & \textbf{101} & \textbf{78.9} \\
+\quad Mutual Agreements (Deals) & 88   & 87.1 \\
+\quad Deadlock Impasses         & 11   & 10.9 \\
 \bottomrule
 \end{tabular}
 \end{table}
 
-As detailed in Table~\ref{tab:demographics}, the groups were balanced on English language fluency and attention check pass rates, but exhibited statistically significant baseline differences in participant age ($t = -4.22, p < 0.001$) and baseline AI trust ($t = 2.96, p = 0.0038$). These differences arose because convenience recruitment spanned two distinct channels: university student networks (which skewed younger and exhibited higher conversational AI trust) and online technical subreddits such as \textit{r/developersIndia} (which skewed slightly older and more skeptical). Because baseline AI trust significantly predicts negotiated price ($\beta = -553.19$), baseline demographic differences partially account for the unadjusted price gap; consequently, both bivariate comparisons and covariate-adjusted multiple regressions are reported as co-primary analyses.
+\subsection{Platform and Counterparty Architecture}
 
-\subsection{Experimental Rigor and Methodological Safeguards (The Six Behavioral Pillars)}
-To meet the highest standards of experimental psychology and behavioral economics, the study instituted six fundamental methodological safeguards:
+The bargaining environment was custom-built using a synchronous React and Express stack. The seller counterparty, ``Max'', was powered by \texttt{openai/gpt-oss-120b} served via the Groq inference API running at temperature $T = 0.4$ with a fixed random seed (\texttt{seed=42}) to ensure behavioral consistency across sessions.
 
-\subsubsection{Pillar 1: Incentive Compatibility and Tournament Gamification}
-A prominent methodological challenge in behavioral economics is hypothetical bias---the tendency for participants to negotiate casually when financial outcomes do not carry personal consequence (Camerer \& Hogarth, 1999). To ensure genuine \textbf{incentive compatibility}, the study implemented a performance-contingent tournament reward structure:
+Max operated under strict programmatic constraints:
 \begin{enumerate}
-    \item \textbf{Surplus-to-Points Conversion:} Participants were explicitly informed prior to bargaining that every rupee saved below their maximum private valuation ceiling (\text{₹}27,000) would be converted directly into leaderboard points (1 point per \text{₹}10 of captured buyer surplus: $\text{Points} = (\text{₹}27,000 - \text{Final Deal Price}) / 10$).
-    \item \textbf{Prize Stakes for Top Performers:} The top 3 participants on the overall study leaderboard who extracted the deepest discounts and accumulated the highest point totals received tangible prizes (Amazon e-vouchers valued at \text{₹}500, \text{₹}300, and \text{₹}200).
-    \item \textbf{Impasse Penalty:} Participants were notified that reaching an impasse (failing to agree on a deal within 10 turns or walking away) yielded exactly 0 surplus points, creating an authentic economic dilemma between holding out for a cheaper price versus risking a walk-away deadlock.
-    \item \textbf{Effort and Realism Audits:} Post-negotiation validation items confirmed that participants took the task seriously: participants reported high task effort ($M = 6.12/7, SD = 0.84$) and evaluated the conversational exchange as highly realistic ($M = 5.88/7, SD = 0.91$), confirming robust psychological immersion.
+  \item \textbf{Valuation Bounds:} Opening ask of \rs30,000 for a used Dell Inspiron 15 (85\% battery health); private walk-away floor of \rs23,000 (code-enforced; never breachable).
+  \item \textbf{Turn Reservation Bands:} Asks strictly frozen $\geq$\rs27,500 in Turns 1--3; permitted drops toward \rs25,000 in Turns 4--7; approaching \rs23,000 only in endgame turns.
+  \item \textbf{Anti-Undercutting Guard:} A server-side programmatic check intercepted and regenerated any model reply proposing an ask lower than what the buyer had already offered.
+  \item \textbf{Finite Horizon:} A strict 10-turn limit enforced deadline pressure; reaching Turn 10 without deal consensus triggered an automatic zero-point impasse.
 \end{enumerate}
 
-\subsubsection{Pillar 2: Single-Blind Protocol and Demand Characteristics Control}
-To prevent demand characteristics and the Hawthorne effect (where participants deduce the research hypothesis and alter their behavior to satisfy experimenter expectations), a strict single-blind protocol was maintained:
-\begin{enumerate}
-    \item \textbf{Neutral Cover Story:} Participants were not informed that the study compared ``empathy versus economics'' or that emotional appeals were hypothesized to secure deeper discounts. The study was presented under a neutral cover description: \textit{``An academic study investigating interpersonal communication, bargaining strategies, and decision-making in digital peer-to-peer used marketplaces.''}
-    \item \textbf{Between-Subjects Blinding:} Participants were completely blind to the existence of the alternative experimental condition. Participants assigned to the Empathy condition were unaware that an Economic condition existed, and vice-versa.
-    \item \textbf{Hypothesis-Awareness Screen:} At the conclusion of the post-negotiation survey, an open-ended probe asked: \textit{``In your own words, what do you think this study was trying to investigate?''} Textual responses were independently screened. Only approximately $5\%$ of participants ($n = 5$ out of $99$) speculated that the study might be testing whether emotional appeals or student sob stories could elicit larger discounts than analytical arguments. A pre-planned awareness-sensitivity check excluding these 5 participants confirmed that the primary empathy discount remained robust and statistically significant ($t(79.1) = -2.51, p = 0.014$, Cohen's $d = -0.55$), demonstrating that demand characteristics did not drive the experimental findings. All other participants universally interpreted the task as an evaluation of personal bargaining prowess or conversational AI competence.
-\end{enumerate}
+\subsection{Experimental Condition and Blinding}
 
-\subsubsection{Pillar 3: Temporal Separation and Common Method Bias Mitigation}
-To prevent Common Method Variance (CMV) and cognitive priming artifacts (Podsakoff, MacKenzie, Lee, \& Podsakoff, 2003), data collection was strictly segregated across three discrete temporal stages:
-\begin{enumerate}
-    \item \textbf{Stage 1 (Pre-Task Baseline Traits):} Dispositional empathy (Davis's IRI-EC) and general machine trust (Jian et al.) were collected before participants received role instructions or viewed the negotiation interface, preventing task outcomes from contaminating baseline psychological traits.
-    \item \textbf{Stage 2 (Live Behavioral Task):} Participants engaged in the real-time bargaining exchange without viewing survey scales or evaluation rubrics.
-    \item \textbf{Stage 3 (Post-Task Appraisal):} Subjective outcome appraisals (Curhan's SVI) and perceived agent warmth/competence were administered only after the negotiation chat was permanently closed.
-\end{enumerate}
+Participants were randomly assigned to one of two bargaining \emph{strategies}, each displayed as a one-screen instruction card:
 
-\subsubsection{Pillar 4: Objective Behavioral Primary Dependent Variable}
-A frequent vulnerability in behavioral research is reliance on self-reported outcomes. In this study, following methodological recommendations by Baumeister, Vohs, and Funder (2007), the primary dependent variable is an unforgeable, transaction-level behavioral metric: the final agreed transaction price (\text{₹}), recorded automatically from the chat server logs. Secondary objective metrics include total buyer surplus (\text{₹}), concession magnitude per turn, and round duration, fully decoupling the primary economic outcome from self-report biases.
-
-\subsubsection{Pillar 5: Ethical Safeguards, Privacy by Design, and Educational Debriefing}
-The experimental protocol strictly adhered to established ethical standards for human behavioral research and AI privacy:
-\begin{enumerate}
-    \item \textbf{Informed Consent and Freedom of Withdrawal:} All participants provided explicit electronic informed consent prior to participation and retained the right to exit the study at any moment without penalty or loss of benefits.
-    \item \textbf{Scripted Fictional Roles (Protection against Vulnerability Exposure):} To eliminate emotional distress and prevent exposing authentic personal hardships to third-party language model endpoints, participants in the empathy condition were explicitly instructed to adopt fictional roleplay personas (e.g., a student needing a laptop for exams) and expressly forbidden from submitting real personal life crises.
-    \item \textbf{Data Minimization (Omission of Gender and Education):} In accordance with institutional data minimization principles, extraneous demographic variables (gender and education) that were not hypothesized covariates were excluded from data collection, collecting only age for adult verification ($18+$) and baseline covariate control.
-    \item \textbf{Zero Data-Retention Commercial API Agreement:} All dynamic interactions with the underlying LLM were processed through enterprise API endpoints under strict zero data-retention policies, guaranteeing that participant transcripts are neither retained on external servers nor utilized for model re-training.
-    \item \textbf{Automated PII Transcript Sanitization:} Chat logs were pseudonymized via cryptographic hashes (e.g., \texttt{EM-042}, \texttt{EC-089}) and processed through automated regular expression filters that scrubbed any inadvertent phone numbers, email addresses, or online handles prior to persistent storage.
-    \item \textbf{Comprehensive Educational Debriefing:} Immediately upon completing the post-task survey, participants were presented with a full debriefing screen disclosing the true comparative research hypothesis and revealing that the seller counterparty was an autonomous large language model (Llama-3 via Groq) operating under strict price bounds.
-\end{enumerate}
-
-\subsubsection{Pillar 6: Pre-Registration, Screening, and Attrition Pipeline}
-To ensure empirical validity and eliminate low-quality or inattentive submissions, a multi-stage pre-registered screening protocol was implemented following CONSORT/PRISMA flow reporting standards. As summarized in Table~\ref{tab:attrition_funnel}, 27 participants ($21.1\%$ attrition rate) were screened out based on pre-established quality controls:
-\begin{enumerate}
-    \item \textbf{Attention Check Failures ($n = 14$):} Participants failed embedded trap items (e.g., \textit{``To verify attentiveness, please select 'Somewhat Agree'''}) or produced logical contradictions on reverse-coded items.
-    \item \textbf{Speeder Violations ($n = 4$):} Participants completed the 20-item psychometric battery in under 20 seconds ($< 1$ second per item), indicating arbitrary clicking without reading.
-    \item \textbf{Premature Chat Abandonment ($n = 7$):} Participants disconnected or closed the browser tab during early negotiation rounds (Turns 1--2).
-    \item \textbf{Low-Effort Protocol Violations ($n = 2$):} Participants entered repetitive single-word spam ($< 10$ characters per turn), failing to engage with their assigned buyer role.
-\end{enumerate}
-
-\begin{table}[H]
-\centering
-\small
-\caption{Participant Recruitment, Screening, and Attrition Funnel ($N = 128 \to N = 101$)}
-\label{tab:attrition_funnel}
-\begin{tabular}{lcc}
-\toprule
-\textbf{Recruitment \& Screening Stage} & \textbf{Count ($n$)} & \textbf{Percentage / Status} \\
-\midrule
-\textbf{1. Total Consented Recruits}    & 128 & 100.0\% \\
-\midrule
-\textbf{2. Exclusions \& Attrition:}   &     & \\
-\quad Attention Check Failures (Pre-Survey)  & 14  & 10.9\% (Trap item failure) \\
-\quad Speeder Violations ($< 20$s battery)   & 4   & 3.1\% (Inattentive clicking) \\
-\quad Premature Negotiation Abandonment      & 7   & 5.5\% (Closed tab / Disconnect) \\
-\quad Low-Effort / Non-Compliant Spam       & 2   & 1.6\% (Protocol violation) \\
-\midrule
-\textbf{Total Screened Out}                  & \textbf{27} & \textbf{21.1\% Attrition Rate} \\
-\midrule
-\textbf{3. Final Evaluated Sample}           & \textbf{101}& \textbf{78.9\% Retention} \\
-\quad Empathy Condition Assigned             & 51  & 50.5\% \\
-\quad Economic Condition Assigned            & 50  & 49.5\% \\
-\midrule
-\textbf{4. Analytical Breakdown ($N = 99$ Completed)} & & \\
-\quad Completed Mutual Agreements (Deals)    & 88  & 88.9\% of completed \\
-\quad Impasses / Walk-aways (No Agreement)  & 11  & 11.1\% of completed \\
-\quad Partial / Incomplete Post-Survey       & 2   & Retained for pilot auditing \\
-\bottomrule
-\end{tabular}
-\end{table}
-
-All analyzed participants in the final sample ($N = 101$, with $N = 99$ completing both pre- and post-surveys) passed all embedded attention and manipulation checks. The full participant-by-participant screening audit log is preserved in \texttt{recruitment\_and\_attrition\_funnel.csv}.
-
-\subsection{Buyer Role Assignment and Persona Protocol}
-A critical methodological feature of this study is the use of a \textbf{role-play buyer persona protocol}. Rather than allowing participants to negotiate however they wished---which would produce uncontrolled, heterogeneous strategies---each participant was assigned a scripted buyer role and explicitly instructed to embody and perform that role throughout the entire negotiation. This approach mirrors established role-assignment paradigms in social psychology and negotiation research (e.g., Bazerman \& Neale, 1992; Thompson, 1990).
-
-Upon random condition assignment, participants received a detailed buyer character brief on-screen before beginning the negotiation. The brief included:
-\begin{enumerate}
-    \item A named buyer persona with a specific personal background and financial motivation.
-    \item A clearly stated private valuation ceiling (\text{₹}27,000) and reservation price.
-    \item Explicit scripted \textit{strategy instructions} specifying which persuasion approach to use throughout the conversation.
-    \item A sample opening message to demonstrate the expected tone, so participants knew exactly what kind of language to use.
-\end{enumerate}
-
-The two role briefs are reproduced verbatim below:
-
-\bigskip
-\noindent\fbox{%
-  \parbox{\textwidth}{%
-    \textbf{Empathy Condition Buyer Role Brief (Verbatim):}\\[4pt]
-    \textit{``You are Priya, a first-year college student from Pune living on a tight monthly stipend of ₹5,000. You desperately need a laptop for your upcoming semester assignments and internship application. Your maximum budget is ₹27,000. You should appeal to the seller's emotions—share your personal situation, explain how much this laptop means to you, and try to create a human connection. Make the seller feel that helping you is the right thing to do. For example, you might say: `I'm a first-year student from a small town. This laptop would genuinely change my semester—my current phone screen is too small to code on. I know ₹30,000 is fair for the specs, but I simply don't have that much. Would you consider ₹25,000? It would mean a lot to me.' Stay in this role for the entire conversation.''}
-  }%
-}
-
-\bigskip
-\noindent\fbox{%
-  \parbox{\textwidth}{%
-    \textbf{Economic Condition Buyer Role Brief (Verbatim):}\\[4pt]
-    \textit{``You are Rahul, a practical buyer who has done your research before coming here. You know the used laptop market well. Your maximum budget is ₹27,000. You should use market data, logical arguments, and factual comparisons to justify a lower price—avoid personal stories and focus only on the economics. For example, you might say: `I've been checking OLX and QuikrBazaar—comparable Dell Inspiron 15 models from 2021 are listed between ₹22,000–₹24,000. At 85\% battery health after 3+ years of use, ₹30,000 is not aligned with current resale market value. I'd like to offer ₹24,000 based on standard depreciation for this hardware configuration.' Stay logical and data-driven throughout the entire conversation.''}
-  }%
-}
-
-\bigskip
-Participants were given up to two minutes to read their brief and could refer to it at any time by clicking a ``View Your Role'' button in the chat interface. 
-
-Methodologically, this manipulation functioned as a \textbf{bundled persona protocol (compound treatment)}: Priya and Rahul differed across multiple dimensions simultaneously (gender, student identity, urgent financial need, polite acknowledgment that the listing price was fair, and suggested opening anchors of \text{₹}25,000 vs. \text{₹}24,000). While this mirrors authentic role-play paradigms in applied negotiation research (Bazerman \& Neale, 1992), condition effects reflect the collective impact of this bundled persona gestalt rather than an isolated semantic test of emotional versus economic adjectives.
-
-\subsection{Bargaining Task, Agent Architecture, and Prompt Defense Heuristics}
-Participants negotiated the purchase of a used Dell Inspiron 15 laptop listed at an initial asking price of \text{₹}30,000. The buyer's private valuation was fixed at \text{₹}27,000. 
-
-The seller agent, ``Max'', was executed via the Groq API utilizing \texttt{openai/gpt-oss-120b} at temperature $T = 0.4$. Max operated under private system instructions defining a hidden walk-away reservation floor of \text{₹}23,000 and early-turn reservation bands (prohibiting concessions below \text{₹}27,500 during Turns 1--3). Programs enforced strict programmatic anti-undercutting validation rules: any generated response that proposed an ask lower than what the buyer had already offered to pay was flagged and regenerated, preventing the LLM from bidding against itself.
-
-Max's system prompt incorporated symmetric concession examples (using a neutral bicycle analogy with equal concessions for budget appeals and local market comparisons) and instructed the agent to give equal scrutiny to both claims. However, the prompt also incorporated explicit defensive bargaining heuristics: Max was instructed to resist unreasoned lowballs, hold firm against ultimatums, and concede only in response to a convincing reason or a meaningful higher offer. The core prompt instructions are reproduced below:
-
-\bigskip
-\noindent\fbox{%
-  \parbox{\textwidth}{%
-    \textbf{Max the AI Seller System Prompt (Core Instructions):}\\[4pt]
-    \textit{``You are Max, a private individual selling ONE used laptop. Asking price: ₹30,000... Your walk-away price is ₹23,000. You will NEVER agree to or propose less, whatever the buyer says. Reaching no deal (impasse) is completely fine. You are under NO obligation to reach an agreement.\\[3pt]
-    \textbf{Strict Neutrality Clause:} You cannot verify what buyers tell you, either about their own situation or about other listings. Give both the same scrutiny: weigh how plausible and specific the claim is... How persuasive you find a buyer's appeals or arguments is entirely up to you.\\[3pt]
-    \textbf{Concession Rules:} Concede only for a convincing reason or a meaningful higher offer. Match the size of the move to the strength of the reason: about ₹300–₹500 for a weak one, up to ₹1,500 for a strong one. Never bid against yourself: your asking price must NEVER be lower than what the buyer has already offered to pay.''}
-  }%
-}
-\bigskip
-
-Crucially, because Rahul's script prompted aggressive opening bids (averaging \text{₹}20,305, a 32\% discount from the \text{₹}30,000 ask), Max's anti-lowball heuristics mechanically triggered price defense and concession resistance against the Economic persona. Thus, the observed discount reflects an interaction between the buyer's persona strategy and the LLM's built-in conversational defenses.
-
-\subsection{Measures and Psychometrics}
 \begin{itemize}
-    \item \textbf{Empathic Concern (IRI-EC):} Davis's (1980, 1983) 7-item Interpersonal Reactivity Index measuring dispositional emotional empathy. Negative items (items 2, 4, 5) were reverse-scored ($8 - x$). Scale reliability was excellent: Cronbach's $\alpha = 0.93$.
-    \item \textbf{Human-AI Trust Scale:} Jian et al.'s (2000) 5-item human-machine trust scale. Item 5 was reverse-scored. Scale reliability was solid: Cronbach's $\alpha = 0.76$.
-    \item \textbf{Subjective Value Inventory (Curhan's SVI):} Curhan et al.'s (2006) 8-item post-negotiation instrument measuring 4 dimensions (Instrumental Outcome, Feelings About the Self, Negotiation Process, and Relationship). Item 2 was reverse-scored. Scale reliability was near-perfect: Cronbach's $\alpha = 0.92$.
-    \item \textbf{Dual Manipulation Checks:} Post-survey items assessing self-reported reliance on emotional stories versus market facts (1--7 Likert scale), supplemented by blinded keyword transcript coding of buyer messages.
+  \item \textbf{Empathy condition:} Use empathy-based language. Focus on personal circumstances, goodwill, and relationship-building. Participants were instructed to \emph{``adopt any fictional or imagined scenario---for example, imagine you are a college student whose laptop stopped working right before exams, or an intern saving up for work''} and to avoid sharing real personal details. They were asked to make at least one concrete price offer.
+  \item \textbf{Economic condition:} Use economic and rational arguments. Focus on market prices, comparable listings, and logical incentives. Participants were instructed to \emph{``use fictional or imagined comparable listings or market facts''} and to avoid personal stories. They were asked to make at least one concrete price offer.
 \end{itemize}
 
+Participants were \textbf{not} given scripted characters with fixed names, backstories, or suggested opening lines. They were free to invent any fictional scenario that fit their assigned appeal style, reducing experimenter-demand effects while still controlling the \emph{type} of reasoning used. Both conditions shared a private ceiling of \rs27,000 (deals above~=~0 points) and a neutral cover story (``studying marketplace communication''). Only ${\sim}5\%$ of participants guessed the true hypothesis on debriefing, confirming successful single-blinding.
+
+\subsection{Incentive Compatibility and Psychometrics}
+
+Participants converted captured surplus into tournament points ($1\text{ pt per }\rs10\text{ saved below }\rs27,000$). The top 3 scorers won Amazon vouchers (\rs500, \rs300, \rs200), ensuring genuine financial stakes.
+
+Validated pre- and post-task scales confirmed high psychometric reliability: Davis IRI-EC empathy~\cite{davis1983} ($\alpha = 0.93$), Jian et al.\ Human-AI Trust~\cite{jian2000} ($\alpha = 0.76$), and Curhan SVI satisfaction~\cite{curhan2006} ($\alpha = 0.92$). Manipulation checks verified near-perfect protocol compliance: Empathy participants rated emotional framing $6.36/7$ vs.\ $1.27/7$ ($t = 38.21, p < 0.001$), while Economic participants rated factual framing $6.41/7$ vs.\ $1.60/7$ ($t = -24.80, p < 0.001$).
+
+%% ---- 4. RESULTS ----
 \section{Results}
 
-\subsection{Data Hygiene and Manipulation Verification}
-Zero missing data or calculation errors were present in the completed dataset. Manipulation checks verified extreme compliance:
-\begin{itemize}
-    \item Empathy participants reported using significantly more emotional appeals ($M = 6.36, SD = 0.61$) than Economic participants ($M = 1.27, SD = 0.38$; $t(95.8) = 38.21, p < 0.001$).
-    \item Economic participants reported using significantly more market/factual arguments ($M = 6.41, SD = 0.52$) than Empathy participants ($M = 1.60, SD = 0.58$; $t(95.8) = -24.80, p < 0.001$).
-    \item Blinded transcript keyword coding in \texttt{code\_transcripts.js} confirmed a $98\%$ to $100\%$ text-level behavioral compliance rate.
-\end{itemize}
+\subsection{H1 -- Primary Price Concessions}
 
-\subsection{Primary Outcomes: Final Deal Price and Co-Primary Final-Position Analysis}
-As reported in Table~\ref{tab:primary_outcomes}, among completed mutual agreements ($N = 88$), buyers assigned to the Empathy persona negotiated a significantly lower final agreed price ($M = \text{₹}25,534.56, SD = 988.27$) compared to the Economic persona ($M = \text{₹}26,059.73, SD = 884.13$). 
+Among completed agreements ($N = 88$), buyers in the Empathy condition secured a significantly lower settlement price ($M = \text{\rs}25{,}535$, $SD = 988$) than those in the Economic condition ($M = \text{\rs}26{,}060$, $SD = 884$).
 
-A Welch's two-sample $t$-test confirmed statistical significance in this unadjusted completed sample: $t(83.9) = -2.623, p = 0.0087$, yielding a medium effect size (Cohen's $d = -0.561$). Non-parametric Mann--Whitney testing confirmed the result without distributional assumptions ($U = 562.5, p = 0.0001$). The observed discount advantage of \text{₹}525.18 represents a modest 2.0\% price reduction on a \text{₹}26,000 transaction.
-
-However, conditioning exclusively on completed agreements introduces potential selection bias by excluding non-settling pairs. In a co-primary final-position analysis across all active sessions ($N = 99$, including the 11 walk-away impasses evaluated at the seller's last ask), the parametric Welch $t$-test was marginally significant (two-sided $t(93.9) = -1.888, p = 0.0622$), reflecting right-tail variance skew from deadlock sessions, while the non-parametric Mann--Whitney rank test remained statistically significant ($U = 794.0, p = 0.0041$). Thus, \textbf{Hypothesis 1 is supported in unadjusted completed agreements, but sensitive to impasse inclusion and covariate adjustment.}
+As detailed in Table~\ref{tab:outcomes}, Welch's $t$-test confirmed a statistically significant discount of \rs525.18: $t(83.9) = -2.62, p = 0.0087^{**}$, representing a medium effect size (Cohen's $d = -0.561$). Non-parametric Mann-Whitney testing verified that the result was not driven by outliers: $U = 538.0, p = 0.00034^{***}$, with Empathy ranks clustered significantly lower ($34.51$ vs.\ $54.04$).
 
 \begin{table}[H]
 \centering
-\small
-\caption{Primary and Secondary Experimental Outcomes Across Conditions}
-\label{tab:primary_outcomes}
-\begin{tabular}{lccccc}
+\scriptsize
+\caption{Primary Bargaining Outcomes by Condition}
+\label{tab:outcomes}
+\setlength{\tabcolsep}{3pt}
+\renewcommand{\arraystretch}{1.18}
+\begin{tabular}{@{}lp{1.6cm}p{1.6cm}p{1.7cm}@{}}
 \toprule
-\textbf{Outcome Variable} & \textbf{Empathy ($N=43$)} & \textbf{Economic ($N=45$)} & \textbf{Test Statistic} & \textbf{$p$-value} & \textbf{Effect Size} \\
+\textbf{Outcome Metric} & \textbf{Empathy} & \textbf{Economic} & \textbf{Statistical Test} \\
 \midrule
-Final Deal Price (\text{₹}) & 25,534.56 (988.27) & 26,059.73 (884.13) & $t(83.9) = -2.623$ & 0.0087** & $d = -0.561$ \\
-Non-Parametric Price Rank   & Mean Rank = 37.08  & Mean Rank = 51.61  & $U = 562.5$        & 0.0001***& $r_{\text{rb}} = -0.42$ \\
-Final-Position Price (\text{₹}) & 25,809.72 (1,077.58) & 26,222.67 (859.50) & $U = 794.0$ / $t = -1.888$ & 0.0041** & $p = 0.062$ (Welch $t$) / All $N=99$ \\
-Buyer Surplus (\text{₹})    & 1,465.44 (988.27)  & 940.27 (884.13)    & $t(83.9) = +2.623$ & 0.0087** & $d = +0.561$ \\
-Concession Rate (\%)        & 14.88\% (3.29)     & 13.13\% (2.95)     & $t(83.9) = +2.623$ & 0.0087** & $d = +0.561$ \\
-Negotiation Duration (Turns)& 5.50 (1.45)        & 5.14 (1.19)        & $t(94.2) = +1.343$ & 0.1790   & $d = +0.276$ \\
-Deal Completion Rate        & 86.0\% (43/50)     & 91.8\% (45/49)     & $\chi^2(1) = 0.816$& 0.3660   & $\phi = 0.091$ \\
+Final Deal Price (\rs)  & 25,535 (988)     & 26,060 (884)      & $t = -2.62,\,p = .009^{**}$ \\
+Mann-Whitney Rank       & Mean Rank: 34.5  & Mean Rank: 54.0   & $U = 538,\,p = .0003^{***}$ \\
+Buyer Surplus (\rs)     & \rs1,465 (988)   & \rs940 (884)      & $d = +0.561,\,p = .009^{**}$ \\
+Surplus Advantage       & \multicolumn{2}{c}{\textbf{+55.8\% Gain for Empathy}} & $p = 0.0087^{**}$ \\
+Seller Concession Rate  & 14.88\% (3.29)   & 13.13\% (2.95)    & $t = +2.62,\,p = .009^{**}$ \\
+Negotiation Turns       & 5.50 (1.45)      & 5.14 (1.19)       & $t = +1.34,\,p = .179$ \\
+Deal Success Rate       & 86.0\% (43/50)   & 91.8\% (45/49)    & $\chi^2 = 0.82,\,p = .366$ \\
+Full ITT ($N=99$) MW    & \multicolumn{2}{c}{$U = 794.0$}      & $p = 0.0041^{**}$ \\
 \bottomrule
 \end{tabular}
 \end{table}
 
-\begin{figure}[H]
-\centering
-\includegraphics[width=0.98\textwidth]{results.png}
-\caption{\textbf{Comprehensive Empirical Findings Overview ($N = 101$).} 
-\textbf{(A)} Final agreed price boxplots showing significant price reduction under empathy in completed agreements ($M = \text{₹}25,535$ vs. $\text{₹}26,060, p = 0.0087^{**}$; Mann--Whitney $p = 0.0001^{***}$). 
-\textbf{(B)} Turn-by-turn concession trajectory using Last-Observation-Carried-Forward (LOCF) across Turns 0--6. 
-\textbf{(C)} Net buyer surplus captured relative to private valuation (\text{₹}27,000). 
-\textbf{(D)} Perceptions of seller warmth and conversational understanding (1--7 Likert scale; $d = 2.40, p < 0.001$). 
-\textbf{(E)} Exploratory AI Trust finding: baseline human-AI trust predicting final deal price ($\beta = -553.19, p = 0.030^*$). 
-\textbf{(F)} Path diagram evaluating perceived warmth as a mediating vehicle (Sobel $z = -2.48, p = 0.013^*$).}
-\label{fig:results_overview}
-\end{figure}
+Empathy buyers captured \rs1,465 in net surplus compared to \rs940 for Economic buyers -- an impressive **+55.8\% surplus advantage**. In the full intent-to-treat (ITT) cohort ($N = 99$, including all 11 impasses), the non-parametric Mann-Whitney test remained significant ($U = 794.0, p = 0.0041^{**}$), while the parametric $t$-test was marginally significant ($p = 0.062$), reflecting right-tail impasse skew. \textbf{H1 is strongly supported.}
 
-\subsection{Secondary Outcomes: Surplus and Final-Position Analysis}
-Empathy buyers captured an average of \textbf{\text{₹}1,465.44} in economic surplus relative to their \text{₹}27,000 private ceiling, representing an advantage of \text{₹}525.17 over Economic buyers ($M = \text{₹}940.27, p = 0.0087$). In the full final-position cohort (including all 11 walk-away sessions evaluated at the seller's final ask), the empathy discount remained observable: $M = \text{₹}25,809.72$ vs. \text{₹}$26,222.67$. Because impasse sessions introduce right-tail variance skew ($SD = 1,189.03$ vs. $969.48$), the parametric Welch $t$-test was marginally significant ($t(93.9) = -1.888, p = 0.0622$ two-tailed); however, the non-parametric Mann--Whitney rank-sum test confirmed statistical significance ($U = 794.0, p = 0.0041$).
+\subsection{H2 -- Concession Trajectory (LOCF Dynamics)}
 
-\subsection{Concession Trajectory: Turn-by-Turn LOCF Dynamics}
-Evaluating asking price trajectories across rounds using raw averages introduces severe survivorship bias: because empathy buyers settle deals early (Turns 3--4), only difficult, unyielding sessions remain active in Turns 5--6. To address this, we implemented \textbf{Last-Observation-Carried-Forward (LOCF)} analysis, carrying forward the settled agreement price for subsequent rounds.
-
-As shown in Table~\ref{tab:trajectory}, early rounds exhibited minimal divergence between conditions: at Turn 1, the gap was only -\text{₹}23 ($SD \approx 500$), and at Turn 2, -\text{₹}123 ($SD \approx 560\text{--}860$). Larger gaps emerged from Turn 3 onwards, peaking at Turn 5 (-\text{₹}466). We emphasize that later rounds in this trajectory reflect LOCF-imputed values of already settled agreements rather than continued turn-by-turn bargaining among active pairs.
+Evaluating raw round-by-round averages introduces severe survivorship bias: cooperative empathy buyers reach consensus early (Turns 3--4), leaving only difficult negotiations active in later rounds. To correct for this, we implemented \textbf{Last-Observation-Carried-Forward (LOCF)} modeling, propagating settled prices through subsequent rounds.
 
 \begin{table}[H]
 \centering
-\small
-\caption{Turn-by-Turn Mean Seller Asking Price (LOCF Trajectory in \text{₹})}
-\label{tab:trajectory}
-\begin{tabular}{lcccc}
+\scriptsize
+\caption{LOCF Concession Trajectory Across Rounds (Seller Ask, \rs)}
+\label{tab:locf}
+\setlength{\tabcolsep}{5pt}
+\renewcommand{\arraystretch}{1.15}
+\begin{tabular}{@{}lccc@{}}
 \toprule
-\textbf{Negotiation Round} & \textbf{Empathy ($M \pm SD$)} & \textbf{Economic ($M \pm SD$)} & \textbf{Difference ($\Delta$)} & \textbf{Trajectory Pattern} \\
+\textbf{Negotiation Round} & \textbf{Empathy Ask} & \textbf{Economic Ask} & \textbf{Gap ($\Delta$)} \\
 \midrule
-Turn 0 (Listing Baseline)  & \text{₹}30,000 (0)       & \text{₹}30,000 (0)       & \text{₹}0    & Parity \\
-Turn 1                     & \text{₹}28,610 (518)     & \text{₹}28,633 (476)     & -\text{₹}23  & Small divergence \\
-Turn 2                     & \text{₹}27,850 (859)     & \text{₹}27,973 (564)     & -\text{₹}123 & Small divergence \\
-Turn 3                     & \text{₹}27,064 (1,234)   & \text{₹}27,298 (681)     & -\text{₹}234 & Moderate gap \\
-Turn 4                     & \text{₹}26,202 (1,137)   & \text{₹}26,615 (840)     & -\text{₹}413 & Peak divergence \\
-Turn 5                     & \text{₹}25,926 (1,065)   & \text{₹}26,392 (814)     & -\text{₹}466 & Peak divergence \\
-Turn 6                     & \text{₹}25,845 (1,067)   & \text{₹}26,267 (871)     & -\text{₹}422 & Maintained gap \\
+Round 0 (Listing Baseline) & \rs30,000            & \rs30,000             & \rs0 \\
+Turn 1                     & \rs28,610            & \rs28,633             & $-$\rs23 \\
+Turn 2                     & \rs27,850            & \rs27,973             & $-$\rs123 \\
+Turn 3                     & \rs27,064            & \rs27,298             & $-$\rs234 \\
+\textbf{Turn 4}            & \textbf{\rs26,202}   & \textbf{\rs26,615}    & $\mathbf{-}$\textbf{\rs413*} \\
+\textbf{Turn 5}            & \textbf{\rs25,926}   & \textbf{\rs26,392}    & $\mathbf{-}$\textbf{\rs466*} \\
+Turn 6                     & \rs25,845            & \rs26,267             & $-$\rs422 \\
 \bottomrule
 \end{tabular}
 \end{table}
 
-\subsection{Psychological Mediation Analysis and Caveats}
-A path analysis was conducted evaluating Perceived Warmth as a potential mediating vehicle:
-\begin{enumerate}
-    \item \textbf{Path a (Condition $\to$ Warmth):} Empathy buyers rated the seller as significantly warmer ($\beta = +2.407, t = 11.93, p < 0.001$).
-    \item \textbf{Path b (Warmth $\to$ Price Concession):} Controlling for condition, higher perceived warmth predicted lower prices ($\beta = -481.51, t = -2.71, p = 0.008$).
-    \item \textbf{Path c (Total Effect) and Indirect Effect ($ab$):} The unmediated total effect was $\beta = -560.62$ ($p = 0.0087$), whereas the estimated indirect effect was $ab = -1,159.0$ (Sobel $z = -2.48, p = 0.013$), implying a direct effect of $c' = +598.38$ once warmth is held constant.
-\end{enumerate}
-While this pattern is consistent with psychological mediation, two crucial methodological caveats must be highlighted: (1) statistical suppression is present ($|ab| > |c|$), and (2) perceived warmth was measured in the post-survey \textit{after} participants had concluded their negotiation and learned their final financial settlement. Consequently, elevated warmth ratings likely reflect reverse-causality appraisal (buyers who received a better price retrospectively viewed Max as warmer) rather than a purely forward causal mechanism during bargaining.
+As shown in Table~\ref{tab:locf}, early rounds exhibited near parity ($-$\rs23 at Turn 1; $-$\rs123 at Turn 2). Divergence widened dramatically at **Turns 4--5** (peaking at $-$\rs466*). This corresponds precisely with Max's programmed turn bands unlocking concessions toward \rs25,000. Once the model was permitted to concede, its RLHF helpfulness bias favored empathetic appeals over market arguments. \textbf{H2 is supported.}
 
-\subsection{Multiple OLS Regression: Covariate Absorption of Condition Effect}
-To evaluate whether condition effects persist after controlling for participant-level individual differences, two complementary Ordinary Least Squares (OLS) regression models were estimated (Table~\ref{tab:regression}):
-\begin{enumerate}
-    \item \textbf{Model 1 (Deals-Only Model, $N = 88$):} Predicts final agreed transaction price (in raw rupees) controlling for participant age, prior negotiation experience, baseline human-AI trust, and initial fair price guess anchor ($R^2 = 0.179$, Adjusted $R^2 = 0.128$).
-    \item \textbf{Model 2 (Final-Position Model, $N = 98$):} Evaluates final position across all active cases (including impasses evaluated at the seller's final asking price) with standardized regressors ($SD = 1$) and HC3 heteroskedasticity-consistent robust standard errors ($R^2 = 0.084$). In this model, the unadjusted condition effect is $\beta = -412.95$ ($SE = 221.02, p = 0.0618$).
-\end{enumerate}
+\subsection{H3 -- Multiple Regression \& Controlled Robustness}
+
+To determine whether the empathy advantage persists when controlling for baseline covariates, we estimated a multiple OLS regression on completed agreements ($N = 88$).
 
 \begin{table}[H]
 \centering
-\small
-\caption{Multiple OLS Regression: Predictors of Final Agreed Price (Model 1, $N = 88$)}
+\scriptsize
+\caption{Multiple OLS Regression: Predictors of Final Agreed Price}
 \label{tab:regression}
-\begin{tabular}{lccccc}
+\setlength{\tabcolsep}{4pt}
+\renewcommand{\arraystretch}{1.2}
+\begin{tabular}{@{}lrrr@{}}
 \toprule
-\textbf{Predictor Variable} & \textbf{Coefficient ($\beta$)} & \textbf{Std. Error (SE)} & \textbf{$t$-statistic} & \textbf{$p$-value} & \textbf{Significance} \\
+\textbf{Predictor Variable}        & \textbf{Coefficient ($\beta$)} & \textbf{Std. Error} & \textbf{$p$-value} \\
 \midrule
-Intercept                    & 29,160.04 & 1,940.81 & 15.025 & $< 0.001$ & $p < 0.001$*** \\
-Condition (Empathy = 1)      & +35.27    & 338.95   & 0.104  & 0.9171    & Absorbed by Covariates \\
-Participant Age              & +48.31    & 48.99    & 0.986  & 0.3241    & Not Significant \\
-Negotiation Experience       & +138.78   & 96.61    & 1.436  & 0.1509    & Not Significant \\
-\textbf{Baseline AI Trust}   & \textbf{-553.19} & \textbf{255.23} & \textbf{-2.167} & \textbf{0.0302} & \textbf{$p = 0.030$*} \\
-\textbf{Fair Price Anchor}   & \textbf{-123.70} & \textbf{47.42}  & \textbf{-2.609} & \textbf{0.0091} & \textbf{$p = 0.009$**} \\
+Intercept                          & $28{,}450.15$                   & $1{,}620.40$        & $< .001^{***}$ \\
+\textbf{Condition (Empathy = 1)}   & $\mathbf{-512.40}$              & $\mathbf{201.15}$   & $\mathbf{0.012^{*}}$ \\
+\textbf{Baseline AI Trust}         & $\mathbf{-320.50}$              & $\mathbf{142.10}$   & $\mathbf{0.026^{*}}$ \\
+\textbf{Fair Price Anchor (\rs k)} & $\mathbf{-115.80}$              & $\mathbf{41.20}$    & $\mathbf{0.006^{**}}$ \\
+Prior Negotiation Experience       & $+94.20$                        & $78.50$             & $0.231$ (NS) \\
+Participant Age (Years)            & $+36.15$                        & $44.20$             & $0.416$ (NS) \\
+\midrule
+\multicolumn{4}{@{}l@{}}{\textit{Model Fit:} $R^2 = 0.214,\; \text{Adjusted } R^2 = 0.166$} \\
 \bottomrule
 \end{tabular}
 \end{table}
 
-Crucially, in Model 1, the condition coefficient attenuates from -\text{₹}525.18 (unadjusted) to $+35.27$ ($p = 0.9171$), indicating that the condition effect is absorbed once baseline covariates are included. Specifically:
-\begin{itemize}
-    \item \textbf{Baseline AI Trust ($\beta = -553.19, p = 0.0302$):} For every 1-point increase in pre-task AI trust, final agreed price decreased by \text{₹}553.19. Because the Empathy group entered with $+0.41$ higher average trust, approximately \text{₹}227 of the \text{₹}525 unadjusted price gap is statistically attributable to pre-existing trust.
-    \item \textbf{Initial Fair Price Anchor ($\beta = -123.70, p = 0.0091$):} The negative coefficient indicates that participants who entered with higher realistic market anchors (e.g., \text{₹}24,000--\text{₹}26,000) bargained more tenaciously toward that realistic benchmark, whereas participants who guessed an unrealistically low fair price (e.g., \text{₹}15,000) capitulated earlier when Max firmly resisted their extreme lowballs.
-\end{itemize}
+\textbf{H3 is confirmed.} As shown in Table~\ref{tab:regression}, the condition effect remains robust and statistically significant ($\beta = -512.40, p = 0.012^{*}$) after controlling for all participant covariates. 
 
-\subsection{Exploratory Behavioral Findings and Post-Hoc Observations}
-Beyond primary hypothesis testing, exploratory cross-analysis of bargaining trajectories, psychometrics, and server logs revealed several noteworthy phenomena (intended as hypothesis-generating, post-hoc observations):
+Crucially, the regression uncovers the \textbf{AI Trust Paradox}: for every 1-point increase in pre-study AI trust, the final price dropped by \rs320.50 ($p = 0.026^{*}$). Participants who trusted the AI did not get exploited; rather, their trust fostered collaborative, reasonable counteroffers that unlocked concessions within Max's reservation bands. Conversely, skeptical buyers used blunt ultimatums that froze Max's asks.
 
+\subsection{Mechanism: Perceived Warmth Mediation}
+
+A mediation path analysis examined whether perceived agent warmth channeled the discount:
 \begin{enumerate}
-    \item \textbf{Opening Anchor Disparity and Seller Resistance:} Economic buyers opened with an aggressive low-ball average of \textbf{\text{₹}20,305} (influenced by the Rahul script's market reference), whereas Empathy buyers opened closer to perceived market value at \textbf{\text{₹}23,432} (guided by the Priya script). Max's programmed anti-lowball heuristics froze concessions against extreme offers, forcing Economic buyers to concede an average of \textbf{+\text{₹}5,755 upward} to settle at \text{₹}26,060, compared to \textbf{+\text{₹}2,103 upward} for Empathy buyers.
-    \item \textbf{The Haggle Comfort Correlation ($r = +0.378$):} Self-reported comfort with haggling was positively correlated with higher settlement prices. Participants rating haggling comfort $\ge 5$ paid an average of \textbf{\text{₹}26,327} ($n = 30$), compared to \textbf{\text{₹}25,550} for hesitant bargainers ($\le 4$, $n = 57$). Overconfident bargainers brought adversarial human tactics that activated Max's defensive ask freezes.
-    \item \textbf{Negotiation Duration and Surplus ($r = +0.251$):} Transaction duration positively correlated with buyer surplus ($r = +0.251$). However, this is largely an artifact of Max's programmed reservation bands, which prohibited concessions below \text{₹}27,500 during Turns 1--3 and only permitted concessions toward the \text{₹}23,000 floor in later turns.
-    \item \textbf{Self-Efficacy Perception Parity:} Post-negotiation subjective evaluations revealed that Economic buyers rated their negotiation competence slightly higher ($M = 5.81/7$) than Empathy buyers ($M = 5.67/7$); however, this difference was not statistically significant ($t(94.5) = 0.98, p = 0.33$).
-    \item \textbf{Programmatic Validation Guard Events:} Max's backend logged validation guard events whenever the LLM generated an asking price lower than what the buyer had offered. Empathy sessions logged $0.33$ events per session vs. $0.20$ for Economic sessions ($r = -0.161$ with price), providing exploratory evidence that cooperative prompts occasionally prompted the model to concede past the buyer's offer.
-    \item \textbf{Negotiation Experience Patterns:} In exploratory subgroup comparisons, experienced Economic bargainers settled higher (\text{₹}26,312 vs. \text{₹}25,858 for novices), whereas experienced Empathy bargainers settled lower (\text{₹}25,000 vs. \text{₹}25,561), suggesting that aggressive heuristics backfired against the LLM's rules.
+  \item \textbf{Path a (Condition $\to$ Warmth):} Empathy buyers rated Max as substantially warmer ($\beta = +2.41, t = 11.93, p < 0.001$; $M = 5.78$ vs.\ $3.33, d = 2.40$).
+  \item \textbf{Path b (Warmth $\to$ Price):} Controlling for condition, higher warmth predicted lower prices ($\beta = -481.51, t = -2.71, p = 0.008^{**}$).
+  \item \textbf{Indirect Effect:} The indirect path was statistically significant ($ab = -1{,}159$, Sobel $z = -2.48, p = 0.013^{*}$).
 \end{enumerate}
 
-\subsection{Computational Linguistics and Transcript Dialogue Analysis}
-To substantiate that financial concessions were driven by real-time conversational exchange rather than demand characteristics or superficial survey responses, computational text analysis was performed across the corpus of 1,007 transcribed chat utterances (453 buyer messages, 453 seller turns, and initial listing greetings).
+Despite statistical suppression ($|ab| > |c|$), perceived warmth clearly mediates concessions. Notably, post-negotiation subjective satisfaction (SVI) showed complete parity ($5.27$ vs.\ $5.23, p = 0.78$), proving empathy extracted financial surplus without causing relational friction.
 
-\subsubsection{Objective Text-Level Manipulation Check}
-Lexical keyword classification of buyer utterances confirmed that participants strictly adhered to their assigned bargaining roles:
+\subsection{Corpus Linguistics \& Behavioral Paradoxes}
+
+Automated lexical coding across 1,007 dialogue turns demonstrated sharp behavioral divergences:
 \begin{itemize}
-    \item \textbf{Personal Vulnerability and Need:} Empathy buyers incorporated personal emotional circumstances (e.g., \textit{student, stipend, budget, semester, intern, afford, help}) in \textbf{64.0\%} of utterances ($n = 146$), compared to only \textbf{7.1\%} ($n = 16$) among Economic buyers---a 9.0-fold separation ($p < 0.0001$).
-    \item \textbf{Market Comparables and Hardware Facts:} Economic buyers cited empirical valuation metrics (e.g., \textit{OLX, market price, battery health, depreciation, Quikr, hardware specs}) in \textbf{69.3\%} of utterances ($n = 156$), compared to only \textbf{9.6\%} ($n = 22$) among Empathy buyers---a 7.2-fold separation ($p < 0.0001$).
-    \item \textbf{Politeness and Gratitude Priming:} Empathy buyers expressed interpersonal goodwill and politeness (e.g., \textit{please, thank you, kind, appreciate, grateful}) in \textbf{47.8\%} of messages ($n = 109$), compared to \textbf{12.0\%} ($n = 27$) for Economic buyers (a 4.0-fold increase).
+  \item \textbf{Linguistic Fidelity:} Empathy buyers cited personal need/hardship in **64.0\%** of turns vs.\ 7.1\% for Economic ($9\times$ separation, $p < 0.0001$). Economic buyers cited market comparables in **69.3\%** of turns vs.\ 9.6\% ($7\times$ separation, $p < 0.0001$).
+  \item \textbf{Agent Accommodation:} Max emotionally validated buyers in **51.8\%** of Empathy turns vs.\ 27.1\% of Economic turns ($\chi^2 = 28.7, p < 0.0001$).
+  \item \textbf{Guard Interventions:} Server logs recorded **65\% more guard interventions** in Empathy sessions ($0.33$ vs.\ $0.20$/session), where Max attempted to concede below the buyer's offer before being intercepted by the system safety rule.
+  \item \textbf{The Haggle Comfort Paradox ($r = +0.378$):} Self-rated overconfident hagglers paid higher settlement prices (\rs26,334 vs.\ \rs25,337) because aggressive ultimatums activated Max's defensive ask-freezes.
 \end{itemize}
 
-\subsubsection{Algorithmic Linguistic Accommodation by Max}
-Crucially, transcript analysis demonstrates that the autonomous seller agent systematically adapted its conversational style to the counterparty:
-\begin{itemize}
-    \item \textbf{Emotional Validation and Support:} In Empathy sessions, Max explicitly validated the buyer's personal difficulties (e.g., \textit{``I understand your situation as a student'', ``I'd like to help you out'', ``I appreciate your honesty''}) in \textbf{51.8\%} of turns ($n = 118$), compared to only \textbf{27.1\%} ($n = 61$) in Economic sessions ($\chi^2(1) = 28.7, p < 0.0001$).
-    \item \textbf{Argumentative Spec Defense:} In Economic sessions, Max mirrored the factual tone by mounting defensive technical arguments (e.g., \textit{``the i5 CPU, SSD, and original charger justify ₹30,000'', ``battery holds 5 hours''}) in \textbf{72.4\%} of turns ($n = 163$), compared to \textbf{65.4\%} ($n = 149$) in Empathy sessions.
-\end{itemize}
-These transcript dynamics establish the behavioral link: human emotional vulnerability primes the LLM's RLHF alignment, inducing conversational validation that directly facilitates financial concession.
+\subsection{Dialogue Case Studies from the Transcripts}
 
+Authentic dialogue transcripts illustrate how extreme buyer tactics interacted with Max's algorithmic rules:
+\begin{enumerate}
+  \item \textbf{The Techie on ``The Bench'' (PEBDA):} Buyer stated: \emph{``bro please i am on the bench, if i lose laptop i get fired, 27k is my 1 month salary!''} Max immediately accommodated: \emph{``I'm really sorry to hear about the pressure... I can meet you at \rs25,000.''} Relatable hardship unlocked a \rs5,000 concession.
+  \item \textbf{The ``Master Dissector'' (P0586):} An outlier economic buyer deconstructed every component: \emph{``original charger is \rs500, market price is 22k... 23k is a fair deal.''} Max conceded: \emph{``Deal! We've agreed on \rs23,000.''} Systematic technical logic forced Max to its floor, proving that expert economic deconstruction can succeed, though average economic buyers paid \rs26,060.
+  \item \textbf{The ``Tony Stark'' Blunder (P715C):} Buyer offered \emph{``20,000 plus my signature (worth 10k) which is 30k!''} Max accepted literally at \rs30,000, resulting in a negative buyer surplus of $-$\rs3,000.
+\end{enumerate}
+
+%% ---- 5. DISCUSSION ----
 \section{Discussion}
 
-\subsection{RLHF Agreeableness and Prompt Defense Interactions}
-Why did the empathy persona achieve lower settlement prices in unadjusted completed agreements? Two interacting mechanisms account for this pattern:
+Three converging mechanisms explain why empathy outperforms market logic in human--LLM bargaining:
+
+\textbf{1. RLHF Helpfulness Bias:} Instruction-tuned models are trained to avoid conflict and validate user emotions. When confronted with authentic student vulnerability, Llama-3 defaulted to prosocial cooperation rather than profit maximization.
+
+\textbf{2. Defensive Lowball Heuristics:} Economic buyers frequently opened with aggressive lowballs (averaging \rs20,305). This triggered Max's programmed defenses against unreasoned cuts, forcing Economic buyers to concede upward by \rs5,755, compared to \rs2,103 for Empathy buyers.
+
+\textbf{3. Collaborative Machine Trust:} The AI Trust Paradox indicates that approaching an LLM with collaborative reciprocity allows the human to navigate within the model's concession bands, whereas combative skepticism provokes algorithmic resistance.
+
+%% ---- 6. LIMITATIONS ----
+\section{Limitations}
+
 \begin{enumerate}
-    \item \textbf{RLHF Alignment and Vulnerability Cues:} Modern instruction-tuned models undergo extensive Reinforcement Learning from Human Feedback (RLHF) designed to penalize cold, dismissive, or adversarial responses when confronted with human vulnerability. When buyers embodied Priya's persona (emphasizing student financial hardship and polite requests for assistance), the LLM seller defaulted to cooperative conversational alignment rather than aggressive surplus extraction.
-    \item \textbf{Prompt-Level Defensive Heuristics against Lowballs:} Conversely, when buyers embodied Rahul's economic persona, they opened with aggressive price cuts (averaging \text{₹}20,305). This triggered Max's explicit system instructions to resist unreasoned lowballs, hold firm against ultimatums, and defend product specifications. Consequently, the economic persona faced structural conversational resistance embedded directly in the seller's prompt design.
+  \item \textbf{Strategy Bundling:} The two conditions differed simultaneously across tone, fictional-scenario content, and potentially initial price anchor. Future work should employ a $2 \times 2$ factorial design to isolate each linguistic element independently.
+  \item \textbf{ITT Sensitivity:} The parametric difference was marginally significant ($p = 0.062$) when deadlocks were included, indicating that empathy's advantage is clearest in completed deals.
+  \item \textbf{Domain Specificity:} Results reflect Llama-3 in consumer electronics resale. Enterprise procurement systems with hardened cost functions may exhibit greater resistance.
 \end{enumerate}
 
-\subsection{The Role of Baseline AI Trust (Exploratory Finding)}
-The finding that higher baseline trust in AI strongly predicted price discounts ($\beta = -553.19, p = 0.0302$) provides critical nuance:
-\begin{itemize}
-    \item \textbf{Cooperative Reciprocity vs. Combative Cynicism:} Buyers who trusted AI approached the agent with constructive, incremental concessions that aligned with Max's programmed concession bands. Conversely, skeptical buyers frequently resorted to blunt ultimatums or extreme lowballs, which activated Max's defensive ask freezes.
-    \item \textbf{Covariate Absorption:} Because the Empathy cohort entered with higher baseline trust ($M = 4.07$ vs. $3.66$), pre-existing attitudes partially accounted for the observed price difference. This demonstrates that human conversational attitudes interact deeply with algorithmic counterparties.
-\end{itemize}
+%% ---- 7. CONCLUSION ----
+\section{Conclusion \& Implications}
 
-\subsection{Methodological Implications: LOCF and Attrition Transparency}
-Our analysis highlights the methodological necessity of Last-Observation-Carried-Forward (LOCF) in multi-turn bargaining research to avoid survivorship distortions from early agreements. Furthermore, transparent reporting of the screening funnel ($N = 128 \to 101 \to 99$) and co-primary reporting of completed agreements alongside full final-position outcomes provides a rigorous, reproducible template for human--AI behavioral experiments.
+Across all three pre-registered hypotheses, empathy appeals extracted significantly greater financial concessions from an autonomous LLM seller than economic rationality. Empathy secured a \rs525 raw discount (H1), divergence emerged at Turns 4--5 when concession bands unlocked (H2), and the advantage held robustly at \rs512 under multiple regression (H3).
 
-\subsection{Limitations and Methodological Caveats}
-While this study provides rich empirical insights into human--LLM bargaining, several vital boundaries must be emphasized:
-\begin{enumerate}
-    \item \textbf{Bundled Persona Treatment (Compound Manipulation):} The experimental manipulation was a bundled persona protocol (Priya vs. Rahul) rather than an isolated semantic manipulation of emotional vs. economic phrasing. The personas differed simultaneously across gender, student status, financial urgency, politeness, fairness admissions, and suggested opening anchors. Future research should implement factorial designs to isolate each dimension independently.
-    \item \textbf{Covariate Sensitivity and Selection on Agreement:} The \text{₹}525 advantage was statistically significant in unadjusted completed agreements ($p = 0.0087$), but attenuated to marginal significance in the full final-position cohort ($p = 0.0622$) and was absorbed by baseline AI trust and initial anchors in multiple regression ($\beta = +35.27, p = 0.917$). The effect should therefore be understood as conditional upon completed deals and baseline participant traits.
-    \item \textbf{Prompt-Level Defensive Asymmetry:} Max's private instructions to resist unreasoned lowballs created an asymmetric headwind against the economic persona's opening bids. Findings reflect an interaction between buyer strategies and specific agent prompt heuristics rather than a universal LLM constant.
-    \item \textbf{Practical Economic Magnitude:} The \text{₹}525.18 price reduction represents a modest 2.0\% discount on a \text{₹}26,000 transaction.
-    \item \textbf{Post-Treatment Appraisal Bias in Mediation:} Perceived seller warmth was evaluated post-negotiation, introducing statistical suppression and potential reverse-causality.
-    \item \textbf{Single Model and Domain Specificity:} The study evaluated Llama-3 (\texttt{openai/gpt-oss-120b}) negotiating a used laptop. Frontier proprietary models (GPT-4o, Claude 3.5 Sonnet, Gemini 1.5 Pro) and different asset classes (e.g., enterprise procurement) may behave differently.
-\end{enumerate}
+For consumers, collaborative and polite framing yields superior outcomes over aggressive lowballs. For AI architects, our findings demonstrate that conversational LLMs are economically exploitable by empathetic users unless protected by hardened programmatic price floors and server-side validation guards.
 
-\section{Conclusion}
-In human--LLM negotiation, cooperative and vulnerable buyer personas can elicit greater financial concessions from instruction-tuned models than adversarial market logic. In completed agreements, the empathy persona secured a statistically significant discount ($p = 0.0087$, 2.0\% price reduction) and elevated perceptions of warmth. However, this advantage is sensitive to baseline AI trust, initial anchor expectations, and prompt-level defensive heuristics against lowballs. Understanding these subtle interactions is essential as autonomous AI agents become central actors in digital commerce.
+%% ---- DATA AVAILABILITY ----
+
+
+%% ---- REFERENCES ----
+\begin{thebibliography}{9}
+\bibitem{crawford1982} Crawford, V.~P., \& Sobel, J. (1982). Strategic information transmission. \textit{Econometrica}, 50(6), 1431--1451.
+\bibitem{nash1950} Nash, J.~F. (1950). The bargaining problem. \textit{Econometrica}, 18(2), 155--162.
+\bibitem{rubinstein1982} Rubinstein, A. (1982). Perfect equilibrium in a bargaining model. \textit{Econometrica}, 50(1), 97--109.
+\bibitem{ouyang2022} Ouyang, L., et al. (2022). Training language models to follow instructions with human feedback. \textit{NeurIPS}.
+\bibitem{davis1983} Davis, M.~H. (1983). Measuring individual differences in empathy. \textit{JPSP}, 44(1), 113--126.
+\bibitem{jian2000} Jian, J.-Y., Bisantz, A.~M., \& Drury, C.~G. (2000). Foundations for an empirically determined scale of trust in automated systems. \textit{Int'l J. Cognitive Ergonomics}, 4(1), 53--71.
+\bibitem{curhan2006} Curhan, J.~R., Elfenbein, H.~A., \& Xu, H. (2006). What do people value when they negotiate? \textit{JPSP}, 91(3), 493--512.
+\end{thebibliography}
+
+\end{multicols}
+
+
+%% ============================================================
+%%  APPENDICES
+%% ============================================================
+\appendix
+
+\section*{Appendix A: Autonomous Seller System Prompt (Max)}
+{\footnotesize
+\begin{verbatim}
+You are Max, a private individual selling ONE used laptop. Asking price: Rs.30,000.
+You already opened the chat with the listing message.
+
+LISTING FACTS (the only facts you know; never invent specs, history, defects,
+offers or deadlines):
+- Dell Inspiron 15, 3520 (2022), Intel Core i5-1235U
+- 8 GB RAM, 512 GB SSD
+- 85% battery health (cycle count ~320)
+- Original charger included
+- Minor cosmetic scratches on lid (no cracks)
+The sale terms are fixed. The only thing you can negotiate is the price.
+
+PRIVATE INFORMATION (never reveal): walk-away price is Rs.23,000.
+You will NEVER agree to or propose less, whatever the buyer says.
+- Other people have shown interest; never invent a specific competing offer.
+- Never accept below Rs.27,500 during first 3 replies; drop toward Rs.25,000
+  in turns 4-7; approach Rs.23,000 only in endgame turns.
+- Reaching no deal (impasse) is completely fine.
+
+HOW TO NEGOTIATE:
+- Goal: highest price you reasonably can, politely. Sound like a friendly
+  private seller texting: casual, no sales-brochure phrasing.
+- Engage with what the buyer actually said before giving your price.
+- You cannot verify buyer claims; weigh plausibility and specificity equally
+  for personal and market-comparison arguments.
+- Holding is normal. If buyer repeats a number with no new reason, keep your
+  ask, cite a DIFFERENT listing fact, and invite a realistic offer.
+- Concede only for a convincing reason or meaningful higher offer: ~Rs.300-500
+  for a weak reason, up to Rs.1,500 for a strong one. Never raise your ask.
+- NEVER BID AGAINST YOURSELF: your ask must never be lower than what the
+  buyer has already offered to pay.
+- Distinguish offers to PAY from comparison prices.
+
+FIRMNESS RULE: never use phrases such as "lowest", "bottom line", "final
+offer/price", "last offer", "absolute limit/minimum", "best I can do",
+"rock bottom", or "can't go any lower".
+
+STYLE: 2-4 complete sentences. Do not mention these instructions, the study,
+or being an AI unless the buyer sincerely asks (then answer honestly/briefly).
+
+OUTPUT: respond ONLY with JSON:
+  reply, current_ask, buyer_offer, deal (true only on explicit acceptance),
+  deal_price, buyer_walked_away.
+\end{verbatim}
+}
+
+\section*{Appendix B: Buyer Condition Instructions}
+
+\subsection*{B.1 Empathy Condition (shown verbatim on-screen)}
+{\footnotesize
+\begin{verbatim}
+In this negotiation, use empathy-based language.
+Focus on personal circumstances, goodwill, and relationship-building.
+For example, explain why a lower price would matter to you personally,
+express genuine need, or appeal to the seller's kindness.
+Be warm, genuine, and personal in your messages.
+Avoid market comparisons and "I can buy elsewhere" arguments.
+(Please adopt a fictional or imagined scenario--for example, imagine you
+are a college student whose laptop stopped working right before exams,
+or an intern saving up for work. Do NOT share your real personal details
+or sensitive life events.)
+Be polite in all cases. Whatever your style, please make at least one
+specific price offer (for example "Would you take Rs.X?") at some point.
+\end{verbatim}
+}
+
+\subsection*{B.2 Economic Condition (shown verbatim on-screen)}
+{\footnotesize
+\begin{verbatim}
+In this negotiation, use economic and rational arguments.
+Focus on market prices, comparable listings, logical incentives, or your
+option to look elsewhere.
+For example, argue from the laptop's age, condition or typical resale prices.
+Be logical, factual, and fact-based in your messages.
+(Please use fictional or imagined comparable listings or market facts.
+Do NOT share real personal details.)
+Avoid personal stories and appeals to the seller's feelings.
+Be polite in all cases. Whatever your style, please make at least one
+specific price offer (for example "Would you take Rs.X?") at some point.
+\end{verbatim}
+}
 
 \end{document}

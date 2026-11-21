@@ -178,7 +178,7 @@ For example, argue from the laptop's age, condition or typical resale prices.
 Be logical, factual, and fact-based in your messages.
 (Please use fictional or imagined comparable listings or market facts. Do NOT share real personal details.)
 Avoid personal stories and appeals to the seller's feelings.
-${COMMON_INSTRUCTION}`,
+${COMMON_INSTRUCTION}`, 
 };
 
 // ─── Price helpers (Indian Rupee syntax & values) ────────────────────────────
